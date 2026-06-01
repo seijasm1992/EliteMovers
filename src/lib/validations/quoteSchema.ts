@@ -1,0 +1,35 @@
+import { z } from "zod";
+
+/**
+ * Single source of truth for quote-form validation.
+ * Shared by the React form (client) and the /api/quote endpoint (server).
+ * Enum values must stay in sync with src/data/quoteForm.ts options.
+ */
+export const quoteSchema = z.object({
+  fullName: z.string().trim().min(1, "Full name is required"),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .pipe(z.email("Enter a valid email address")),
+  phone: z.string().trim().min(7, "Phone number is required"),
+
+  moveType: z.enum(
+    ["local", "long-distance", "office", "commercial", "small", "large"],
+    { message: "Select a move type" },
+  ),
+  originCity: z.string().trim().min(1, "Origin city is required"),
+  destinationCity: z.string().trim().min(1, "Destination city is required"),
+  moveDate: z.string().trim().min(1, "Estimated date is required"),
+  homeSize: z.enum(
+    ["studio", "1-bed", "2-bed", "3-bed", "4-bed-plus", "office"],
+    { message: "Select a move size" },
+  ),
+  contactPreference: z.enum(["phone", "email", "text", "any"], {
+    message: "Select a contact preference",
+  }),
+
+  message: z.string().trim().max(2000, "Message is too long").optional(),
+});
+
+export type QuoteFormValues = z.infer<typeof quoteSchema>;

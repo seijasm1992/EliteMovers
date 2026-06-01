@@ -1,0 +1,54 @@
+---
+/**
+ * Button / link. Variants follow the design-system button styles
+ * (Base solid, Outline) for light and dark layouts.
+ */
+interface Props {
+  href?: string;
+  variant?: "solid" | "outline" | "gold" | "outline-light";
+  size?: "md" | "lg";
+  class?: string;
+  type?: "button" | "submit";
+  ariaLabel?: string;
+}
+const {
+  href,
+  variant = "solid",
+  size = "md",
+  class: className = "",
+  type = "button",
+  ariaLabel,
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center gap-2 font-accent font-semibold tracking-wide rounded-full transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] whitespace-nowrap";
+
+const sizes: Record<string, string> = {
+  md: "px-6 py-3 text-sm",
+  lg: "px-8 py-4 text-base",
+};
+
+const variants: Record<string, string> = {
+  solid:
+    "bg-ink text-white shadow-soft hover:bg-text-strong hover:-translate-y-0.5 hover:shadow-card-hover focus-visible:outline-ink",
+  gold:
+    "bg-gold text-ink shadow-soft hover:brightness-105 hover:-translate-y-0.5 hover:shadow-card-hover focus-visible:outline-ink",
+  outline:
+    "border border-ink/20 text-text-strong bg-white/60 hover:border-ink hover:bg-white focus-visible:outline-ink",
+  "outline-light":
+    "border border-white/50 text-white hover:bg-white hover:text-ink focus-visible:outline-white",
+};
+
+const cls = `${base} ${sizes[size]} ${variants[variant]} ${className}`;
+---
+{
+  href ? (
+    <a href={href} class={cls} aria-label={ariaLabel}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={cls} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}

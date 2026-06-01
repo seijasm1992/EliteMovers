@@ -1,0 +1,60 @@
+---
+import QuoteForm from "../react/QuoteForm.tsx";
+import Icon from "../ui/Icon.astro";
+import { quoteForm } from "../../data/quoteForm";
+import { site } from "../../data/site";
+
+const trust = [
+  "Guaranteed flat-rate pricing",
+  "Full door-to-door protection",
+  "Background-checked, uniformed crew",
+  "Dedicated move coordinator",
+];
+---
+<section id="quote" class="relative overflow-hidden bg-text-strong py-20 text-white sm:py-28">
+  <div
+    class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-green/20 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-x relative grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+    <div class="lg:sticky lg:top-28">
+      <span class="eyebrow text-gold">{quoteForm.section.eyebrow}</span>
+      <h2 class="mt-4 text-3xl leading-[1.1] text-white sm:text-4xl lg:text-5xl">
+        {quoteForm.section.title}
+      </h2>
+      <p class="mt-5 max-w-md text-base leading-relaxed text-white/70">
+        {quoteForm.section.description}
+      </p>
+
+      <ul class="mt-8 grid gap-3.5">
+        {
+          trust.map((point) => (
+            <li class="flex items-center gap-3 text-sm text-white/85">
+              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-gold text-ink">
+                <Icon name="check" class="h-3.5 w-3.5" />
+              </span>
+              {point}
+            </li>
+          ))
+        }
+      </ul>
+
+      <a
+        href={site.phoneHref}
+        class="mt-9 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-5 py-3 font-accent text-sm font-semibold text-white transition-colors hover:bg-white/10"
+      >
+        <Icon name="phone" class="h-4 w-4 text-gold" />
+        Prefer to talk? Call {site.phone}
+      </a>
+    </div>
+
+    <QuoteForm client:visible content={quoteForm} />
+  </div>
+</section>
