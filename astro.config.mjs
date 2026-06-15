@@ -31,7 +31,7 @@ export default defineConfig({
       PUBLIC_TURNSTILE_SITE_KEY: envField.string({
         context: 'client',
         access: 'public',
-        default: '',
+        default: '0x4AAAAAADlRCEwUqwhp5VPj',
       }),
       // Secret key: solo servidor, nunca inlined
       TURNSTILE_SECRET_KEY: envField.string({

@@ -6,6 +6,7 @@
     // Los secretos van en Cloudflare Pages dashboard → Environment variables
     "QUOTE_TO_EMAIL": "info@proelitemovers.com",
     "QUOTE_FROM_EMAIL": "ProElite Movers <quotes@proelitemovers.com>",
-    "ENABLE_TURNSTILE": true
+    "ENABLE_TURNSTILE": true,
+    "PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAADlRCEwUqwhp5VPj"
   }
 }
