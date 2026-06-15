@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
 import { quoteSchema } from "../../lib/validations/quoteSchema";
-import { getResendClient, quoteMail } from "../../lib/resend";
+import { quoteMail, resend } from "../../lib/resend";
 
 // On-demand (server) route — the rest of the site stays static.
 export const prerender = false;
@@ -54,18 +54,11 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const data = parsed.data;
-  const resend = getResendClient();
-
-  // Mock-safe mode: no API key configured (e.g. local dev). Don't fail the UX.
-  if (!resend) {
-    console.warn("[quote] RESEND_API_KEY missing — running in mock mode, email not sent.");
-    return json({ ok: true, mock: true, message: "Quote received (mock mode)." });
-  }
 
   try {
     const { error } = await resend.emails.send({
       from: quoteMail.from,
-      to: quoteMail.to,
+      to: [quoteMail.to],
       replyTo: data.email,
       subject: `New quote request — ${data.fullName}`,
       html: renderEmail(data),
