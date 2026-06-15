@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { NavItem, SiteConfig } from "../../types/content";
 
 interface Props {
@@ -6,9 +7,13 @@ interface Props {
   site: SiteConfig;
 }
 
+const MOBILE_DRAWER_ID = "mobile-nav-drawer";
+
 const ChevronIcon = ({ open }: { open: boolean }) => (
   <svg
-    className={`h-4 w-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+    className={`h-4 w-4 shrink-0 transition-transform duration-300 ease-in-out ${
+      open ? "rotate-180" : "rotate-0"
+    }`}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -23,7 +28,7 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 
 const PhoneIcon = () => (
   <svg
-    className="h-4 w-4"
+    className="h-4 w-4 shrink-0"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -36,13 +41,46 @@ const PhoneIcon = () => (
   </svg>
 );
 
+const CloseIcon = () => (
+  <svg
+    className="h-5 w-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M18 6 6 18M6 6l12 12" />
+  </svg>
+);
+
 export default function NavMenu({ navigation, site }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSection, setMobileSection] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+    setActiveAccordion(null);
+    hamburgerRef.current?.focus();
+  }, []);
+
+  const openMobileMenu = useCallback(() => {
+    setOpenDropdown(null);
+    setIsMobileMenuOpen(true);
+  }, []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -51,27 +89,32 @@ export default function NavMenu({ navigation, site }: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen]);
+  }, [isMobileMenuOpen]);
 
-  // Close dropdowns / mobile menu on Escape
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    closeButtonRef.current?.focus();
+  }, [isMobileMenuOpen]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setOpenDropdown(null);
-        setMobileOpen(false);
+        if (isMobileMenuOpen) {
+          closeMobileMenu();
+        } else {
+          setOpenDropdown(null);
+        }
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [isMobileMenuOpen, closeMobileMenu]);
 
-  // Close desktop dropdown when focus leaves the nav
   const handleBlur = (e: React.FocusEvent) => {
     if (!navRef.current?.contains(e.relatedTarget as Node)) {
       setOpenDropdown(null);
@@ -87,21 +130,153 @@ export default function NavMenu({ navigation, site }: Props) {
     closeTimer.current = setTimeout(() => setOpenDropdown(null), 140);
   };
 
-  const dark = scrolled || mobileOpen; // dark text on light bg
-  const textColor = dark ? "text-text-strong" : "text-white";
+  const toggleMobileMenu = () => {
+    if (isMobileMenuOpen) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  };
+
+  const textColor = scrolled ? "text-text-strong" : "text-white";
   const overlayVisible = openDropdown !== null;
+
+  const mobileMenu = (
+    <>
+      {/* Overlay — portaled to body so fixed positioning is not broken by header backdrop-filter */}
+      <div
+        className={`fixed inset-0 z-[200] bg-black/50 transition-opacity duration-300 ease-in-out lg:hidden ${
+          isMobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        aria-hidden="true"
+        onClick={closeMobileMenu}
+      />
+
+      {/* Drawer */}
+      <div
+        id={MOBILE_DRAWER_ID}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+        aria-hidden={!isMobileMenuOpen}
+        className={`fixed inset-y-0 left-0 z-[210] flex w-[min(85vw,24rem)] flex-col bg-white shadow-bubble transition-transform duration-300 ease-in-out lg:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"
+        }`}
+      >
+        <div className="h-1 shrink-0 bg-gold" aria-hidden="true" />
+
+        <div className="flex shrink-0 items-center justify-between border-b border-ink/8 px-5 py-4">
+          <div>
+            <span className="eyebrow text-green">Navigation</span>
+            <p className="mt-1 font-display text-lg leading-none tracking-tight text-text-strong">
+              {site.wordmark.primary}
+              <span className="text-gold">.</span>
+              <span className="ml-1.5 font-accent text-[0.55rem] font-semibold uppercase tracking-[0.35em] text-text-subtle">
+                {site.wordmark.secondary}
+              </span>
+            </p>
+          </div>
+          <button
+            ref={closeButtonRef}
+            type="button"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-ink/10 text-text-strong transition-colors hover:border-ink/20"
+            aria-label="Close menu"
+            onClick={closeMobileMenu}
+          >
+            <CloseIcon />
+          </button>
+        </div>
+
+        <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-white px-5 py-2">
+          <ul className="divide-y divide-ink/8">
+            {navigation.map((item) => {
+              const isOpen = activeAccordion === item.label;
+              const submenuId = `mobile-submenu-${item.label.toLowerCase().replace(/\s+/g, "-")}`;
+
+              return (
+                <li key={item.label}>
+                  {item.children ? (
+                    <>
+                      <button
+                        type="button"
+                        id={`mobile-accordion-${submenuId}`}
+                        className="flex w-full items-center justify-between py-4 text-left font-accent text-[0.95rem] font-semibold text-text-strong transition-colors hover:text-ink"
+                        aria-expanded={isOpen}
+                        aria-controls={submenuId}
+                        onClick={() =>
+                          setActiveAccordion((cur) => (cur === item.label ? null : item.label))
+                        }
+                      >
+                        {item.label}
+                        <ChevronIcon open={isOpen} />
+                      </button>
+                      <div
+                        id={submenuId}
+                        role="region"
+                        aria-labelledby={`mobile-accordion-${submenuId}`}
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                          isOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
+                        }`}
+                      >
+                        <ul className="space-y-0.5 pb-3 pl-1">
+                          {item.children.map((child) => (
+                            <li key={child.label}>
+                              <a
+                                href={child.href}
+                                className="block py-2.5 pl-3 font-accent text-sm font-medium text-text-subtle transition-colors hover:text-ink"
+                                onClick={closeMobileMenu}
+                              >
+                                {child.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="block py-4 font-accent text-[0.95rem] font-semibold text-text-strong transition-colors hover:text-ink"
+                      onClick={closeMobileMenu}
+                    >
+                      {item.label}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="shrink-0 border-t border-ink/8 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <a
+            href={site.phoneHref}
+            className="flex items-center justify-center gap-2.5 rounded-full bg-ink px-5 py-3.5 font-accent text-sm font-semibold text-white transition-colors hover:bg-text-strong"
+            onClick={closeMobileMenu}
+          >
+            <PhoneIcon />
+            <span>
+              Call Now · <span className="font-medium">{site.phone}</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </>
+  );
 
   return (
     <header
       ref={navRef}
       onBlur={handleBlur}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        dark
-          ? "bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(17,17,17,0.08)] border-b border-ink/5"
+        scrolled
+          ? "border-b border-ink/5 bg-white/95 shadow-[0_1px_0_0_rgba(17,17,17,0.08)] backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
-      {/* Subtle overlay over the page when a dropdown is open */}
+      {mounted && createPortal(mobileMenu, document.body)}
+
+      {/* Desktop dropdown overlay */}
       <div
         className={`fixed inset-0 -z-10 bg-ink/20 backdrop-blur-[1px] transition-opacity duration-300 ${
           overlayVisible ? "opacity-100" : "pointer-events-none opacity-0"
@@ -110,8 +285,7 @@ export default function NavMenu({ navigation, site }: Props) {
         onMouseEnter={scheduleClose}
       />
 
-      <nav className="container-x flex h-[var(--nav-h,4.75rem)] items-center justify-between gap-4">
-        {/* Logo */}
+      <nav className="container-x relative z-10 flex h-[var(--nav-h,4.75rem)] items-center justify-between gap-4">
         <a
           href="#top"
           className={`group flex items-baseline gap-1 transition-colors ${textColor}`}
@@ -126,7 +300,6 @@ export default function NavMenu({ navigation, site }: Props) {
           </span>
         </a>
 
-        {/* Desktop center nav */}
         <ul className="hidden items-center gap-1 lg:flex">
           {navigation.map((item) => {
             const isOpen = openDropdown === item.label;
@@ -140,7 +313,7 @@ export default function NavMenu({ navigation, site }: Props) {
                 <a
                   href={item.href}
                   className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-accent text-sm font-medium transition-colors ${textColor} ${
-                    dark ? "hover:bg-ink/5" : "hover:bg-white/10"
+                    scrolled ? "hover:bg-ink/5" : "hover:bg-white/10"
                   }`}
                   aria-haspopup={item.children ? "true" : undefined}
                   aria-expanded={item.children ? isOpen : undefined}
@@ -154,7 +327,7 @@ export default function NavMenu({ navigation, site }: Props) {
                   <div
                     className={`absolute left-1/2 top-full -translate-x-1/2 pt-3 transition-all duration-200 ${
                       isOpen
-                        ? "visible opacity-100 translate-y-0"
+                        ? "visible translate-y-0 opacity-100"
                         : "invisible -translate-y-1 opacity-0"
                     }`}
                     onMouseEnter={() => openMenu(item.label)}
@@ -181,11 +354,10 @@ export default function NavMenu({ navigation, site }: Props) {
           })}
         </ul>
 
-        {/* Desktop right CTA */}
         <a
           href={site.phoneHref}
           className={`hidden items-center gap-2 rounded-full px-5 py-2.5 font-accent text-sm font-semibold transition-all lg:inline-flex ${
-            dark
+            scrolled
               ? "bg-ink text-white hover:bg-text-strong"
               : "bg-white text-ink hover:bg-gold"
           }`}
@@ -199,104 +371,36 @@ export default function NavMenu({ navigation, site }: Props) {
           </span>
         </a>
 
-        {/* Mobile hamburger */}
         <button
+          ref={hamburgerRef}
           type="button"
-          className={`relative z-50 flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden ${textColor} ${
-            dark ? "hover:bg-ink/5" : "hover:bg-white/10"
+          className={`relative z-[220] flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden ${textColor} ${
+            scrolled ? "hover:bg-ink/5" : "hover:bg-white/10"
           }`}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((v) => !v)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls={MOBILE_DRAWER_ID}
+          onClick={toggleMobileMenu}
         >
           <div className="relative h-5 w-6">
             <span
-              className={`absolute left-0 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ${
-                mobileOpen ? "top-2.5 rotate-45" : "top-1"
+              className={`absolute left-0 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen ? "top-2.5 rotate-45" : "top-1 rotate-0"
               }`}
             />
             <span
-              className={`absolute left-0 top-2.5 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ${
-                mobileOpen ? "opacity-0" : "opacity-100"
+              className={`absolute left-0 top-2.5 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen ? "opacity-0" : "opacity-100"
               }`}
             />
             <span
-              className={`absolute left-0 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ${
-                mobileOpen ? "top-2.5 -rotate-45" : "top-4"
+              className={`absolute left-0 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen ? "top-2.5 -rotate-45" : "top-4 rotate-0"
               }`}
             />
           </div>
         </button>
       </nav>
-
-      {/* Mobile menu panel */}
-      <div
-        className={`absolute inset-x-0 top-full origin-top overflow-hidden bg-white transition-all duration-300 lg:hidden ${
-          mobileOpen ? "max-h-[calc(100vh-4.75rem)] border-t border-ink/5" : "max-h-0"
-        }`}
-      >
-        <div className="container-x max-h-[calc(100vh-4.75rem)] overflow-y-auto py-4">
-          <ul className="divide-y divide-ink/5">
-            {navigation.map((item) => {
-              const isOpen = mobileSection === item.label;
-              return (
-                <li key={item.label} className="py-1">
-                  {item.children ? (
-                    <>
-                      <button
-                        type="button"
-                        className="flex w-full items-center justify-between rounded-xl px-2 py-3 text-left font-accent text-base font-semibold text-text-strong"
-                        aria-expanded={isOpen}
-                        onClick={() =>
-                          setMobileSection((cur) => (cur === item.label ? null : item.label))
-                        }
-                      >
-                        {item.label}
-                        <ChevronIcon open={isOpen} />
-                      </button>
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ${
-                          isOpen ? "max-h-96" : "max-h-0"
-                        }`}
-                      >
-                        <ul className="pb-2 pl-3">
-                          {item.children.map((child) => (
-                            <li key={child.label}>
-                              <a
-                                href={child.href}
-                                className="block rounded-lg px-3 py-2.5 font-accent text-sm text-text-subtle transition-colors hover:bg-offwhite hover:text-ink"
-                                onClick={() => setMobileOpen(false)}
-                              >
-                                {child.label}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </>
-                  ) : (
-                    <a
-                      href={item.href}
-                      className="block rounded-xl px-2 py-3 font-accent text-base font-semibold text-text-strong"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {item.label}
-                    </a>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          <a
-            href={site.phoneHref}
-            className="mt-4 flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-4 font-accent text-sm font-semibold text-white"
-            onClick={() => setMobileOpen(false)}
-          >
-            <PhoneIcon />
-            Call Now · {site.phone}
-          </a>
-        </div>
-      </div>
     </header>
   );
 }
