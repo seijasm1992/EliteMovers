@@ -1,0 +1,13 @@
+# Cloudflare local dev — copy to `.dev.vars` and fill in values.
+# NEVER commit `.dev.vars` (it is gitignored).
+# https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+
+# Resend
+RESEND_API_KEY=
+QUOTE_TO_EMAIL=hello@proelitemovers.com
+QUOTE_FROM_EMAIL=ProElite Movers <quotes@proelitemovers.com>
+
+# Cloudflare Turnstile (feature/form branch)
+PUBLIC_TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=
+ENABLE_TURNSTILE=false
