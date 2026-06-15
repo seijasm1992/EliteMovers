@@ -33,11 +33,15 @@ export default function QuoteForm({ content }: Props) {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<QuoteFormValues>({
     resolver: zodResolver(quoteSchema),
     mode: "onTouched",
   });
+
+  const { onChange: onFullNameChange, ...fullNameField } = register("fullName");
+  const { onChange: onPhoneChange, ...phoneField } = register("phone");
 
   const onSubmit = async (values: QuoteFormValues) => {
     setStatus("submitting");
@@ -47,12 +51,43 @@ export default function QuoteForm({ content }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      if (!res.ok) throw new Error("Request failed");
+      const body = (await res.json().catch(() => null)) as {
+        errors?: Partial<Record<keyof QuoteFormValues, string[]>>;
+      } | null;
+
+      if (!res.ok) {
+        if (res.status === 422 && body?.errors) {
+          for (const [field, messages] of Object.entries(body.errors)) {
+            if (messages?.[0]) {
+              setError(field as keyof QuoteFormValues, { message: messages[0] });
+            }
+          }
+          setStatus("idle");
+          return;
+        }
+        throw new Error("Request failed");
+      }
       setStatus("success");
       reset();
     } catch {
       setStatus("error");
     }
+  };
+
+  const sanitizeNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  ) => {
+    event.target.value = event.target.value.replace(/[0-9]/g, "");
+    onChange(event);
+  };
+
+  const sanitizePhoneChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  ) => {
+    event.target.value = event.target.value.replace(/[^\d\s()+\-.]/g, "");
+    onChange(event);
   };
 
   const fieldError = (name: keyof QuoteFormValues) =>
@@ -118,11 +153,13 @@ export default function QuoteForm({ content }: Props) {
               id="fullName"
               type="text"
               autoComplete="name"
+              inputMode="text"
               placeholder={copy.fields.fullName.placeholder}
               aria-invalid={!!fieldError("fullName")}
               aria-describedby={fieldError("fullName") ? "fullName-error" : undefined}
               className={errClass("fullName")}
-              {...register("fullName")}
+              {...fullNameField}
+              onChange={(event) => sanitizeNameChange(event, onFullNameChange)}
             />
           </Field>
           <Field label={copy.fields.email.label} name="email" error={fieldError("email")}>
@@ -142,11 +179,13 @@ export default function QuoteForm({ content }: Props) {
               id="phone"
               type="tel"
               autoComplete="tel"
+              inputMode="tel"
               placeholder={copy.fields.phone.placeholder}
               aria-invalid={!!fieldError("phone")}
               aria-describedby={fieldError("phone") ? "phone-error" : undefined}
               className={errClass("phone")}
-              {...register("phone")}
+              {...phoneField}
+              onChange={(event) => sanitizePhoneChange(event, onPhoneChange)}
             />
           </Field>
           <Field label={copy.fields.moveType.label} name="moveType" error={fieldError("moveType")}>
