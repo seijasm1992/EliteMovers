@@ -3,6 +3,7 @@ import QuoteForm from "../react/QuoteForm.tsx";
 import Icon from "../ui/Icon.astro";
 import { quoteForm } from "../../data/quoteForm";
 import { site } from "../../data/site";
+import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client";
 
 const trust = [
   "Guaranteed flat-rate pricing",
@@ -55,6 +56,14 @@ const trust = [
       </a>
     </div>
 
-    <QuoteForm client:visible content={quoteForm} />
+    <QuoteForm client:visible content={quoteForm} turnstileSiteKey={PUBLIC_TURNSTILE_SITE_KEY} />
   </div>
 </section>
+
+{PUBLIC_TURNSTILE_SITE_KEY && (
+  <script
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit"
+    async
+    defer
+  ></script>
+)}
