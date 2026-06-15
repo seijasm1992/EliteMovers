@@ -1,11 +1,31 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { quoteSchema, type QuoteFormValues } from "../../lib/validations/quoteSchema";
 import type { QuoteFormContent } from "../../types/content";
 
+interface TurnstileInstance {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      callback?: (token: string) => void;
+      "expired-callback"?: () => void;
+      "error-callback"?: () => void;
+    },
+  ) => string;
+  reset: (widgetId: string) => void;
+  remove: (widgetId: string) => void;
+}
+
+type TurnstileWindow = typeof window & {
+  turnstile?: TurnstileInstance;
+  onloadTurnstileCallback?: () => void;
+};
+
 interface Props {
   content: QuoteFormContent;
+  turnstileSiteKey?: string;
 }
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -25,9 +45,65 @@ const btnBase =
 const btnOutline = `${btnBase} border border-ink/20 bg-white text-text-strong hover:border-ink hover:bg-offwhite focus-visible:outline-ink`;
 const btnGold = `${btnBase} bg-gold text-ink shadow-soft hover:-translate-y-0.5 hover:brightness-105 hover:shadow-card-hover focus-visible:outline-ink`;
 
-export default function QuoteForm({ content }: Props) {
+export default function QuoteForm({ content, turnstileSiteKey }: Props) {
   const { form: copy } = content;
   const [status, setStatus] = useState<Status>("idle");
+  const [turnstileError, setTurnstileError] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const tokenRef = useRef<string>("");
+  const widgetIdRef = useRef<string | null>(null);
+
+  const resetTurnstile = useCallback(() => {
+    const w = window as TurnstileWindow;
+    if (widgetIdRef.current !== null && w.turnstile) {
+      w.turnstile.reset(widgetIdRef.current);
+    }
+    tokenRef.current = "";
+    setTurnstileError(false);
+  }, []);
+
+  useEffect(() => {
+    if (!turnstileSiteKey || !containerRef.current) return;
+
+    const w = window as TurnstileWindow;
+
+    const doRender = () => {
+      if (!containerRef.current || !w.turnstile) return;
+      widgetIdRef.current = w.turnstile.render(containerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token) => {
+          tokenRef.current = token;
+          setTurnstileError(false);
+        },
+        "expired-callback": () => {
+          tokenRef.current = "";
+        },
+        "error-callback": () => {
+          tokenRef.current = "";
+          setTurnstileError(true);
+        },
+      });
+    };
+
+    if (w.turnstile) {
+      doRender();
+    } else {
+      const prev = w.onloadTurnstileCallback;
+      w.onloadTurnstileCallback = () => {
+        prev?.();
+        doRender();
+      };
+    }
+
+    return () => {
+      const w = window as TurnstileWindow;
+      if (widgetIdRef.current !== null && w.turnstile) {
+        w.turnstile.remove(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
+    };
+  }, [turnstileSiteKey]);
 
   const {
     register,
@@ -44,18 +120,32 @@ export default function QuoteForm({ content }: Props) {
   const { onChange: onPhoneChange, ...phoneField } = register("phone");
 
   const onSubmit = async (values: QuoteFormValues) => {
+    if (turnstileSiteKey && !tokenRef.current) {
+      setTurnstileError(true);
+      return;
+    }
+
     setStatus("submitting");
     try {
       const res = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          turnstileToken: tokenRef.current || undefined,
+        }),
       });
       const body = (await res.json().catch(() => null)) as {
         errors?: Partial<Record<keyof QuoteFormValues, string[]>>;
       } | null;
 
       if (!res.ok) {
+        if (res.status === 403) {
+          setTurnstileError(true);
+          resetTurnstile();
+          setStatus("idle");
+          return;
+        }
         if (res.status === 422 && body?.errors) {
           for (const [field, messages] of Object.entries(body.errors)) {
             if (messages?.[0]) {
@@ -69,6 +159,7 @@ export default function QuoteForm({ content }: Props) {
       }
       setStatus("success");
       reset();
+      resetTurnstile();
     } catch {
       setStatus("error");
     }
@@ -101,6 +192,7 @@ export default function QuoteForm({ content }: Props) {
 
   const handleClear = () => {
     reset();
+    resetTurnstile();
     setStatus("idle");
   };
 
@@ -289,6 +381,17 @@ export default function QuoteForm({ content }: Props) {
             {...register("message")}
           />
         </Field>
+
+        {turnstileSiteKey && (
+          <div className="flex flex-col gap-1.5">
+            <div ref={containerRef} />
+            {turnstileError && (
+              <p role="alert" className="text-xs font-medium text-alert">
+                Verification failed — please complete the security check and try again.
+              </p>
+            )}
+          </div>
+        )}
 
         {status === "error" && (
           <p role="alert" className="rounded-lg bg-alert/8 px-4 py-3 text-sm font-medium text-alert">
