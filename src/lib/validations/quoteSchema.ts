@@ -1,18 +1,42 @@
 import { z } from "zod";
 
+/** Letters, spaces, hyphens, apostrophes, and periods — no digits. */
+const NAME_PATTERN = /^[\p{L}\s'.-]+$/u;
+
+/** Digits and common phone formatting characters only. */
+const PHONE_PATTERN = /^[\d\s()+\-.]+$/;
+
+const phoneDigits = (value: string) => value.replace(/\D/g, "");
+
 /**
  * Single source of truth for quote-form validation.
  * Shared by the React form (client) and the /api/quote endpoint (server).
  * Enum values must stay in sync with src/data/quoteForm.ts options.
  */
 export const quoteSchema = z.object({
-  fullName: z.string().trim().min(1, "Full name is required"),
+  fullName: z
+    .string()
+    .trim()
+    .min(2, "Full name is required")
+    .max(100, "Full name is too long")
+    .regex(NAME_PATTERN, "Enter a valid name (letters only)"),
   email: z
     .string()
     .trim()
     .min(1, "Email is required")
     .pipe(z.email("Enter a valid email address")),
-  phone: z.string().trim().min(7, "Phone number is required"),
+  phone: z
+    .string()
+    .trim()
+    .min(1, "Phone number is required")
+    .regex(PHONE_PATTERN, "Enter a valid phone number")
+    .refine(
+      (value) => {
+        const digits = phoneDigits(value);
+        return digits.length >= 10 && digits.length <= 15;
+      },
+      { message: "Enter a valid phone number (at least 10 digits)" },
+    ),
 
   moveType: z.enum(
     ["local", "long-distance", "office", "commercial", "small", "large"],
