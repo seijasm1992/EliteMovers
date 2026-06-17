@@ -1,0 +1,34 @@
+# build output
+dist/
+.vercel/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+astro-dev.*.log
+
+
+# environment variables
+.env
+.env.production
+.dev.vars
+
+# local platform state
+.wrangler/
+
+# local agent tooling
+.agents/
+.augment/
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/

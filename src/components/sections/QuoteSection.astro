@@ -1,0 +1,49 @@
+---
+import Icon from "../ui/Icon.astro";
+import { site } from "../../data/site";
+
+const mapSrc =
+  "https://www.google.com/maps?q=Miami%2C%20FL&z=10&output=embed";
+---
+<section id="quote" class="bg-offwhite py-20 sm:py-28">
+  <div class="container-x">
+    <div class="grid items-stretch gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
+      <div class="flex flex-col justify-center">
+        <span class="eyebrow text-green">Service Area</span>
+        <h2 class="mt-4 text-3xl leading-tight text-text-strong sm:text-4xl lg:text-5xl">
+          Moving across Miami and beyond.
+        </h2>
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-text-subtle">
+          Our crews support local and long-distance moves from Miami, nearby South Florida cities, and destinations across the state.
+        </p>
+
+        <div class="mt-8 grid gap-3">
+          <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-white px-4 py-3 shadow-soft">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold text-ink">
+              <Icon name="check" class="h-4 w-4" />
+            </span>
+            <span class="font-accent text-sm font-semibold text-text-strong">Miami-based moving crews</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-white px-4 py-3 shadow-soft">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green text-white">
+              <Icon name="phone" class="h-4 w-4" />
+            </span>
+            <a href={site.phoneHref} class="font-accent text-sm font-semibold text-text-strong underline-offset-4 hover:underline">
+              Questions? Call {site.phone}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white shadow-bubble">
+        <iframe
+          title="Google Map of ProElite Movers service area in Miami"
+          src={mapSrc}
+          class="h-[24rem] w-full sm:h-[30rem]"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

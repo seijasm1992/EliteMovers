@@ -1,0 +1,11 @@
+{
+  "name": "elitemovers",
+  "compatibility_date": "2025-04-01",
+  "vars": {
+    // Valores por defecto de producción (no-secretos)
+    // Los secretos van en Cloudflare Pages dashboard → Environment variables
+    "QUOTE_TO_EMAIL": "info@proelitemovers.com",
+    "QUOTE_FROM_EMAIL": "ProElite Movers <quotes@proelitemovers.com>",
+    "ENABLE_TURNSTILE": true
+  }
+}

@@ -1,0 +1,60 @@
+---
+import Icon from "../ui/Icon.astro";
+import { site } from "../../data/site";
+import { navigation } from "../../data/navigation";
+
+const year = new Date().getFullYear();
+---
+<footer class="bg-ink text-white/70">
+  <div class="container-x py-16">
+    <div class="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
+      <div>
+        <a href="#top" class="flex items-baseline gap-1 text-white" aria-label={`${site.name} home`}>
+          <span class="font-display text-2xl leading-none tracking-tight">
+            {site.wordmark.primary}<span class="text-gold">.</span>
+          </span>
+          <span class="font-accent text-[0.6rem] font-semibold uppercase tracking-[0.4em] opacity-80">
+            {site.wordmark.secondary}
+          </span>
+        </a>
+        <p class="mt-5 max-w-xs text-sm leading-relaxed">{site.description}</p>
+        <a
+          href={site.phoneHref}
+          class="mt-6 inline-flex items-center gap-2 font-accent text-sm font-semibold text-white transition-colors hover:text-gold"
+        >
+          <Icon name="phone" class="h-4 w-4 text-gold" />
+          {site.phone}
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        {
+          navigation.map((group) => (
+            <div>
+              <h3 class="font-accent text-xs font-semibold uppercase tracking-wider text-white">
+                {group.label}
+              </h3>
+              <ul class="mt-4 grid gap-2.5">
+                {(group.children ?? [{ label: group.label, href: group.href }]).map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="text-sm transition-colors hover:text-gold"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {year} {site.name}. All rights reserved.</p>
+      <p class="text-white/50">Licensed &amp; insured · FL Mover Reg. #MV-00000</p>
+    </div>
+  </div>
+</footer>
