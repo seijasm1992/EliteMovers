@@ -50,7 +50,7 @@ export default function IncludedAccordion({ content }: Props) {
       {/* Left: heading + image (aligned with accordion top) */}
       <div>
         <span className="eyebrow text-green">{content.eyebrow}</span>
-        <h2 className="mt-4 font-accent text-[1.85rem] font-bold leading-[1.15] tracking-tight text-text-strong sm:text-4xl lg:text-[2.65rem]">
+        <h2 className="mt-4 font-accent text-[24px] font-bold leading-[1.15] text-text-strong">
           {content.title}
         </h2>
         <p className="mt-4 max-w-md text-base leading-relaxed text-text-subtle sm:mt-5 sm:text-[1.05rem]">

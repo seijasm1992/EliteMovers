@@ -9,7 +9,7 @@ import { site } from "../../data/site";
 import { PUBLIC_GEOAPIFY_API_KEY, PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client";
 ---
 <section id="top" class="relative flex min-h-[100svh] items-center overflow-hidden">
-  <HeroSlider client:load slides={hero.slides} />
+  <HeroSlider />
 
   <div class="container-x relative z-10 w-full pt-28 pb-16 lg:pt-32">
     <div class="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,30rem)] xl:gap-12">
@@ -19,14 +19,14 @@ import { PUBLIC_GEOAPIFY_API_KEY, PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/cl
       </span>
 
       <h1
-        class="mt-5 animate-fade-up text-balance text-4xl leading-[1.05] text-white sm:text-5xl lg:text-6xl xl:text-7xl"
+        class="mt-5 animate-fade-up text-balance text-[26px] leading-[1.12] text-white"
         style="animation-delay:0.12s"
       >
         {hero.title}
       </h1>
 
       <p
-        class="mt-6 max-w-xl animate-fade-up text-base leading-relaxed text-white/80 sm:text-lg"
+        class="mt-6 max-w-xl animate-fade-up text-base leading-relaxed text-white/80"
         style="animation-delay:0.2s"
       >
         {hero.description}

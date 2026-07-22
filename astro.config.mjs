@@ -9,6 +9,9 @@ export default defineConfig({
   site: 'https://proelitemovers.com',
   integrations: [react()],
   adapter: cloudflare(),
+  devToolbar: {
+    enabled: false,
+  },
   env: {
     schema: {
       // ── Resend ──────────────────────────────────────────────────────────

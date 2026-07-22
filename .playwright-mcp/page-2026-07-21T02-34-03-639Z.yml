@@ -1,0 +1,314 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e4]:
+    - navigation [ref=e5]:
+      - link "ProElite Movers home" [ref=e6] [cursor=pointer]:
+        - /url: "#top"
+        - generic [ref=e11]:
+          - generic [ref=e12]: ProElite
+          - generic [ref=e13]: Movers
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "Moving" [ref=e16] [cursor=pointer]:
+            - /url: "#moving"
+        - listitem [ref=e19]:
+          - link "Locations" [ref=e20] [cursor=pointer]:
+            - /url: "#locations"
+        - listitem [ref=e23]:
+          - link "Services" [ref=e24] [cursor=pointer]:
+            - /url: "#services"
+        - listitem [ref=e27]:
+          - link "Company" [ref=e28] [cursor=pointer]:
+            - /url: "#company"
+      - link "Call Now (305) 555-0199" [ref=e31] [cursor=pointer]:
+        - /url: tel:+13055550199
+        - generic [ref=e34]:
+          - generic [ref=e35]: Call Now
+          - generic [ref=e36]: (305) 555-0199
+  - main [ref=e37]:
+    - generic [ref=e48]:
+      - generic [ref=e49]:
+        - text: Miami's Premium Moving Company
+        - heading "Premium Moving Services Without the Stress" [level=1] [ref=e50]
+        - paragraph [ref=e51]: From local moves to long-distance relocations, our trained crew handles every detail with transparent flat-rate pricing, full protection, and a seamless move-day experience.
+        - generic [ref=e52]:
+          - link "Get Your Free Quote" [ref=e53] [cursor=pointer]:
+            - /url: "#hero-quote"
+          - link "Call Now" [ref=e56] [cursor=pointer]:
+            - /url: tel:+13055550199
+        - generic [ref=e59]:
+          - generic [ref=e65]:
+            - generic [ref=e66]: Google
+            - generic [ref=e67]: "4.9"
+          - generic [ref=e79]: Based on 500+ reviews
+      - generic [ref=e82]:
+        - generic [ref=e83]: All Your Information Is 100% Secure
+        - group "Quote request form" [ref=e89]:
+          - generic [ref=e91]:
+            - generic [ref=e93]:
+              - textbox "Full Name" [ref=e94]:
+                - /placeholder: John Smith
+              - generic: Full Name
+            - generic [ref=e96]:
+              - textbox "Email" [ref=e97]:
+                - /placeholder: name@example.com
+              - generic: Email
+            - generic [ref=e99]:
+              - textbox "Phone" [ref=e100]:
+                - /placeholder: (305) 555-0199
+              - generic: Phone
+            - generic [ref=e102]:
+              - combobox "Move Type" [ref=e103]:
+                - option "Select…" [disabled] [selected]
+                - option "Local Move"
+                - option "Long Distance Move"
+                - option "Office Move"
+                - option "Commercial Move"
+                - option "Small Move"
+                - option "Large Move"
+              - generic: Move Type
+            - generic [ref=e105]:
+              - textbox "Origin City" [ref=e106]:
+                - /placeholder: Miami, FL
+              - generic: Origin City
+            - generic [ref=e108]:
+              - textbox "Destination City" [ref=e109]:
+                - /placeholder: Orlando, FL
+              - generic: Destination City
+            - generic [ref=e111]:
+              - textbox "Estimated Date" [ref=e112]
+              - generic: Estimated Date
+            - generic [ref=e114]:
+              - combobox "Move Size" [ref=e115]:
+                - option "Select…" [disabled] [selected]
+                - option "Studio"
+                - option "1 Bedroom"
+                - option "2 Bedrooms"
+                - option "3 Bedrooms"
+                - option "4+ Bedrooms"
+                - option "Office / Commercial"
+              - generic: Move Size
+            - generic [ref=e117]:
+              - combobox "Contact Preference" [ref=e118]:
+                - option "Select…" [disabled] [selected]
+                - option "Phone call"
+                - option "Email"
+                - option "Text message"
+                - option "No preference"
+              - generic: Contact Preference
+            - generic [ref=e120]:
+              - textbox "Message(optional)" [ref=e121]:
+                - /placeholder: Share any details that help us prepare your quote…
+              - generic: Message(optional)
+          - generic [ref=e122]:
+            - button "Clear" [ref=e123]
+            - button "Continue" [ref=e124]
+          - paragraph [ref=e125]: No Spam. No Pressure, Transparent Pricing
+    - generic [ref=e133]:
+      - generic [ref=e134]:
+        - generic [ref=e135]: Why ProElite
+        - heading "The Elite Guarantee" [level=2] [ref=e136]
+        - paragraph [ref=e137]: The standard we set before your move — and the standard we uphold when it matters most.
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - heading "All-Inclusive Flat Rate" [level=3] [ref=e144]
+          - paragraph [ref=e145]: Your price is locked before move day. No hourly billing, no fuel surcharges, no hidden fees — just one transparent rate that covers everything.
+        - generic [ref=e146]:
+          - heading "Full Protection Coverage" [level=3] [ref=e151]
+          - paragraph [ref=e152]: Every item is custom-wrapped and covered from door to door. Furniture, artwork, antiques — protected beyond the standard blanket wrap.
+        - generic [ref=e153]:
+          - heading "Background-Checked Crew" [level=3] [ref=e158]
+          - paragraph [ref=e159]: Every mover is carefully selected, professionally trained, and arrives in Elite uniform. Your crew is assigned in advance — no random day-laborers.
+    - generic [ref=e161]:
+      - generic [ref=e162]:
+        - generic [ref=e163]: How It Works
+        - heading "Your Move in Three Simple Steps" [level=2] [ref=e164]
+        - paragraph [ref=e165]: From quote to completion, we handle every detail so you never have to wonder what comes next. No surprises, no hidden fees — just a seamless experience backed by a flat-rate guarantee.
+      - list [ref=e166]:
+        - listitem [ref=e167]:
+          - generic [ref=e169]: "1"
+          - heading "Get Your Quote" [level=3] [ref=e171]
+          - paragraph [ref=e172]: Request a quote online and we'll send you a quick virtual walkthrough link — just scan your space with your phone so we can see exactly what's moving. Prefer an in-person estimate? We'll send a team to your home. Either way, you'll get a guaranteed flat-rate price with no hidden fees.
+        - listitem [ref=e173]:
+          - generic [ref=e175]: "2"
+          - heading "We Plan Everything" [level=3] [ref=e177]
+          - paragraph [ref=e178]: Your dedicated move coordinator takes it from here — building approvals, certificates of insurance, elevator reservations, parking permits, and scheduling. Every detail is handled before moving day so there are zero surprises.
+        - listitem [ref=e179]:
+          - generic [ref=e180]: "3"
+          - heading "Sit Back, We Handle the Rest" [level=3] [ref=e182]
+          - paragraph [ref=e183]: Our uniformed, background-checked crew arrives on time with all the right equipment. Track your truck in real time and receive live updates throughout the move — we don't leave until every piece is placed exactly where you want it.
+    - generic [ref=e185]:
+      - generic [ref=e186]:
+        - generic [ref=e187]: What We Do
+        - heading "Our Services" [level=2] [ref=e188]
+        - paragraph [ref=e189]: From cross-country relocations to office transitions, every move is handled with the same care, precision, and flat-rate transparency.
+      - generic [ref=e192]:
+        - article [ref=e193]:
+          - img "Moving truck on the highway for a long-distance relocation" [ref=e195]
+          - generic [ref=e196]:
+            - heading "Long Distance Moving" [level=3] [ref=e197]
+            - paragraph [ref=e198]: Reliable long-distance moving services designed to make your relocation smooth, safe, and stress-free.
+            - button "More Info" [ref=e199]
+        - article [ref=e202]:
+          - img "Couple sitting among moving boxes in their new home" [ref=e204]
+          - generic [ref=e205]:
+            - heading "Residential Moving" [level=3] [ref=e206]
+            - paragraph [ref=e207]: Professional home moving services for apartments, condos, and houses of all sizes.
+            - button "More Info" [ref=e208]
+        - article [ref=e211]:
+          - img "Warehouse worker organizing boxes for a business move" [ref=e213]
+          - generic [ref=e214]:
+            - heading "Business Moving" [level=3] [ref=e215]
+            - paragraph [ref=e216]: Efficient business moving solutions that help minimize downtime and keep your operations moving.
+            - button "More Info" [ref=e217]
+    - generic [ref=e223]:
+      - generic [ref=e224]:
+        - text: Standard With Every Move
+        - heading "What's Included in Every Elite Move" [level=2] [ref=e225]
+        - paragraph [ref=e226]: Every service below comes standard — no add-ons, no upgrades, no surprises. This is how a stress-free move should work.
+        - img "Crew reassembling a bed frame in a new home" [ref=e228]
+      - generic [ref=e229]:
+        - generic [ref=e230]:
+          - heading [level=3] [ref=e232]:
+            - button "Furniture Disassembly & Reassembly" [expanded] [ref=e233]
+          - region "Furniture Disassembly & Reassembly" [ref=e238]:
+            - generic [ref=e240]:
+              - paragraph [ref=e241]: We handle the standard disassembly and reassembly of your furniture — no tools or stress on your end.
+              - list [ref=e242]:
+                - listitem [ref=e243]: Bed frames & headboards
+                - listitem [ref=e246]: Tables & desks
+                - listitem [ref=e249]: Standard shelves and bookcases
+                - listitem [ref=e252]: Couches, sofas, and sectionals
+                - listitem [ref=e255]: TV takedown when being moved
+                - listitem [ref=e258]: Wall-mounting available as an installation add-on
+        - generic [ref=e261]:
+          - heading [level=3] [ref=e263]:
+            - button "Walls, Floor & Door Protection" [ref=e264]
+          - region "Walls, Floor & Door Protection":
+            - generic [ref=e269]:
+              - paragraph [ref=e270]: We protect high-traffic areas before the move begins, helping prevent scratches, dents, and damage during the process.
+              - list [ref=e271]:
+                - listitem [ref=e272]: Floor runners
+                - listitem [ref=e275]: Door jamb protection
+                - listitem [ref=e278]: Corner protection
+                - listitem [ref=e281]: Elevator and hallway protection when required
+        - generic [ref=e284]:
+          - heading [level=3] [ref=e286]:
+            - button "All Travel & Labor" [ref=e287]
+          - region "All Travel & Labor":
+            - generic [ref=e292]:
+              - paragraph [ref=e293]: Your flat-rate move includes the crew, travel, loading, unloading, and standard labor needed to complete the job.
+              - list [ref=e294]:
+                - listitem [ref=e295]: No hourly surprises
+                - listitem [ref=e298]: No fuel surcharge surprises
+                - listitem [ref=e301]: Loading and unloading included
+                - listitem [ref=e304]: Crew and truck included
+        - generic [ref=e307]:
+          - heading [level=3] [ref=e309]:
+            - button "Live Crew Tracking" [ref=e310]
+          - region "Live Crew Tracking":
+            - generic [ref=e315]:
+              - paragraph [ref=e316]: Stay informed during your move with real-time crew and truck tracking when available.
+              - list [ref=e317]:
+                - listitem [ref=e318]: Real-time status visibility
+                - listitem [ref=e321]: Crew arrival updates
+                - listitem [ref=e324]: Move-day location awareness
+        - generic [ref=e327]:
+          - heading [level=3] [ref=e329]:
+            - button "Automated Move Updates" [ref=e330]
+          - region "Automated Move Updates":
+            - generic [ref=e335]:
+              - paragraph [ref=e336]: Receive clear updates before and during your move so you always know what comes next.
+              - list [ref=e337]:
+                - listitem [ref=e338]: Booking confirmation
+                - listitem [ref=e341]: Pre-move reminders
+                - listitem [ref=e344]: Move-day notifications
+                - listitem [ref=e347]: Completion updates
+    - generic [ref=e352]:
+      - generic [ref=e353]:
+        - generic [ref=e354]: Service Area
+        - heading "Moving across Miami and beyond." [level=2] [ref=e355]
+        - paragraph [ref=e356]: Our crews support local and long-distance moves from Miami, nearby South Florida cities, and destinations across the state.
+        - generic [ref=e357]:
+          - generic [ref=e358]: Miami-based moving crews
+          - link "Questions? Call (305) 555-0199" [ref=e367] [cursor=pointer]:
+            - /url: tel:+13055550199
+      - iframe [ref=e369]:
+        
+  - contentinfo [ref=e370]:
+    - generic [ref=e371]:
+      - generic [ref=e372]:
+        - generic [ref=e373]:
+          - link "ProElite Movers home" [ref=e374] [cursor=pointer]:
+            - /url: "#top"
+            - generic [ref=e378]:
+              - generic [ref=e379]: ProElite
+              - generic [ref=e380]: Movers
+          - paragraph [ref=e381]: Premium local and long-distance moving with transparent flat-rate pricing, full protection, and a background-checked crew.
+          - link "(305) 555-0199" [ref=e382] [cursor=pointer]:
+            - /url: tel:+13055550199
+        - generic [ref=e385]:
+          - generic [ref=e386]:
+            - heading "Moving" [level=3] [ref=e387]
+            - list [ref=e388]:
+              - listitem [ref=e389]:
+                - link "Local Moving" [ref=e390] [cursor=pointer]:
+                  - /url: "#local-moving"
+              - listitem [ref=e391]:
+                - link "Long Distance Moving" [ref=e392] [cursor=pointer]:
+                  - /url: "#long-distance-moving"
+              - listitem [ref=e393]:
+                - link "Office Moving" [ref=e394] [cursor=pointer]:
+                  - /url: "#office-moving"
+              - listitem [ref=e395]:
+                - link "Commercial Moving" [ref=e396] [cursor=pointer]:
+                  - /url: "#commercial-moving"
+              - listitem [ref=e397]:
+                - link "Small Moves" [ref=e398] [cursor=pointer]:
+                  - /url: "#small-moves"
+              - listitem [ref=e399]:
+                - link "Large Moves" [ref=e400] [cursor=pointer]:
+                  - /url: "#large-moves"
+          - generic [ref=e401]:
+            - heading "Locations" [level=3] [ref=e402]
+            - list [ref=e403]:
+              - listitem [ref=e404]:
+                - link "Miami" [ref=e405] [cursor=pointer]:
+                  - /url: "#miami"
+          - generic [ref=e406]:
+            - heading "Services" [level=3] [ref=e407]
+            - list [ref=e408]:
+              - listitem [ref=e409]:
+                - link "Packing Services" [ref=e410] [cursor=pointer]:
+                  - /url: "#packing-services"
+              - listitem [ref=e411]:
+                - link "Installation" [ref=e412] [cursor=pointer]:
+                  - /url: "#installation"
+              - listitem [ref=e413]:
+                - link "High-Value Items" [ref=e414] [cursor=pointer]:
+                  - /url: "#high-value-items"
+              - listitem [ref=e415]:
+                - link "Furniture Protection" [ref=e416] [cursor=pointer]:
+                  - /url: "#furniture-protection"
+              - listitem [ref=e417]:
+                - link "Storage Solutions" [ref=e418] [cursor=pointer]:
+                  - /url: "#storage-solutions"
+              - listitem [ref=e419]:
+                - link "Move Coordination" [ref=e420] [cursor=pointer]:
+                  - /url: "#move-coordination"
+          - generic [ref=e421]:
+            - heading "Company" [level=3] [ref=e422]
+            - list [ref=e423]:
+              - listitem [ref=e424]:
+                - link "About" [ref=e425] [cursor=pointer]:
+                  - /url: "#about"
+              - listitem [ref=e426]:
+                - link "Licenses & Credentials" [ref=e427] [cursor=pointer]:
+                  - /url: "#licenses"
+              - listitem [ref=e428]:
+                - link "FAQ" [ref=e429] [cursor=pointer]:
+                  - /url: "#faq"
+      - generic [ref=e430]:
+        - paragraph [ref=e431]: © 2026 ProElite Movers. All rights reserved.
+        - paragraph [ref=e432]: "Licensed & insured · FL Mover Reg. #MV-00000"

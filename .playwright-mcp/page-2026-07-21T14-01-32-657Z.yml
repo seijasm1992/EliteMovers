@@ -1,0 +1,12 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - checkbox "Use dark theme" [ref=e5]
+    - generic [ref=e6] [cursor=pointer]: Use dark theme
+  - banner [ref=e16]:
+    - generic [ref=e17]:
+      - heading [level=2]
+      - heading "An error occurred." [level=1] [ref=e18]
+  - generic [ref=e24]: module is not defined
+  - generic [ref=e30]:
+    - heading "Stack Trace" [level=2] [ref=e32]
+    - generic [ref=e38]: at runInRunnerObject (workers/runner-worker/index.js:107:3) at getWorkerEntryExport (workers/runner-worker/index.js:235:17) at null.<anonymous> (workers/runner-worker/index.js:354:24) at maybeCaptureError (workers/runner-worker/index.js:51:10)

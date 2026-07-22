@@ -41,6 +41,51 @@ const PhoneIcon = () => (
   </svg>
 );
 
+const MapPinIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.8}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+
+function BrandBadge({
+  site,
+  tone,
+}: {
+  site: SiteConfig;
+  tone: "light" | "dark";
+}) {
+  const isDark = tone === "dark";
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-[0.5rem] border-2 px-3 py-2 shadow-soft transition-colors ${
+        isDark
+          ? "border-gold bg-text-strong text-white"
+          : "border-green bg-white text-text-strong"
+      }`}
+    >
+      <MapPinIcon className={`h-4 w-4 shrink-0 ${isDark ? "text-gold" : "text-green"}`} />
+      <span className="flex items-baseline gap-1">
+        <span className="font-display text-[1.375rem] leading-none">
+          {site.wordmark.primary}
+        </span>
+        <span className="font-accent text-xs font-semibold uppercase tracking-[0.28em]">
+          {site.wordmark.secondary}
+        </span>
+      </span>
+    </span>
+  );
+}
+
 const CloseIcon = () => (
   <svg
     className="h-5 w-5"
@@ -70,7 +115,7 @@ export default function NavMenu({ navigation, site }: Props) {
   const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
     setActiveAccordion(null);
-    hamburgerRef.current?.focus();
+    window.setTimeout(() => hamburgerRef.current?.focus(), 0);
   }, []);
 
   const openMobileMenu = useCallback(() => {
@@ -168,13 +213,9 @@ export default function NavMenu({ navigation, site }: Props) {
         <div className="flex shrink-0 items-center justify-between border-b border-ink/8 px-5 py-4">
           <div>
             <span className="eyebrow text-green">Navigation</span>
-            <p className="mt-1 font-display text-lg leading-none tracking-tight text-text-strong">
-              {site.wordmark.primary}
-              <span className="text-gold">.</span>
-              <span className="ml-1.5 font-accent text-[0.55rem] font-semibold uppercase tracking-[0.35em] text-text-subtle">
-                {site.wordmark.secondary}
-              </span>
-            </p>
+            <a href="#top" aria-label={`${site.name} home`} onClick={closeMobileMenu}>
+              <BrandBadge site={site} tone="light" />
+            </a>
           </div>
           <button
             ref={closeButtonRef}
@@ -288,16 +329,10 @@ export default function NavMenu({ navigation, site }: Props) {
       <nav className="container-x relative z-10 flex h-[var(--nav-h,4.75rem)] items-center justify-between gap-4">
         <a
           href="#top"
-          className={`group flex items-baseline gap-1 transition-colors ${textColor}`}
+          className="transition-transform hover:-translate-y-0.5"
           aria-label={`${site.name} home`}
         >
-          <span className="font-display text-2xl leading-none tracking-tight">
-            {site.wordmark.primary}
-            <span className="text-gold">.</span>
-          </span>
-          <span className="font-accent text-[0.6rem] font-semibold uppercase tracking-[0.4em] opacity-80">
-            {site.wordmark.secondary}
-          </span>
+          <BrandBadge site={site} tone={scrolled ? "light" : "dark"} />
         </a>
 
         <ul className="hidden items-center gap-1 lg:flex">
@@ -371,35 +406,25 @@ export default function NavMenu({ navigation, site }: Props) {
           </span>
         </a>
 
-        <button
-          ref={hamburgerRef}
-          type="button"
-          className={`relative z-[220] flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden ${textColor} ${
-            scrolled ? "hover:bg-ink/5" : "hover:bg-white/10"
-          }`}
-          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMobileMenuOpen}
-          aria-controls={MOBILE_DRAWER_ID}
-          onClick={toggleMobileMenu}
-        >
-          <div className="relative h-5 w-6">
-            <span
-              className={`absolute left-0 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out ${
-                isMobileMenuOpen ? "top-2.5 rotate-45" : "top-1 rotate-0"
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-2.5 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out ${
-                isMobileMenuOpen ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute left-0 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out ${
-                isMobileMenuOpen ? "top-2.5 -rotate-45" : "top-4 rotate-0"
-              }`}
-            />
-          </div>
-        </button>
+        {!isMobileMenuOpen && (
+          <button
+            ref={hamburgerRef}
+            type="button"
+            className={`relative z-[220] flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden ${textColor} ${
+              scrolled ? "hover:bg-ink/5" : "hover:bg-white/10"
+            }`}
+            aria-label="Open menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls={MOBILE_DRAWER_ID}
+            onClick={toggleMobileMenu}
+          >
+            <div className="relative h-5 w-6">
+              <span className="absolute left-0 top-1 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out" />
+              <span className="absolute left-0 top-2.5 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out" />
+              <span className="absolute left-0 top-4 h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-in-out" />
+            </div>
+          </button>
+        )}
       </nav>
     </header>
   );

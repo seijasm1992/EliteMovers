@@ -98,9 +98,13 @@ export default function ServiceModal({
 
   if (!isOpen || !service) return null;
 
+  const fallbackImage = service.image.endsWith(".webp")
+    ? service.image.replace(/\.webp$/, ".jpg")
+    : service.image;
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4 sm:p-6 lg:p-10"
+      className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto p-3 sm:items-center sm:p-6 lg:p-10"
       onClick={onClose}
     >
       <div
@@ -114,40 +118,43 @@ export default function ServiceModal({
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={descId}
-        className="relative z-10 my-auto w-full max-w-3xl animate-fade-up overflow-hidden bg-white shadow-bubble"
+        className="relative z-10 flex max-h-[calc(100svh-1.5rem)] w-full max-w-4xl animate-fade-up flex-col overflow-hidden bg-white shadow-bubble sm:max-h-[calc(100svh-3rem)]"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="relative aspect-[21/9] w-full overflow-hidden sm:aspect-[2.4/1]">
-          <img
-            src={service.image}
-            alt=""
-            aria-hidden="true"
-            className="h-full w-full object-cover"
-          />
+        <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-64 lg:h-72">
+          <picture className="block h-full w-full">
+            <source srcSet={service.image} type="image/webp" />
+            <img
+              src={fallbackImage}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full object-cover"
+            />
+          </picture>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-text-subtle shadow-soft backdrop-blur-sm transition-colors hover:bg-white hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:right-6 sm:top-6"
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-text-subtle shadow-soft backdrop-blur-sm transition-colors hover:bg-white hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:right-6 sm:top-6"
             aria-label={`Close ${service.title} details`}
           >
             <CloseIcon />
           </button>
         </div>
 
-        <div className="relative p-8 sm:p-10 lg:p-12">
+        <div className="relative overflow-y-auto p-6 sm:p-8 lg:p-10">
           <div className="h-0.5 w-12 bg-green" aria-hidden="true" />
 
           <p className="eyebrow mt-6 text-green">Elite Moving Service</p>
 
           <h2
             id={titleId}
-            className="mt-3 font-accent text-3xl font-bold leading-tight text-text-strong sm:text-4xl"
+            className="mt-3 text-pretty font-accent text-[22px] font-bold leading-tight text-text-strong sm:text-2xl"
           >
             {service.title}
           </h2>
 
-          <div id={descId} className="mt-8 space-y-5">
+          <div id={descId} className="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
             <p className="text-base leading-relaxed text-text-medium sm:text-lg">
               {service.details}
             </p>

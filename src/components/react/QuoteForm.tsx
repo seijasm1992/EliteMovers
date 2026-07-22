@@ -53,7 +53,7 @@ const selectStyle = { backgroundImage: chevronIcon, backgroundPosition: "right 0
 const btnBase =
   "inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 font-accent text-sm font-semibold transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70";
 
-const btnOutline = `${btnBase} border border-ink/20 bg-white text-text-strong hover:border-ink hover:bg-offwhite focus-visible:outline-ink`;
+const btnOutline = `${btnBase} border-2 border-green bg-white text-text-strong hover:border-ink hover:bg-offwhite focus-visible:outline-ink`;
 const btnGold = `${btnBase} bg-gold text-ink shadow-soft hover:-translate-y-0.5 hover:brightness-105 hover:shadow-card-hover focus-visible:outline-ink`;
 
 const todayInputValue = () => {

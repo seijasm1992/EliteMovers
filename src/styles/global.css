@@ -19,7 +19,7 @@
   /* Backgrounds / neutrals */
   --color-neutral-mute: #a6a6a6;
   --color-neutral-soft: #dedede;
-  --color-offwhite: #fafafa;
+  --color-offwhite: #ffffff;
 
   /* Status */
   --color-success: #15b73e;
@@ -64,7 +64,7 @@
     font-family: var(--font-display);
     color: var(--color-text-strong);
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
 
   :focus-visible {

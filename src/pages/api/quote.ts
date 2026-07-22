@@ -49,13 +49,14 @@ async function verifyTurnstile(
 // ── Email template ────────────────────────────────────────────────────────────
 
 const BRAND = {
-  green: "#16a34a",
-  gold: "#d4af37",
-  ink: "#111827",
-  muted: "#6b7280",
-  border: "#e5e7eb",
-  bg: "#f9fafb",
-  white: "#ffffff",
+  green: "#00704C",
+  gold: "#FFD84D",
+  ink: "#111111",
+  muted: "#424242",
+  border: "#00704C",
+  bg: "#DEDEDE",
+  lightText: "#DEDEDE",
+  white: "#FFFFFF",
 };
 
 function labelMap(key: string): string {
@@ -180,7 +181,7 @@ function buildHtml(d: QuoteFormValues, submittedAt: string): string {
                     <p style="margin:0;font-size:22px;font-weight:800;color:${BRAND.white};letter-spacing:-0.5px;">
                       ⚡ ProElite Movers
                     </p>
-                    <p style="margin:4px 0 0;font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:1.2px;">
+                    <p style="margin:4px 0 0;font-size:11px;color:${BRAND.lightText};text-transform:uppercase;letter-spacing:1.2px;">
                       Moving Quote Request
                     </p>
                   </td>
@@ -232,12 +233,12 @@ function buildHtml(d: QuoteFormValues, submittedAt: string): string {
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td>
-                    <p style="margin:0;font-size:11px;color:#9ca3af;">
+                    <p style="margin:0;font-size:11px;color:${BRAND.muted};">
                       Submitted via <strong style="color:${BRAND.muted};">proelitemovers.com</strong> · ${submittedAt}
                     </p>
                   </td>
                   <td align="right">
-                    <p style="margin:0;font-size:11px;color:#9ca3af;">Source: Website quote form</p>
+                    <p style="margin:0;font-size:11px;color:${BRAND.muted};">Source: Website quote form</p>
                   </td>
                 </tr>
               </table>
