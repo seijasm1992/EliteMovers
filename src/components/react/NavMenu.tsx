@@ -64,25 +64,16 @@ function BrandBadge({
   site: SiteConfig;
   tone: "light" | "dark";
 }) {
-  const isDark = tone === "dark";
   return (
-    <span
-      className={`inline-flex items-center gap-2 rounded-[0.5rem] border-2 px-3 py-2 shadow-soft transition-colors ${
-        isDark
-          ? "border-gold bg-text-strong text-white"
-          : "border-green bg-white text-text-strong"
+    <img
+      src="/images/brand/proelite-movers-logo.webp"
+      width={220}
+      height={86}
+      alt={`${site.name} logo`}
+      className={`h-12 w-auto rounded-lg border object-contain p-0.5 transition-colors sm:h-14 ${
+        tone === "dark" ? "border-brand-yellow/80 bg-brand-primary" : "border-brand-primary/15 bg-white"
       }`}
-    >
-      <MapPinIcon className={`h-4 w-4 shrink-0 ${isDark ? "text-gold" : "text-green"}`} />
-      <span className="flex items-baseline gap-1">
-        <span className="font-display text-[1.375rem] leading-none">
-          {site.wordmark.primary}
-        </span>
-        <span className="font-accent text-xs font-semibold uppercase tracking-[0.28em]">
-          {site.wordmark.secondary}
-        </span>
-      </span>
-    </span>
+    />
   );
 }
 
@@ -183,7 +174,7 @@ export default function NavMenu({ navigation, site }: Props) {
     }
   };
 
-  const textColor = scrolled ? "text-text-strong" : "text-white";
+  const textColor = "text-white";
   const overlayVisible = openDropdown !== null;
 
   const mobileMenu = (
@@ -309,10 +300,10 @@ export default function NavMenu({ navigation, site }: Props) {
     <header
       ref={navRef}
       onBlur={handleBlur}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-brand-primary transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         scrolled
-          ? "border-b border-ink/5 bg-white/95 shadow-[0_1px_0_0_rgba(17,17,17,0.08)] backdrop-blur-md"
-          : "bg-transparent"
+          ? "shadow-[0_1px_0_0_rgba(255,255,255,0.08)]"
+          : ""
       }`}
     >
       {mounted && createPortal(mobileMenu, document.body)}
@@ -348,7 +339,7 @@ export default function NavMenu({ navigation, site }: Props) {
                 <a
                   href={item.href}
                   className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-accent text-sm font-medium transition-colors ${textColor} ${
-                    scrolled ? "hover:bg-ink/5" : "hover:bg-white/10"
+                    "hover:bg-white/10"
                   }`}
                   aria-haspopup={item.children ? "true" : undefined}
                   aria-expanded={item.children ? isOpen : undefined}
@@ -394,7 +385,7 @@ export default function NavMenu({ navigation, site }: Props) {
           className={`hidden items-center gap-2 rounded-full px-5 py-2.5 font-accent text-sm font-semibold transition-all lg:inline-flex ${
             scrolled
               ? "bg-ink text-white hover:bg-text-strong"
-              : "bg-white text-ink hover:bg-gold"
+          : "bg-brand-yellow text-brand-primary hover:bg-[#ffe36f]"
           }`}
         >
           <PhoneIcon />
@@ -411,7 +402,7 @@ export default function NavMenu({ navigation, site }: Props) {
             ref={hamburgerRef}
             type="button"
             className={`relative z-[220] flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden ${textColor} ${
-              scrolled ? "hover:bg-ink/5" : "hover:bg-white/10"
+              "hover:bg-white/10"
             }`}
             aria-label="Open menu"
             aria-expanded={isMobileMenuOpen}

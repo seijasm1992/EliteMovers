@@ -1,67 +1,31 @@
 import type { QuoteFormContent } from "../types/content";
 
-/** Quote form copy + select options. Keep values in sync with quoteSchema.ts enums. */
 export const quoteForm: QuoteFormContent = {
   section: {
-    eyebrow: "Free, No-Obligation Quote",
-    title: "Request My Free Quote",
-    description:
-      "Tell us about your move and we'll get back to you with a guaranteed flat-rate price — no hidden fees, ever.",
+    eyebrow: "Free moving cost calculator",
+    title: "Get your rate",
+    description: "Start with the two locations for your move.",
   },
   form: {
-    title: "Get your moving quote with a clean and simple process.",
-    continuePrompt: "Already started your request?",
-    continueLink: { label: "Continue", href: "#hero-quote" },
+    title: "Get Your Free Moving Quote",
+    continuePrompt: "",
+    continueLink: { label: "", href: "#hero-quote" },
     fields: {
-      fullName: { label: "Full Name", placeholder: "John Smith" },
-      email: { label: "Email", placeholder: "name@example.com" },
-      phone: { label: "Phone", placeholder: "(305) 555-0199" },
-      moveType: { label: "Move Type" },
-      originCity: { label: "Origin City", placeholder: "Miami, FL" },
-      destinationCity: { label: "Destination City", placeholder: "Orlando, FL" },
-      moveDate: { label: "Estimated Date" },
+      originCity: { label: "Origin City", placeholder: "City or ZIP code" },
+      destinationCity: { label: "Destination City", placeholder: "City or ZIP code" },
+      moveDate: { label: "Moving Date", placeholder: "MM / DD / YYYY" },
       homeSize: { label: "Move Size" },
-      contactPreference: { label: "Contact Preference" },
-      message: {
-        label: "Message",
-        placeholder: "Share any details that help us prepare your quote…",
-      },
+      fullName: { label: "Full Name", placeholder: "Your full name" },
+      phone: { label: "Phone", placeholder: "(305) 000-0000" },
+      email: { label: "Email", placeholder: "you@email.com" },
     },
-    selectPlaceholder: "Select…",
-    buttons: {
-      clear: "Clear",
-      submit: "Continue",
-      submitting: "Sending…",
-    },
+    selectPlaceholder: "Select location",
+    buttons: { clear: "", submit: "Get My Free Quote", submitting: "Sending…" },
     success: {
-      title: "You're all set",
-      message:
-        "Thanks! Your quote request has been received. Our team will contact you shortly.",
-      resetLabel: "Submit another request",
+      title: "Quote request received",
+      message: "We'll use these details to prepare your moving estimate.",
+      resetLabel: "Start over",
     },
-    errorMessage:
-      "Something went wrong sending your request. Please try again or call us directly.",
+    errorMessage: "Something went wrong. Please try again.",
   },
-  moveTypes: [
-    { value: "local", label: "Local Move" },
-    { value: "long-distance", label: "Long Distance Move" },
-    { value: "office", label: "Office Move" },
-    { value: "commercial", label: "Commercial Move" },
-    { value: "small", label: "Small Move" },
-    { value: "large", label: "Large Move" },
-  ],
-  homeSizes: [
-    { value: "studio", label: "Studio" },
-    { value: "1-bed", label: "1 Bedroom" },
-    { value: "2-bed", label: "2 Bedrooms" },
-    { value: "3-bed", label: "3 Bedrooms" },
-    { value: "4-bed-plus", label: "4+ Bedrooms" },
-    { value: "office", label: "Office / Commercial" },
-  ],
-  contactPreferences: [
-    { value: "phone", label: "Phone call" },
-    { value: "email", label: "Email" },
-    { value: "text", label: "Text message" },
-    { value: "any", label: "No preference" },
-  ],
 };

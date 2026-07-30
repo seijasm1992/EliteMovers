@@ -128,16 +128,13 @@ export interface QuoteFormContent {
     continuePrompt: string;
     continueLink: NavLink;
     fields: {
-      fullName: FormFieldCopy;
-      email: FormFieldCopy;
-      phone: FormFieldCopy;
-      moveType: FormFieldCopy;
       originCity: FormFieldCopy;
       destinationCity: FormFieldCopy;
       moveDate: FormFieldCopy;
       homeSize: FormFieldCopy;
-      contactPreference: FormFieldCopy;
-      message: FormFieldCopy;
+      fullName: FormFieldCopy;
+      phone: FormFieldCopy;
+      email: FormFieldCopy;
     };
     selectPlaceholder: string;
     buttons: {
@@ -152,7 +149,4 @@ export interface QuoteFormContent {
     };
     errorMessage: string;
   };
-  moveTypes: SelectOption[];
-  homeSizes: SelectOption[];
-  contactPreferences: SelectOption[];
 }

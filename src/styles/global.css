@@ -7,9 +7,13 @@
 */
 @theme {
   /* Brand accents */
-  --color-ink: #000000;
+  --color-ink: #101820;
   --color-gold: #ffd84d;
   --color-green: #00704c;
+  --color-brand-primary: #020c15;
+  --color-brand-primary-soft: #071a2b;
+  --color-brand-yellow: #ffd84d;
+  --color-brand-surface: #f7f9fc;
 
   /* Text scale */
   --color-text-strong: #111111;
@@ -29,9 +33,9 @@
   --color-rating: #d6ac00;
 
   /* Typography */
-  --font-display: "Gloock", Georgia, "Times New Roman", serif;
-  --font-accent: "Montserrat", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-accent: "Manrope", sans-serif;
+  --font-sans: "Manrope", sans-serif;
 
   /* Radii */
   --radius-card: 1.25rem;
@@ -56,15 +60,15 @@
   body {
     font-family: var(--font-sans);
     color: var(--color-text-medium);
-    background-color: var(--color-offwhite);
+    background-color: var(--color-brand-surface);
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     color: var(--color-text-strong);
-    font-weight: 400;
-    letter-spacing: 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   :focus-visible {
@@ -109,6 +113,34 @@
 @keyframes bubbleIn {
   from { opacity: 0; transform: translateY(10px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes hero-cinematic {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.03) translate3d(-0.9%, -0.45%, 0); }
+}
+
+@keyframes hero-image-light {
+  0%, 100% { opacity: 0.24; transform: translate3d(-8%, 0, 0); }
+  50% { opacity: 0.52; transform: translate3d(8%, -2%, 0); }
+}
+
+@keyframes route-connector-spark {
+  0% { left: -0.25rem; opacity: 0; transform: scale(0.5); }
+  12% { left: -0.25rem; opacity: 1; transform: scale(1); }
+  82% { left: calc(100% - 0.5rem); opacity: 1; transform: scale(1); }
+  100% { left: calc(100% - 0.5rem); opacity: 0; transform: scale(0.6); }
+}
+
+.hero-image-light {
+  background: radial-gradient(circle at 32% 18%, rgb(255 216 77 / 22%), transparent 38%);
+  animation: hero-image-light 7s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.route-connector-spark {
+  animation: route-connector-spark 700ms var(--ease-out-soft) both;
 }
 
 .animate-fade-up {
