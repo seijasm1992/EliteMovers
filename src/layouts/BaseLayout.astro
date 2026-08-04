@@ -22,6 +22,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -55,5 +56,31 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
       Skip to content
     </a>
     <slot />
+    <script>
+      const revealedElements = document.querySelectorAll<HTMLElement>("[data-scroll-reveal]");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const revealAll = () => {
+        revealedElements.forEach((element) => element.classList.add("is-revealed"));
+      };
+
+      if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+        revealAll();
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-revealed");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8%" },
+        );
+
+        revealedElements.forEach((element) => observer.observe(element));
+      }
+    </script>
   </body>
 </html>

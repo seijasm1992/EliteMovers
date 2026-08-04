@@ -1,10 +1,10 @@
 ---
 import { steps } from "../../data/steps";
 ---
-<section id="steps" class="bg-white py-20 sm:py-28 lg:py-32">
+<section id="steps" class="bg-white section-rhythm">
   <div class="container-x">
     <div class="grid gap-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-x-24 xl:gap-x-32">
-      <header class="max-w-md lg:pt-2">
+      <header class="max-w-md lg:pt-2" data-scroll-reveal>
         <span class="eyebrow text-green">{steps.eyebrow}</span>
         <h2 class="mt-5 text-balance text-[clamp(3.25rem,5.4vw,5.5rem)] leading-[0.86] tracking-[-0.03em] text-text-strong">
           {steps.title}
@@ -16,8 +16,12 @@ import { steps } from "../../data/steps";
 
       <ol class="border-t border-neutral-soft">
         {
-          steps.steps.map((step) => (
-            <li class="group relative grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-neutral-soft py-7 sm:grid-cols-[3rem_1fr] sm:gap-x-6 sm:py-9">
+          steps.steps.map((step, index) => (
+            <li
+              class="group relative grid grid-cols-[2.5rem_1fr] gap-x-5 border-b border-neutral-soft py-7 sm:grid-cols-[3rem_1fr] sm:gap-x-6 sm:py-9"
+              data-scroll-reveal
+              style={`--reveal-delay: ${index * 70}ms`}
+            >
               <span class="flex h-8 w-8 items-center justify-center bg-brand-surface font-accent text-[0.7rem] font-semibold text-text-medium sm:h-9 sm:w-9">
                 {step.number}
               </span>

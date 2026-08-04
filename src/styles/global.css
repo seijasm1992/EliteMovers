@@ -23,7 +23,7 @@
   /* Backgrounds / neutrals */
   --color-neutral-mute: #a6a6a6;
   --color-neutral-soft: #dedede;
-  --color-offwhite: #ffffff;
+  --color-offwhite: #f7f9fc;
 
   /* Status */
   --color-success: #15b73e;
@@ -94,9 +94,52 @@
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
+
+  .section-rhythm {
+    padding-block: 4rem;
+  }
+
+  .section-rhythm--services {
+    padding-block: 4rem;
+  }
+
+  .scroll-reveal {
+    --reveal-delay: 0ms;
+  }
+
   @media (min-width: 768px) {
     .container-x { padding-inline: 2rem; }
   }
+
+  @media (min-width: 640px) {
+    .section-rhythm,
+    .section-rhythm--services {
+      padding-block: 5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-rhythm {
+      padding-block: 5rem;
+    }
+
+    .section-rhythm--services {
+      padding-block: 6rem;
+    }
+  }
+}
+
+html.js [data-scroll-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 320ms var(--ease-out-soft) var(--reveal-delay, 0ms),
+    transform 420ms var(--ease-out-soft) var(--reveal-delay, 0ms);
+}
+
+html.js [data-scroll-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---------- Keyframes ---------- */
@@ -148,6 +191,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html.js [data-scroll-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   *,
   *::before,
   *::after {

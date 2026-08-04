@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { MovingService } from "../../types/content";
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
     service: MovingService,
     trigger: HTMLButtonElement,
   ) => void;
+  revealDelay: number;
 }
 
 const ChevronIcon = () => (
@@ -23,13 +25,17 @@ const ChevronIcon = () => (
   </svg>
 );
 
-export default function ServiceCard({ service, onMoreInfo }: Props) {
+export default function ServiceCard({ service, onMoreInfo, revealDelay }: Props) {
   const fallbackImage = service.image.endsWith(".webp")
     ? service.image.replace(/\.webp$/, ".jpg")
     : service.image;
 
   return (
-    <article className="group flex h-full flex-col gap-4 sm:gap-7">
+    <article
+      className="group flex h-full flex-col gap-4 sm:gap-7"
+      data-scroll-reveal
+      style={{ "--reveal-delay": `${revealDelay}ms` } as CSSProperties}
+    >
       <div className="aspect-[4/3] w-full shrink-0 overflow-hidden">
         <picture className="block h-full w-full">
           <source srcSet={service.image} type="image/webp" />
