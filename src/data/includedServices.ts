@@ -2,21 +2,20 @@ import type { IncludedContent } from "../types/content";
 
 /**
  * "What's Included in Every Elite Move" accordion.
- * NOTE: images currently reuse the existing hero photos as temporary mocks.
- * Replace each `image` with a dedicated /images/included-*.jpg file (or a Sanity
- * image URL) — the component needs no changes.
+ * Images live in public/images/included and can later be swapped for Sanity
+ * image URLs without changing the component.
  */
 export const includedServices: IncludedContent = {
   eyebrow: "Standard With Every Move",
   title: "What's Included in Every Elite Move",
   description:
-    "Every service below comes standard — no add-ons, no upgrades, no surprises. This is how a stress-free move should work.",
+    "Every service below comes standard - no add-ons, no upgrades, no surprises. This is how a stress-free move should work.",
   items: [
     {
       id: "furniture",
       title: "Furniture Disassembly & Reassembly",
       description:
-        "We handle the standard disassembly and reassembly of your furniture — no tools or stress on your end.",
+        "We handle the standard disassembly and reassembly of your furniture - no tools or stress on your end.",
       includes: [
         "Bed frames & headboards",
         "Tables & desks",
