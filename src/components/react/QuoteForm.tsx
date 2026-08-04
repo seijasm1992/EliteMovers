@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch, type FieldErrors, type UseFormRegister } from "react-hook-form";
 import { quoteSchema, sanitizeName, sanitizePhone, todayMoveDate, type QuoteFormValues } from "../../lib/validations/quoteSchema";
 import type { QuoteFormContent } from "../../types/content";
+import Contacto from "./Contacto";
 
 interface Props {
   content: QuoteFormContent;
@@ -114,6 +115,7 @@ export default function QuoteForm({ content, onValuesChange, geoapifyApiKey }: P
     {isSubmitted && remainingFields > 0 && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{remainingFields} {remainingFields === 1 ? "detail needs" : "details need"} your attention.</p>}
     <button type="submit" disabled={isSubmitting} className="mt-5 flex min-h-14 w-full items-center justify-center rounded-xl bg-brand-yellow px-5 font-accent text-sm font-extrabold text-brand-primary transition-colors hover:bg-[#ffe36f] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? form.buttons.submitting : form.buttons.submit}</button>
     <p className="mt-4 text-center text-xs text-text-subtle"><span className="mr-2 text-brand-yellow">●</span>No spam. No pressure. Transparent pricing.</p>
+    <Contacto />
   </form>;
 }
 
