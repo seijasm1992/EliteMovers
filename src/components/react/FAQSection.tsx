@@ -106,7 +106,7 @@ export default function FAQSection({ items }: Props) {
                 aria-hidden="true"
               />
 
-              <h3>
+              <h3 className="type-item-title">
                 <button
                   id={triggerId}
                   type="button"
@@ -116,7 +116,7 @@ export default function FAQSection({ items }: Props) {
                   className="group flex w-full items-center justify-between gap-5 py-5 text-left sm:min-h-[4.5rem] sm:py-6"
                 >
                   <span
-                    className={`font-accent text-[0.95rem] leading-snug transition-colors duration-200 sm:text-base motion-reduce:transition-none ${
+                    className={`transition-colors duration-200 motion-reduce:transition-none ${
                       open
                         ? "font-bold text-ink"
                         : "font-semibold text-text-strong group-hover:text-green"

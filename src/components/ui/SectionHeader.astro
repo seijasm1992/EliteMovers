@@ -23,8 +23,8 @@ const eyebrowColor = tone === "light" ? "text-gold" : "text-green";
 ---
 <div class={`flex flex-col gap-4 max-w-2xl ${alignCls} ${className}`}>
   {eyebrow && <span class={`eyebrow ${eyebrowColor}`}>{eyebrow}</span>}
-  <h2 class={`text-[24px] leading-[1.15] ${titleColor}`}>
+  <h2 class={`type-section-title ${titleColor}`}>
     {title}
   </h2>
-  {subtitle && <p class={`text-base sm:text-lg leading-relaxed ${subColor}`}>{subtitle}</p>}
+  {subtitle && <p class={`type-body-lead ${subColor}`}>{subtitle}</p>}
 </div>

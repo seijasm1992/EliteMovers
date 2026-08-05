@@ -103,11 +103,11 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
     onSelect: (suggestion: AddressSuggestion) => selectAddressSuggestion(name, suggestion),
   });
 
-  if (isSubmitSuccessful) return <div className={successClassName}><h2 className="font-accent text-2xl font-extrabold">{form.success.title}</h2><p className="mt-2 text-sm text-text-subtle">{form.success.message}</p></div>;
+  if (isSubmitSuccessful) return <div className={successClassName}><h2 className="type-ui-title font-extrabold">{form.success.title}</h2><p className="mt-2 text-sm text-text-subtle">{form.success.message}</p></div>;
 
   return <form onSubmit={handleSubmit(submit)} noValidate className={formClassName}>
     <p className="flex items-center justify-center gap-2 text-sm text-text-subtle"><span className="text-base leading-none" aria-hidden="true">🔒</span>100% Secure</p>
-    <h2 className="mt-1 text-center font-accent text-xl font-extrabold tracking-[-0.03em] sm:text-2xl">{form.title}</h2>
+    <h2 className="type-ui-title mt-1 text-center font-extrabold">{form.title}</h2>
     <div className="mt-5" aria-label="Quote form completion">
       <div className="flex items-center justify-between text-xs font-semibold text-text-subtle"><span>{completedFields} of {fieldNames.length} details complete</span><span>{Math.round((completedFields / fieldNames.length) * 100)}%</span></div>
       <div className="mt-2 h-1 overflow-hidden rounded-full bg-brand-primary/10"><div className="h-full rounded-full bg-brand-yellow transition-[width] duration-300 motion-reduce:transition-none" style={{ width: `${(completedFields / fieldNames.length) * 100}%` }} /></div>

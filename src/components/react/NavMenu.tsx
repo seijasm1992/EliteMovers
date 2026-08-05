@@ -232,7 +232,7 @@ export default function NavMenu({ navigation, site }: Props) {
                       <button
                         type="button"
                         id={`mobile-accordion-${submenuId}`}
-                        className="flex w-full items-center justify-between py-4 text-left font-accent text-[0.95rem] font-semibold text-text-strong transition-colors hover:text-ink"
+                        className="flex w-full items-center justify-between py-4 text-left font-accent text-base font-semibold text-text-strong transition-colors hover:text-ink"
                         aria-expanded={isOpen}
                         aria-controls={submenuId}
                         onClick={() =>
@@ -268,7 +268,7 @@ export default function NavMenu({ navigation, site }: Props) {
                   ) : (
                     <a
                       href={item.href}
-                      className="block py-4 font-accent text-[0.95rem] font-semibold text-text-strong transition-colors hover:text-ink"
+                      className="block py-4 font-accent text-base font-semibold text-text-strong transition-colors hover:text-ink"
                       onClick={closeMobileMenu}
                     >
                       {item.label}
@@ -390,7 +390,7 @@ export default function NavMenu({ navigation, site }: Props) {
         >
           <PhoneIcon />
           <span className="flex flex-col leading-none">
-            <span className="text-[0.65rem] font-medium uppercase tracking-wider opacity-70">
+            <span className="text-xs font-medium uppercase tracking-wider opacity-70">
               Call Now
             </span>
             <span>{site.phone}</span>

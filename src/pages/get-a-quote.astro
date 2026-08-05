@@ -22,10 +22,10 @@ const emailHref = `mailto:${site.email}`;
       <div class="quote-page__glow quote-page__glow--green" aria-hidden="true"></div>
 
       <div class="relative mx-auto w-full max-w-6xl">
-        <div class="grid overflow-hidden rounded-[2rem] border border-white/80 bg-offwhite shadow-bubble lg:grid-cols-[0.85fr_1.15fr]">
-          <div class="flex flex-col justify-center p-8 sm:p-12 lg:p-16" data-scroll-reveal>
+        <div class="grid min-w-0 overflow-hidden rounded-[2rem] border border-white/80 bg-offwhite shadow-bubble lg:grid-cols-[0.85fr_1.15fr]">
+          <div class="flex min-w-0 flex-col justify-center p-8 sm:p-12 lg:p-16" data-scroll-reveal>
             <p class="eyebrow text-green">We're here to help</p>
-            <h1 class="mt-5 max-w-md text-5xl leading-[0.9] tracking-[-0.045em] text-text-strong sm:text-6xl lg:text-7xl">
+            <h1 class="type-page-title mt-5 max-w-md text-text-strong">
               Let's Plan<br />Your Move
             </h1>
             <p class="mt-6 max-w-md text-base leading-relaxed text-text-subtle sm:text-lg">
@@ -33,14 +33,14 @@ const emailHref = `mailto:${site.email}`;
             </p>
 
             <dl class="mt-10 grid gap-5 sm:mt-12">
-              <div class="flex items-center gap-4">
+              <div class="flex min-w-0 items-center gap-4">
                 <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-green text-white shadow-soft">
                   <Icon name="email" class="h-5 w-5" />
                 </div>
-                <div>
-                  <dt class="font-accent text-xs font-semibold uppercase tracking-[0.15em] text-text-subtle">Email</dt>
+                <div class="min-w-0">
+                  <dt class="type-label text-text-subtle">Email</dt>
                   <dd class="mt-1">
-                    <a href={emailHref} class="font-accent text-sm font-bold text-text-strong transition-colors hover:text-green">
+                    <a href={emailHref} class="break-all font-accent text-sm font-bold text-text-strong transition-colors hover:text-green">
                       {site.email}
                     </a>
                   </dd>
@@ -51,7 +51,7 @@ const emailHref = `mailto:${site.email}`;
                   <Icon name="phone" class="h-5 w-5" />
                 </div>
                 <div>
-                  <dt class="font-accent text-xs font-semibold uppercase tracking-[0.15em] text-text-subtle">Phone number</dt>
+                  <dt class="type-label text-text-subtle">Phone number</dt>
                   <dd class="mt-1">
                     <a href={site.phoneHref} class="font-accent text-sm font-bold text-text-strong transition-colors hover:text-green">
                       {site.phone}
@@ -62,7 +62,7 @@ const emailHref = `mailto:${site.email}`;
             </dl>
           </div>
 
-          <div class="flex items-center bg-white/40 p-4 sm:p-8 lg:p-12" data-scroll-reveal style="--reveal-delay: 100ms">
+          <div class="flex min-w-0 items-center bg-white/40 p-4 sm:p-8 lg:p-12" data-scroll-reveal style="--reveal-delay: 100ms">
             <div class="mx-auto w-full max-w-[40rem]">
               <QuoteForm client:load variant="page" content={quoteForm} geoapifyApiKey={PUBLIC_GEOAPIFY_API_KEY} />
             </div>

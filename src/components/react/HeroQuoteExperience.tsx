@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { QuoteFormContent } from "../../types/content";
 import type { QuoteFormValues } from "../../lib/validations/quoteSchema";
+import { hero } from "../../data/hero";
 import QuoteForm from "./QuoteForm";
 
 interface Props {
@@ -65,10 +66,14 @@ export default function HeroQuoteExperience({ content, geoapifyApiKey }: Props) 
         <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/45 via-transparent to-brand-primary/55" aria-hidden="true" />
         <div className="hero-image-light absolute inset-0" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-brand-primary/75 to-transparent" aria-hidden="true" />
-        <p className="absolute left-6 top-6 font-accent text-xs font-bold uppercase tracking-[0.13em] text-white sm:left-10 sm:top-10 sm:text-sm lg:left-12 lg:top-12">Free moving cost calculator <span aria-hidden="true">→</span></p>
+        <p className="type-label absolute left-6 top-6 text-white sm:left-10 sm:top-10 lg:left-12 lg:top-12">Free moving cost calculator <span aria-hidden="true">→</span></p>
+
+        <h1 className="type-page-title absolute bottom-8 right-6 z-[3] max-w-[17rem] text-right text-white drop-shadow-[0_3px_18px_rgba(2,12,21,0.55)] sm:bottom-10 sm:right-10 sm:max-w-md lg:bottom-auto lg:right-12 lg:top-28 lg:max-w-sm xl:max-w-md">
+          {hero.title}
+        </h1>
 
         <aside aria-label="Your move at a glance" className="absolute left-6 right-6 top-20 rounded-xl border border-white/15 bg-brand-primary/85 p-4 text-white shadow-[0_12px_28px_rgba(2,12,21,0.25)] backdrop-blur-sm transition-[transform,opacity] duration-300 motion-reduce:transition-none sm:left-10 sm:right-auto sm:top-24 sm:w-[22rem] lg:bottom-10 lg:left-12 lg:top-auto">
-          <p className="font-accent text-xs font-bold uppercase tracking-[0.12em] text-brand-yellow">Your move at a glance</p>
+          <p className="type-label text-brand-yellow">Your move at a glance</p>
           <div className="mt-4 flex items-center gap-2">
             <span className="max-w-[7.5rem] truncate font-accent text-sm font-bold sm:max-w-[8.5rem]">{origin}</span>
             <span className={`relative h-px flex-1 transition-colors duration-300 motion-reduce:transition-none ${routeReady ? "bg-brand-yellow" : "bg-white/30"}`} aria-hidden="true">

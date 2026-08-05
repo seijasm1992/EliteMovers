@@ -1,4 +1,3 @@
-import type { CSSProperties } from "react";
 import type { MovingService } from "../../types/content";
 
 interface Props {
@@ -7,7 +6,6 @@ interface Props {
     service: MovingService,
     trigger: HTMLButtonElement,
   ) => void;
-  revealDelay: number;
 }
 
 const ChevronIcon = () => (
@@ -25,7 +23,7 @@ const ChevronIcon = () => (
   </svg>
 );
 
-export default function ServiceCard({ service, onMoreInfo, revealDelay }: Props) {
+export default function ServiceCard({ service, onMoreInfo }: Props) {
   const fallbackImage = service.image.endsWith(".webp")
     ? service.image.replace(/\.webp$/, ".jpg")
     : service.image;
@@ -33,8 +31,6 @@ export default function ServiceCard({ service, onMoreInfo, revealDelay }: Props)
   return (
     <article
       className="group flex h-full flex-col gap-4 sm:gap-7"
-      data-scroll-reveal
-      style={{ "--reveal-delay": `${revealDelay}ms` } as CSSProperties}
     >
       <div className="aspect-[4/3] w-full shrink-0 overflow-hidden">
         <picture className="block h-full w-full">
@@ -50,18 +46,18 @@ export default function ServiceCard({ service, onMoreInfo, revealDelay }: Props)
       </div>
 
       <div className="flex flex-1 flex-col bg-white p-7 sm:min-h-[300px] sm:p-12">
-        <h3 className="text-pretty font-accent text-[21px] font-bold leading-snug text-text-strong sm:text-[22px]">
+        <h3 className="type-ui-card-title text-pretty text-text-strong">
           {service.title}
         </h3>
 
-        <p className="mt-4 line-clamp-4 flex-1 text-base leading-relaxed text-text-subtle sm:mt-5 sm:text-[1.05rem]">
+        <p className="type-body-lead mt-4 flex-1 text-text-subtle sm:mt-5">
           {service.description}
         </p>
 
         <button
           type="button"
           onClick={(event) => onMoreInfo(service, event.currentTarget)}
-          className="group/btn mt-auto inline-flex min-h-11 w-fit items-center gap-2 pt-7 font-accent text-sm font-bold uppercase tracking-[0.14em] text-ink transition-colors hover:text-green focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:pt-10"
+          className="type-label group/btn mt-auto inline-flex min-h-11 w-fit items-center gap-2 pt-7 text-ink transition-colors hover:text-green focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:pt-10"
           aria-haspopup="dialog"
         >
           {service.buttonLabel}

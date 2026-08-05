@@ -149,7 +149,7 @@ export default function ServiceModal({
 
           <h2
             id={titleId}
-            className="mt-3 text-pretty font-accent text-[22px] font-bold leading-tight text-text-strong sm:text-2xl"
+            className="type-ui-card-title mt-3 text-pretty text-text-strong"
           >
             {service.title}
           </h2>
@@ -158,7 +158,7 @@ export default function ServiceModal({
             <p className="text-base leading-relaxed text-text-medium sm:text-lg">
               {service.details}
             </p>
-            <p className="text-base leading-relaxed text-text-subtle sm:text-[1.05rem]">
+            <p className="type-body-lead text-text-subtle">
               {service.detailsExtended}
             </p>
           </div>
@@ -168,7 +168,7 @@ export default function ServiceModal({
               {service.highlights.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-3 text-sm leading-snug text-text-medium sm:text-[0.95rem]"
+                  className="flex items-start gap-3 text-sm leading-relaxed text-text-medium"
                 >
                   <CheckIcon />
                   {item}

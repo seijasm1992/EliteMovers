@@ -38,10 +38,10 @@ export default function IncludedAccordion({ content }: Props) {
       {/* Left: heading + image (aligned with accordion top) */}
       <div>
         <span className="eyebrow text-green">{content.eyebrow}</span>
-        <h2 className="mt-4 font-accent text-[24px] font-bold leading-[1.15] text-text-strong">
+        <h2 className="type-section-title mt-4 text-text-strong">
           {content.title}
         </h2>
-        <p className="mt-4 max-w-md text-base leading-relaxed text-text-subtle sm:mt-5 sm:text-[1.05rem]">
+        <p className="type-body-lead mt-4 max-w-md text-text-subtle sm:mt-5">
           {content.description}
         </p>
 
@@ -92,7 +92,7 @@ export default function IncludedAccordion({ content }: Props) {
                 aria-hidden="true"
               />
 
-              <h3>
+              <h3 className="type-item-title">
                 <button
                   type="button"
                   className="group flex w-full items-center justify-between gap-6 py-5 text-left sm:py-6 lg:py-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
@@ -102,7 +102,7 @@ export default function IncludedAccordion({ content }: Props) {
                   onClick={() => setOpenId(item.id)}
                 >
                   <span
-                    className={`min-w-0 flex-1 font-accent text-lg leading-snug sm:text-xl lg:text-[1.35rem] ${
+                    className={`min-w-0 flex-1 ${
                       open
                         ? "font-bold text-ink"
                         : "font-medium text-text-strong group-hover:text-ink"
@@ -142,7 +142,7 @@ export default function IncludedAccordion({ content }: Props) {
               >
                 <div className="overflow-hidden">
                   <div className="pb-6 sm:pb-8">
-                    <p className="text-[0.95rem] leading-relaxed text-text-subtle sm:text-base">
+                    <p className="text-base leading-relaxed text-text-subtle">
                       {item.description}
                     </p>
                     {item.includes.length > 0 && (
@@ -150,7 +150,7 @@ export default function IncludedAccordion({ content }: Props) {
                         {item.includes.map((detail) => (
                           <li
                             key={detail}
-                            className="flex items-start gap-3 text-sm leading-snug text-text-medium sm:text-[0.95rem]"
+                            className="flex items-start gap-3 text-sm leading-relaxed text-text-medium"
                           >
                             <CheckIcon />
                             {detail}
