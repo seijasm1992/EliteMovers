@@ -9,6 +9,9 @@ export default defineConfig({
   site: 'https://proelitemovers.com',
   integrations: [react()],
   adapter: cloudflare(),
+  devToolbar: {
+    enabled: false,
+  },
   env: {
     schema: {
       // ── Resend ──────────────────────────────────────────────────────────
@@ -29,6 +32,11 @@ export default defineConfig({
       // ── Cloudflare Turnstile ─────────────────────────────────────────────
       // Site key: pública, inlined en el bundle del cliente
       PUBLIC_TURNSTILE_SITE_KEY: envField.string({
+        context: 'client',
+        access: 'public',
+        default: '',
+      }),
+      PUBLIC_GEOAPIFY_API_KEY: envField.string({
         context: 'client',
         access: 'public',
         default: '',

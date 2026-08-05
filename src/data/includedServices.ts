@@ -2,21 +2,20 @@ import type { IncludedContent } from "../types/content";
 
 /**
  * "What's Included in Every Elite Move" accordion.
- * NOTE: images currently reuse the existing hero photos as temporary mocks.
- * Replace each `image` with a dedicated /images/included-*.jpg file (or a Sanity
- * image URL) — the component needs no changes.
+ * Images live in public/images/included and can later be swapped for Sanity
+ * image URLs without changing the component.
  */
 export const includedServices: IncludedContent = {
   eyebrow: "Standard With Every Move",
   title: "What's Included in Every Elite Move",
   description:
-    "Every service below comes standard — no add-ons, no upgrades, no surprises. This is how a stress-free move should work.",
+    "Every service below comes standard - no add-ons, no upgrades, no surprises. This is how a stress-free move should work.",
   items: [
     {
       id: "furniture",
       title: "Furniture Disassembly & Reassembly",
       description:
-        "We handle the standard disassembly and reassembly of your furniture — no tools or stress on your end.",
+        "We handle the standard disassembly and reassembly of your furniture - no tools or stress on your end.",
       includes: [
         "Bed frames & headboards",
         "Tables & desks",
@@ -25,8 +24,8 @@ export const includedServices: IncludedContent = {
         "TV takedown when being moved",
         "Wall-mounting available as an installation add-on",
       ],
-      image: "/1M.jpg",
-      imageAlt: "Crew reassembling a bed frame in a new home",
+      image: "/images/included/wrapped-furniture-truck.jpeg",
+      imageAlt: "Wrapped furniture secured inside a moving truck",
     },
     {
       id: "protection",
@@ -39,8 +38,8 @@ export const includedServices: IncludedContent = {
         "Corner protection",
         "Elevator and hallway protection when required",
       ],
-      image: "/2M.jpg",
-      imageAlt: "Floor runners and door jamb protection installed before a move",
+      image: "/images/included/crew-loading-wrapped-items.jpeg",
+      imageAlt: "Mover securing wrapped furniture inside a truck",
     },
     {
       id: "labor",
@@ -53,8 +52,8 @@ export const includedServices: IncludedContent = {
         "Loading and unloading included",
         "Crew and truck included",
       ],
-      image: "/3M.jpg",
-      imageAlt: "Movers loading a truck with the full crew included",
+      image: "/images/included/truck-loading-ramp.jpeg",
+      imageAlt: "Loaded moving truck with boxes and furniture on the ramp",
     },
     {
       id: "tracking",
@@ -66,8 +65,8 @@ export const includedServices: IncludedContent = {
         "Crew arrival updates",
         "Move-day location awareness",
       ],
-      image: "/4M.jpg",
-      imageAlt: "Phone showing live tracking of a moving truck",
+      image: "/images/included/boxes-loading-ramp.jpeg",
+      imageAlt: "Mover loading boxes into a truck using a ramp",
     },
     {
       id: "updates",
@@ -80,8 +79,8 @@ export const includedServices: IncludedContent = {
         "Move-day notifications",
         "Completion updates",
       ],
-      image: "/1M.jpg",
-      imageAlt: "Customer receiving automated move-day notifications",
+      image: "/images/included/storage-unit-loaded.jpeg",
+      imageAlt: "Packed storage unit with bins and wrapped furniture",
     },
   ],
 };

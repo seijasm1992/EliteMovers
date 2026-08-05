@@ -23,8 +23,8 @@ export const movingServicesContent: MovingServicesContent = {
         "Flexible scheduling for interstate and cross-country moves",
       ],
       buttonLabel: "More Info",
-      image: "/4M.jpg",
-      imageAlt: "Moving truck on the highway for a long-distance relocation",
+      image: "/service-long-distance.webp",
+      imageAlt: "Pro Elite Movers crew loading wrapped furniture for a long-distance move",
     },
     {
       id: "residential-moving",
@@ -43,8 +43,8 @@ export const movingServicesContent: MovingServicesContent = {
         "Same flat-rate standard as every Elite move",
       ],
       buttonLabel: "More Info",
-      image: "/2M.jpg",
-      imageAlt: "Couple sitting among moving boxes in their new home",
+      image: "/service-residential.webp",
+      imageAlt: "Packed boxes and household items prepared for a residential move",
     },
     {
       id: "business-moving",
@@ -63,8 +63,8 @@ export const movingServicesContent: MovingServicesContent = {
         "Dedicated point of contact throughout the project",
       ],
       buttonLabel: "More Info",
-      image: "/3M.jpg",
-      imageAlt: "Warehouse worker organizing boxes for a business move",
+      image: "/service-business.webp",
+      imageAlt: "Commercial warehouse space prepared for a business move",
     },
   ],
 };

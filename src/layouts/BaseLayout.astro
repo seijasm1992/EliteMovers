@@ -22,6 +22,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
@@ -29,7 +30,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#020C15" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -44,7 +45,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Gloock&family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Manrope:wght@400;500;600;700;800&display=swap"
     />
   </head>
   <body>
@@ -55,5 +56,31 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
       Skip to content
     </a>
     <slot />
+    <script>
+      const revealedElements = document.querySelectorAll<HTMLElement>("[data-scroll-reveal]");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const revealAll = () => {
+        revealedElements.forEach((element) => element.classList.add("is-revealed"));
+      };
+
+      if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+        revealAll();
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-revealed");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8%" },
+        );
+
+        revealedElements.forEach((element) => observer.observe(element));
+      }
+    </script>
   </body>
 </html>

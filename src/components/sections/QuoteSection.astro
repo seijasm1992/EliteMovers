@@ -1,69 +1,49 @@
 ---
-import QuoteForm from "../react/QuoteForm.tsx";
 import Icon from "../ui/Icon.astro";
-import { quoteForm } from "../../data/quoteForm";
 import { site } from "../../data/site";
-import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client";
 
-const trust = [
-  "Guaranteed flat-rate pricing",
-  "Full door-to-door protection",
-  "Background-checked, uniformed crew",
-  "Dedicated move coordinator",
-];
+const mapSrc =
+  "https://www.google.com/maps?q=Miami%2C%20FL&z=10&output=embed";
 ---
-<section id="quote" class="relative overflow-hidden bg-text-strong py-20 text-white sm:py-28">
-  <div
-    class="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-green/20 blur-3xl"
-    aria-hidden="true"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl"
-    aria-hidden="true"
-  >
-  </div>
+<section id="quote" class="bg-offwhite py-20 sm:py-28">
+  <div class="container-x">
+    <div class="grid items-stretch gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
+      <div class="flex flex-col justify-center">
+        <span class="eyebrow text-green">Service Area</span>
+        <h2 class="mt-4 text-[24px] leading-tight text-text-strong">
+          Moving across Miami and beyond.
+        </h2>
+        <p class="mt-5 max-w-xl text-base leading-relaxed text-text-subtle">
+          Our crews support local and long-distance moves from Miami, nearby South Florida cities, and destinations across the state.
+        </p>
 
-  <div class="container-x relative grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-    <div class="lg:sticky lg:top-28">
-      <span class="eyebrow text-gold">{quoteForm.section.eyebrow}</span>
-      <h2 class="mt-4 text-3xl leading-[1.1] text-white sm:text-4xl lg:text-5xl">
-        {quoteForm.section.title}
-      </h2>
-      <p class="mt-5 max-w-md text-base leading-relaxed text-white/70">
-        {quoteForm.section.description}
-      </p>
+        <div class="mt-8 grid gap-3">
+          <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-white px-4 py-3 shadow-soft">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold text-ink">
+              <Icon name="check" class="h-4 w-4" />
+            </span>
+            <span class="font-accent text-sm font-semibold text-text-strong">Miami-based moving crews</span>
+          </div>
+          <div class="flex items-center gap-3 rounded-xl border border-ink/10 bg-white px-4 py-3 shadow-soft">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green text-white">
+              <Icon name="phone" class="h-4 w-4" />
+            </span>
+            <a href={site.phoneHref} class="font-accent text-sm font-semibold text-text-strong underline-offset-4 hover:underline">
+              Questions? Call {site.phone}
+            </a>
+          </div>
+        </div>
+      </div>
 
-      <ul class="mt-8 grid gap-3.5">
-        {
-          trust.map((point) => (
-            <li class="flex items-center gap-3 text-sm text-white/85">
-              <span class="flex h-6 w-6 items-center justify-center rounded-full bg-gold text-ink">
-                <Icon name="check" class="h-3.5 w-3.5" />
-              </span>
-              {point}
-            </li>
-          ))
-        }
-      </ul>
-
-      <a
-        href={site.phoneHref}
-        class="mt-9 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-5 py-3 font-accent text-sm font-semibold text-white transition-colors hover:bg-white/10"
-      >
-        <Icon name="phone" class="h-4 w-4 text-gold" />
-        Prefer to talk? Call {site.phone}
-      </a>
+      <div class="overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white shadow-bubble">
+        <iframe
+          title="Google Map of ProElite Movers service area in Miami"
+          src={mapSrc}
+          class="h-[24rem] w-full sm:h-[30rem]"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
     </div>
-
-    <QuoteForm client:visible content={quoteForm} turnstileSiteKey={PUBLIC_TURNSTILE_SITE_KEY} />
   </div>
 </section>
-
-{PUBLIC_TURNSTILE_SITE_KEY && (
-  <script
-    src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit"
-    async
-    defer
-  ></script>
-)}

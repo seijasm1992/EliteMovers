@@ -8,11 +8,11 @@ export const guarantee: GuaranteeContent = {
     "The standard we set before your move — and the standard we uphold when it matters most.",
   cards: [
     {
-      id: "flat-rate",
+      id: "hourly-rate",
       icon: "tag",
-      title: "All-Inclusive Flat Rate",
+      title: "Honest Hourly Rate",
       description:
-        "Your price is locked before move day. No hourly billing, no fuel surcharges, no hidden fees — just one transparent rate that covers everything.",
+        "You pay only for the time your move actually takes. Our crew works efficiently and never stretches the clock — just honest hourly pricing with no hidden fees.",
     },
     {
       id: "protection",

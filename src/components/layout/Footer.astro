@@ -9,12 +9,19 @@ const year = new Date().getFullYear();
   <div class="container-x py-16">
     <div class="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
       <div>
-        <a href="#top" class="flex items-baseline gap-1 text-white" aria-label={`${site.name} home`}>
-          <span class="font-display text-2xl leading-none tracking-tight">
-            {site.wordmark.primary}<span class="text-gold">.</span>
-          </span>
-          <span class="font-accent text-[0.6rem] font-semibold uppercase tracking-[0.4em] opacity-80">
-            {site.wordmark.secondary}
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 rounded-[0.5rem] border-2 border-gold bg-text-strong px-3 py-2 text-white shadow-soft transition-transform hover:-translate-y-0.5"
+          aria-label={`${site.name} home`}
+        >
+          <Icon name="mapPin" class="h-4 w-4 shrink-0 text-gold" />
+          <span class="flex items-baseline gap-1">
+            <span class="font-display text-[1.375rem] leading-none">
+              {site.wordmark.primary}
+            </span>
+            <span class="font-accent text-xs font-semibold uppercase tracking-[0.28em]">
+              {site.wordmark.secondary}
+            </span>
           </span>
         </a>
         <p class="mt-5 max-w-xs text-sm leading-relaxed">{site.description}</p>

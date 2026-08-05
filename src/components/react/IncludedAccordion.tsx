@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import type { IncludedContent } from "../../types/content";
 
 interface Props {
   content: IncludedContent;
 }
-
-const EASE = [0.22, 1, 0.36, 1] as const;
 
 const CheckIcon = () => (
   <svg
@@ -25,7 +22,6 @@ const CheckIcon = () => (
 
 export default function IncludedAccordion({ content }: Props) {
   const [openId, setOpenId] = useState(content.items[0]?.id ?? "");
-  const reduceMotion = useReducedMotion();
 
   const activeItem =
     content.items.find((item) => item.id === openId) ?? content.items[0];
@@ -37,20 +33,12 @@ export default function IncludedAccordion({ content }: Props) {
     });
   }, [content.items]);
 
-  const panelTransition = reduceMotion
-    ? { duration: 0 }
-    : { duration: 0.35, ease: EASE };
-
-  const imageTransition = reduceMotion
-    ? { duration: 0 }
-    : { duration: 0.3, ease: EASE };
-
   return (
     <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,42%)_minmax(0,1fr)] lg:gap-x-14 xl:gap-x-20">
       {/* Left: heading + image (aligned with accordion top) */}
       <div>
         <span className="eyebrow text-green">{content.eyebrow}</span>
-        <h2 className="mt-4 font-accent text-[1.85rem] font-bold leading-[1.15] tracking-tight text-text-strong sm:text-4xl lg:text-[2.65rem]">
+        <h2 className="mt-4 font-accent text-[24px] font-bold leading-[1.15] text-text-strong">
           {content.title}
         </h2>
         <p className="mt-4 max-w-md text-base leading-relaxed text-text-subtle sm:mt-5 sm:text-[1.05rem]">
@@ -65,20 +53,18 @@ export default function IncludedAccordion({ content }: Props) {
           {content.items.map((item, index) => {
             const isActive = item.id === activeItem.id;
             return (
-              <motion.img
+              <img
                 key={item.id}
                 src={item.image}
                 alt={isActive ? item.imageAlt : ""}
                 aria-hidden={!isActive}
                 decoding="async"
                 fetchPriority={index === 0 ? "high" : "auto"}
-                animate={{ opacity: isActive ? 1 : 0 }}
-                transition={imageTransition}
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{
-                  zIndex: isActive ? 2 : 1,
-                  pointerEvents: isActive ? "auto" : "none",
-                }}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+                  isActive
+                    ? "z-[2] pointer-events-auto opacity-100"
+                    : "z-[1] pointer-events-none opacity-0"
+                }`}
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).style.opacity = "0";
                 }}
@@ -100,7 +86,7 @@ export default function IncludedAccordion({ content }: Props) {
               className={!isLast ? "border-b border-ink/10" : undefined}
             >
               <div
-                className={`h-0.5 w-full transition-colors duration-300 ${
+                className={`h-0.5 w-full transition-colors duration-300 motion-reduce:transition-none ${
                   open ? "bg-green" : "bg-transparent"
                 }`}
                 aria-hidden="true"
@@ -125,10 +111,10 @@ export default function IncludedAccordion({ content }: Props) {
                     {item.title}
                   </span>
 
-                  <motion.span
-                    className="flex h-8 w-8 shrink-0 items-center justify-center text-text-subtle"
-                    animate={{ rotate: open ? 180 : 0 }}
-                    transition={panelTransition}
+                  <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center text-text-subtle transition-transform duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
+                      open ? "rotate-180" : "rotate-0"
+                    }`}
                     aria-hidden="true"
                   >
                     <svg
@@ -142,7 +128,7 @@ export default function IncludedAccordion({ content }: Props) {
                     >
                       <path d="m6 9 6 6 6-6" />
                     </svg>
-                  </motion.span>
+                  </span>
                 </button>
               </h3>
 
@@ -150,7 +136,7 @@ export default function IncludedAccordion({ content }: Props) {
                 id={`panel-${item.id}`}
                 role="region"
                 aria-labelledby={`trigger-${item.id}`}
-                className={`grid overflow-hidden transition-[grid-template-rows] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`grid overflow-hidden transition-[grid-template-rows] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
                   open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                 }`}
               >

@@ -12,11 +12,23 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+astro-dev.*.log
+.codex-devserver.*.log
+.codex/
+.playwright-mcp/
 
 
 # environment variables
 .env
 .env.production
+.dev.vars
+
+# local platform state
+.wrangler/
+
+# local agent tooling
+.agents/
+.augment/
 
 # macOS-specific files
 .DS_Store

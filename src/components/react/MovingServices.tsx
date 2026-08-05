@@ -28,11 +28,12 @@ export default function MovingServices({ services }: Props) {
   return (
     <>
       <div className="grid grid-cols-1 items-stretch gap-12 md:grid-cols-3 md:gap-8 lg:gap-10">
-        {services.map((service) => (
+        {services.map((service, index) => (
           <ServiceCard
             key={service.id}
             service={service}
             onMoreInfo={handleOpen}
+            revealDelay={index * 70}
           />
         ))}
       </div>

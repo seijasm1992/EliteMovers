@@ -3,16 +3,18 @@ import SectionHeader from "../ui/SectionHeader.astro";
 import MovingServices from "../react/MovingServices.tsx";
 import { movingServicesContent } from "../../data/movingServices";
 ---
-<section id="services" class="relative bg-offwhite py-24 sm:py-32 lg:py-36">
+<section id="services" class="relative bg-offwhite section-rhythm--services">
   <div class="container-x">
-    <SectionHeader
-      eyebrow={movingServicesContent.eyebrow}
-      title={movingServicesContent.title}
-      subtitle={movingServicesContent.subtitle}
-    />
+    <div data-scroll-reveal>
+      <SectionHeader
+        eyebrow={movingServicesContent.eyebrow}
+        title={movingServicesContent.title}
+        subtitle={movingServicesContent.subtitle}
+      />
+    </div>
 
     <div class="mt-14 sm:mt-16 lg:mt-20">
-      <MovingServices client:load services={movingServicesContent.services} />
+      <MovingServices client:visible services={movingServicesContent.services} />
     </div>
   </div>
 </section>
