@@ -4,21 +4,21 @@ export const movingServicesContent: MovingServicesContent = {
   eyebrow: "What We Do",
   title: "Our Services",
   subtitle:
-    "From cross-country relocations to office transitions, every move is handled with the same care, precision, and flat-rate transparency.",
+    "We handle homes, apartments, offices, and long-distance moves throughout Florida.",
   services: [
     {
       id: "long-distance-moving",
       title: "Long Distance Moving",
       description:
-        "Reliable long-distance moving services designed to make your relocation smooth, safe, and stress-free.",
+        "Planned loading, transport, and delivery for moves outside the Miami area.",
       details:
-        "Relocating across cities or states demands more than a truck and a timeline — it requires a team that treats your move like a milestone, not a transaction. Our long-distance specialists coordinate every leg of the journey with precision.",
+        "For moves within Florida, our crew plans the route, loading order, and delivery window before move day. Interstate moves are coordinated through a partner in our referral network.",
       detailsExtended:
-        "From the first inventory walkthrough to the final box in your new home, you receive clear communication, dedicated crew support, and a locked flat rate with no fuel surcharges or hidden fees along the way.",
+        "We confirm the inventory, access details, travel terms, and delivery contact in writing before the truck is loaded.",
       highlights: [
         "Door-to-door loading, transport, and unloading",
-        "Dedicated move coordinator from quote to delivery",
-        "Flat-rate pricing with no hourly surprises",
+        "One contact for scheduling and delivery updates",
+        "Hourly rate and travel terms confirmed in writing",
         "Careful handling for furniture, fragile items, and valuables",
         "Flexible scheduling for interstate and cross-country moves",
       ],
@@ -30,17 +30,17 @@ export const movingServicesContent: MovingServicesContent = {
       id: "residential-moving",
       title: "Residential Moving",
       description:
-        "Professional home moving services for apartments, condos, and houses of all sizes.",
+        "Moving crews for apartments, condos, townhomes, and houses.",
       details:
-        "Whether you are upgrading to a larger home, downsizing, or starting fresh in a new neighborhood, our residential crew brings structure and calm to what can feel overwhelming. Every room is treated with the same level of attention.",
+        "Our residential crew reviews building access, stairs, elevators, parking, and the items that need disassembly before move day.",
       detailsExtended:
-        "We protect floors, doorways, and walls before a single item is lifted, then handle disassembly, packing support, and placement in your new space — so you can focus on settling in, not stressing out.",
+        "Before loading, we protect the main walkways and wrap the furniture. At the destination, we place items by room and reassemble the standard pieces listed in your estimate.",
       highlights: [
         "Apartments, condos, townhomes, and single-family homes",
         "Furniture disassembly and reassembly included",
         "Floor, wall, and doorway protection on every move",
         "Efficient loading and room-by-room placement",
-        "Same flat-rate standard as every Elite move",
+        "Hourly rate confirmed before move day",
       ],
       buttonLabel: "More Info",
       image: "/service-residential.webp",
@@ -50,11 +50,11 @@ export const movingServicesContent: MovingServicesContent = {
       id: "business-moving",
       title: "Business Moving",
       description:
-        "Efficient business moving solutions that help minimize downtime and keep your operations moving.",
+        "Office and commercial moves scheduled around your operating hours.",
       details:
-        "Office relocations require tight coordination — equipment, workstations, files, and teams all need to arrive in the right order, at the right time. Our commercial moving division plans around your business hours to keep disruption to a minimum.",
+        "We plan the loading order for workstations, files, equipment, and shared spaces with your office or facilities contact.",
       detailsExtended:
-        "We work with office managers, facilities teams, and business owners to build a move plan that protects sensitive equipment, respects deadlines, and gets your team back to work as quickly as possible.",
+        "After-hours and weekend scheduling is available. Equipment handling, floor access, loading zones, and completion times are confirmed before the move.",
       highlights: [
         "Offices, retail spaces, and commercial properties",
         "After-hours and weekend scheduling available",

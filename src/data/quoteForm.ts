@@ -2,12 +2,12 @@ import type { QuoteFormContent } from "../types/content";
 
 export const quoteForm: QuoteFormContent = {
   section: {
-    eyebrow: "Free moving cost calculator",
-    title: "Get your rate",
-    description: "Start with the two locations for your move.",
+    eyebrow: "Moving Quote",
+    title: "Tell us about your move",
+    description: "Start with your pickup and destination.",
   },
   form: {
-    title: "Get Your Free Moving Quote",
+    title: "Request a Moving Quote",
     continuePrompt: "",
     continueLink: { label: "", href: "/get-a-quote/" },
     fields: {
@@ -20,7 +20,7 @@ export const quoteForm: QuoteFormContent = {
       email: { label: "Email", placeholder: "you@email.com" },
     },
     selectPlaceholder: "Select location",
-    buttons: { clear: "", submit: "Get My Free Quote", submitting: "Sending…" },
+    buttons: { clear: "", submit: "Request My Quote", submitting: "Sending" },
     success: {
       title: "Quote request received",
       message: "We'll use these details to prepare your moving estimate.",

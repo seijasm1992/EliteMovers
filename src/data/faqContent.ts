@@ -10,7 +10,7 @@ export const faqContent: FAQItem[] = [
     category: "Pricing & Billing",
     question: "How does hourly billing work?",
     answer:
-      "We bill by the hour at the rate confirmed when you book. You pay for the time the job actually takes, with no flat-rate markup. Because we work quickly, most customers pay less than they'd expect from a flat-rate company.",
+      "We confirm the hourly rate when you book. Your final labor total is based on the time the job takes and the travel terms listed in your estimate.",
   },
   {
     id: "deposit",
@@ -24,14 +24,14 @@ export const faqContent: FAQItem[] = [
     category: "Pricing & Billing",
     question: "Are there any hidden fees?",
     answer:
-      "No. Your hourly rate covers the crew and the truck, and packing materials—moving blankets and industrial wrap—are included at no extra cost.",
+      "Your estimate lists the crew, truck, travel terms, and any optional services. Moving blankets and industrial wrap are included with the job.",
   },
   {
     id: "payment-methods",
     category: "Pricing & Billing",
     question: "What forms of payment do you accept?",
     answer:
-      "We accept all standard payment methods, including major credit and debit cards, for your convenience.",
+      "We accept major credit and debit cards. Ask our office about other payment options when you book.",
   },
   {
     id: "packing-minimum",
@@ -45,28 +45,28 @@ export const faqContent: FAQItem[] = [
     category: "Scheduling",
     question: "How far in advance should I book?",
     answer:
-      "We recommend booking one to two weeks ahead for residential moves, and earlier for larger commercial relocations—though we can often accommodate shorter notice.",
+      "Book residential moves one to two weeks ahead when possible. Larger commercial moves usually require more planning, but you can call us to check short-notice availability.",
   },
   {
     id: "weekends-holidays",
     category: "Scheduling",
     question: "Do you work weekends and holidays?",
     answer:
-      "Yes, we're open seven days a week, 7:00 AM–8:00 PM. Reach out to confirm availability around major holidays.",
+      "We operate seven days a week from 7:00 AM to 8:00 PM. Holiday availability may vary.",
   },
   {
     id: "arrival-time",
     category: "Scheduling",
     question: "What time do movers usually arrive?",
     answer:
-      "Our crew arrives 10–15 minutes before your scheduled time, and work generally begins after 9:00 AM.",
+      "The crew usually arrives 10 to 15 minutes before the scheduled start time. Most jobs begin after 9:00 AM.",
   },
   {
     id: "cancellation-policy",
     category: "Scheduling",
     question: "What's your cancellation or rescheduling policy?",
     answer:
-      "Since we don't require a deposit or a contract, there's currently no charge or penalty for canceling or rescheduling. Just let us know as soon as you can so we can keep our schedule accurate for other customers.",
+      "There is currently no fee for canceling or rescheduling because we do not require a deposit. Contact us as soon as your plans change so we can update the crew schedule.",
   },
   {
     id: "service-areas",
@@ -80,14 +80,14 @@ export const faqContent: FAQItem[] = [
     category: "Services & Coverage",
     question: "Do you handle long-distance or out-of-state moves?",
     answer:
-      "We handle long-distance moves anywhere within Florida directly, with the same hourly billing and careful handling as a local move. For moves that cross state lines, we connect you with a trusted partner from our referral network.",
+      "Our crew handles long-distance moves within Florida. For moves across state lines, we connect you with a partner in our referral network.",
   },
   {
     id: "combined-services",
     category: "Services & Coverage",
     question: "Can I combine multiple services in one booking?",
     answer:
-      "Yes—packing, furniture assembly, TV mounting, and other add-ons are commonly combined with a single move.",
+      "Yes. Packing, furniture assembly, TV mounting, and other optional services can be added to the same booking.",
   },
   {
     id: "packing-materials",
@@ -101,14 +101,14 @@ export const faqContent: FAQItem[] = [
     category: "Insurance & Damage",
     question: "Is my move insured?",
     answer:
-      "Yes, we carry general liability insurance, with certain standard exclusions common in the moving industry. We're happy to walk you through exactly what's covered when you book.",
+      "We carry general liability insurance subject to standard exclusions. Ask for the coverage details when you book so you know what applies to your move.",
   },
   {
     id: "damage-process",
     category: "Insurance & Damage",
     question: "What happens if something gets damaged?",
     answer:
-      "Let your crew lead know right away, and follow up with our office as soon as possible. We'll walk you through the next steps under our general liability coverage.",
+      "Tell the crew lead as soon as you notice the damage, then contact our office. We will document the issue and explain the claim process under our coverage.",
   },
   {
     id: "before-arrival",
@@ -129,7 +129,7 @@ export const faqContent: FAQItem[] = [
     category: "Preparing for Your Move",
     question: "How should I prepare fragile or high-value items?",
     answer:
-      "Flag anything unusual—a safe, artwork, or gym equipment—when you request your quote, so we arrive prepared with the right equipment and technique.",
+      "List safes, artwork, gym equipment, and other unusual items when you request the quote. This helps us assign the right crew and equipment.",
   },
   {
     id: "restricted-items",

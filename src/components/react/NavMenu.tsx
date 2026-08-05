@@ -8,6 +8,8 @@ interface Props {
 }
 
 const MOBILE_DRAWER_ID = "mobile-nav-drawer";
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 const ChevronIcon = ({ open }: { open: boolean }) => (
   <svg
@@ -38,22 +40,6 @@ const PhoneIcon = () => (
     aria-hidden="true"
   >
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
-  </svg>
-);
-
-const MapPinIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.8}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 0 1 16 0Z" />
-    <circle cx="12" cy="10" r="3" />
   </svg>
 );
 
@@ -134,7 +120,29 @@ export default function NavMenu({ navigation, site }: Props) {
 
   useEffect(() => {
     if (!isMobileMenuOpen) return;
+
+    const drawer = document.getElementById(MOBILE_DRAWER_ID);
+    if (!drawer) return;
+
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
     closeButtonRef.current?.focus();
+    drawer.addEventListener("keydown", trapFocus);
+    return () => drawer.removeEventListener("keydown", trapFocus);
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
@@ -179,7 +187,7 @@ export default function NavMenu({ navigation, site }: Props) {
 
   const mobileMenu = (
     <>
-      {/* Overlay — portaled to body so fixed positioning is not broken by header backdrop-filter */}
+      {/* Portaled overlay keeps fixed positioning outside the header backdrop filter. */}
       <div
         className={`fixed inset-0 z-[200] bg-black/50 transition-opacity duration-300 ease-in-out lg:hidden ${
           isMobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
@@ -195,6 +203,7 @@ export default function NavMenu({ navigation, site }: Props) {
         aria-modal="true"
         aria-label="Navigation menu"
         aria-hidden={!isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
         className={`fixed inset-y-0 left-0 z-[210] flex w-[min(85vw,24rem)] flex-col bg-white shadow-bubble transition-transform duration-300 ease-in-out lg:hidden ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"
         }`}
@@ -246,6 +255,8 @@ export default function NavMenu({ navigation, site }: Props) {
                         id={submenuId}
                         role="region"
                         aria-labelledby={`mobile-accordion-${submenuId}`}
+                        aria-hidden={!isOpen}
+                        inert={!isOpen}
                         className={`overflow-hidden transition-all duration-300 ease-in-out ${
                           isOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
                         }`}
@@ -288,7 +299,7 @@ export default function NavMenu({ navigation, site }: Props) {
           >
             <PhoneIcon />
             <span>
-              Call Now · <span className="font-medium">{site.phone}</span>
+              Call Now: <span className="font-medium">{site.phone}</span>
             </span>
           </a>
         </div>

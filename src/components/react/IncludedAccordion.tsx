@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { IncludedContent } from "../../types/content";
 
 interface Props {
@@ -20,18 +20,27 @@ const CheckIcon = () => (
   </svg>
 );
 
+const responsiveImage = (image: string) => {
+  const base = image.replace(/\.(jpe?g|webp)$/i, "");
+  const widths = image.includes("truck-loading-ramp")
+    ? [480, 720]
+    : [480, 720, 960];
+
+  return {
+    src: `${base}-720.webp`,
+    srcSet: widths.map((width) => `${base}-${width}.webp ${width}w`).join(", "),
+  };
+};
+
 export default function IncludedAccordion({ content }: Props) {
   const [openId, setOpenId] = useState(content.items[0]?.id ?? "");
 
   const activeItem =
     content.items.find((item) => item.id === openId) ?? content.items[0];
 
-  useEffect(() => {
-    content.items.forEach((item) => {
-      const img = new Image();
-      img.src = item.image;
-    });
-  }, [content.items]);
+  if (!activeItem) return null;
+
+  const activeImage = responsiveImage(activeItem.image);
 
   return (
     <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,42%)_minmax(0,1fr)] lg:gap-x-14 xl:gap-x-20">
@@ -50,31 +59,26 @@ export default function IncludedAccordion({ content }: Props) {
           aria-live="polite"
           aria-atomic="true"
         >
-          {content.items.map((item, index) => {
-            const isActive = item.id === activeItem.id;
-            return (
-              <img
-                key={item.id}
-                src={item.image}
-                alt={isActive ? item.imageAlt : ""}
-                aria-hidden={!isActive}
-                decoding="async"
-                fetchPriority={index === 0 ? "high" : "auto"}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none ${
-                  isActive
-                    ? "z-[2] pointer-events-auto opacity-100"
-                    : "z-[1] pointer-events-none opacity-0"
-                }`}
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.opacity = "0";
-                }}
-              />
-            );
-          })}
+          <img
+            key={activeItem.id}
+            src={activeImage.src}
+            srcSet={activeImage.srcSet}
+            sizes="(min-width: 1280px) 31rem, (min-width: 1024px) 42vw, calc(100vw - 2.5rem)"
+            width={activeItem.image.includes("truck-loading-ramp") ? 720 : 960}
+            height={1280}
+            alt={activeItem.imageAlt}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            className="included-image-enter absolute inset-0 h-full w-full object-cover"
+            onError={(event) => {
+              event.currentTarget.style.opacity = "0";
+            }}
+          />
         </div>
       </div>
 
-      {/* Right: accordion — horizontal dividers only, green line on active item */}
+      {/* Accordion with horizontal dividers and a green active state. */}
       <div>
         {content.items.map((item, index) => {
           const open = item.id === openId;

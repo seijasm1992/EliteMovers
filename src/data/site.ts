@@ -8,5 +8,5 @@ export const site: SiteConfig = {
   phoneHref: "tel:+13055550199",
   email: "hello@proelitemovers.com",
   description:
-    "Premium local and long-distance moving with transparent flat-rate pricing, full protection, and a background-checked crew.",
+    "Miami movers for local and long-distance jobs, with hourly pricing, furniture protection, and background-checked crews.",
 };
