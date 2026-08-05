@@ -1,6 +1,12 @@
 {
   "name": "elitemovers",
   "compatibility_date": "2025-04-01",
+  "secrets": {
+    "required": [
+      "RESEND_API_KEY",
+      "PUBLIC_GEOAPIFY_API_KEY"
+    ]
+  },
   "vars": {
     // Valores por defecto de producción (no-secretos)
     // Los secretos van en Cloudflare Pages dashboard → Environment variables
