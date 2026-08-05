@@ -9,7 +9,7 @@ export const quoteForm: QuoteFormContent = {
   form: {
     title: "Get Your Free Moving Quote",
     continuePrompt: "",
-    continueLink: { label: "", href: "#hero-quote" },
+    continueLink: { label: "", href: "/get-a-quote/" },
     fields: {
       originCity: { label: "Origin City", placeholder: "City or ZIP code" },
       destinationCity: { label: "Destination City", placeholder: "City or ZIP code" },

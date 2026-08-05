@@ -4,7 +4,25 @@ import SectionHeader from "../ui/SectionHeader.astro";
 import Button from "../ui/Button.astro";
 import Icon from "../ui/Icon.astro";
 import { faqContent } from "../../data/faqContent";
+
+const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqContent.map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: answer,
+    },
+  })),
+};
+
+// Escape opening angle brackets before using set:html in JSON-LD.
+const faqPageSchemaJson = JSON.stringify(faqPageSchema).replace(/</g, "\\u003c");
 ---
+
+<script type="application/ld+json" is:inline set:html={faqPageSchemaJson}></script>
 
 <section id="faq" class="relative min-h-[100svh] bg-white py-20 sm:py-28">
   <div class="container-x">
@@ -23,7 +41,7 @@ import { faqContent } from "../../data/faqContent";
           Tell us about your move and we'll help with the next step.
         </p>
 
-        <Button href="#hero-quote" variant="soft" class="group shrink-0" ariaLabel="Get my free moving quote">
+        <Button href="/get-a-quote/" variant="soft" class="group shrink-0" ariaLabel="Get my free moving quote">
           Get My Free Quote
           <Icon
             name="arrowRight"

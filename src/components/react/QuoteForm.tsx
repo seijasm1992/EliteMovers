@@ -7,7 +7,7 @@ import Contacto from "./Contacto";
 
 interface Props {
   content: QuoteFormContent;
-  variant?: "default" | "hero";
+  variant?: "default" | "hero" | "page";
   onValuesChange?: (values: Partial<QuoteFormValues>) => void;
   geoapifyApiKey?: string;
 }
@@ -33,7 +33,7 @@ const MOVE_SIZES = [
 const fieldNames: FieldName[] = ["originCity", "destinationCity", "moveDate", "homeSize", "fullName", "phone", "email"];
 const textFields: TextFieldName[] = ["originCity", "destinationCity", "fullName", "phone"];
 
-export default function QuoteForm({ content, onValuesChange, geoapifyApiKey }: Props) {
+export default function QuoteForm({ content, variant = "default", onValuesChange, geoapifyApiKey }: Props) {
   const { control, register, handleSubmit, setValue, formState: { errors, touchedFields, isSubmitting, isSubmitSuccessful, isSubmitted } } = useForm<QuoteFormValues>({
     resolver: zodResolver(quoteSchema),
     mode: "onBlur",
@@ -41,6 +41,13 @@ export default function QuoteForm({ content, onValuesChange, geoapifyApiKey }: P
   });
   const values = useWatch({ control });
   const { form } = content;
+  const isPageVariant = variant === "page";
+  const formClassName = isPageVariant
+    ? "rounded-[1.5rem] border border-brand-primary/5 bg-white p-5 text-brand-primary shadow-bubble sm:p-8"
+    : "rounded-2xl border border-brand-yellow/80 bg-white p-5 text-brand-primary shadow-[0_18px_44px_rgba(2,12,21,0.2)] sm:p-6";
+  const successClassName = isPageVariant
+    ? "rounded-[1.5rem] border border-brand-primary/5 bg-white p-8 text-center text-brand-primary shadow-bubble"
+    : "rounded-2xl bg-white p-7 text-center text-brand-primary";
   const [activeAddressField, setActiveAddressField] = useState<AddressFieldName | null>(null);
   const [addressSuggestions, setAddressSuggestions] = useState<Record<AddressFieldName, AddressSuggestion[]>>({ originCity: [], destinationCity: [] });
   const [addressLoading, setAddressLoading] = useState<Record<AddressFieldName, boolean>>({ originCity: false, destinationCity: false });
@@ -96,9 +103,9 @@ export default function QuoteForm({ content, onValuesChange, geoapifyApiKey }: P
     onSelect: (suggestion: AddressSuggestion) => selectAddressSuggestion(name, suggestion),
   });
 
-  if (isSubmitSuccessful) return <div className="rounded-2xl bg-white p-7 text-center text-brand-primary"><h2 className="font-accent text-2xl font-extrabold">{form.success.title}</h2><p className="mt-2 text-sm text-text-subtle">{form.success.message}</p></div>;
+  if (isSubmitSuccessful) return <div className={successClassName}><h2 className="font-accent text-2xl font-extrabold">{form.success.title}</h2><p className="mt-2 text-sm text-text-subtle">{form.success.message}</p></div>;
 
-  return <form onSubmit={handleSubmit(submit)} noValidate className="rounded-2xl border border-brand-yellow/80 bg-white p-5 text-brand-primary shadow-[0_18px_44px_rgba(2,12,21,0.2)] sm:p-6">
+  return <form onSubmit={handleSubmit(submit)} noValidate className={formClassName}>
     <p className="flex items-center justify-center gap-2 text-sm text-text-subtle"><span className="text-base leading-none" aria-hidden="true">🔒</span>100% Secure</p>
     <h2 className="mt-1 text-center font-accent text-xl font-extrabold tracking-[-0.03em] sm:text-2xl">{form.title}</h2>
     <div className="mt-5" aria-label="Quote form completion">

@@ -204,7 +204,7 @@ export default function NavMenu({ navigation, site }: Props) {
         <div className="flex shrink-0 items-center justify-between border-b border-ink/8 px-5 py-4">
           <div>
             <span className="eyebrow text-green">Navigation</span>
-            <a href="#top" aria-label={`${site.name} home`} onClick={closeMobileMenu}>
+            <a href="/" aria-label={`${site.name} home`} onClick={closeMobileMenu}>
               <BrandBadge site={site} tone="light" />
             </a>
           </div>
@@ -319,7 +319,7 @@ export default function NavMenu({ navigation, site }: Props) {
 
       <nav className="container-x relative z-10 flex h-[var(--nav-h,4.75rem)] items-center justify-between gap-4">
         <a
-          href="#top"
+          href="/"
           className="transition-transform hover:-translate-y-0.5"
           aria-label={`${site.name} home`}
         >

@@ -6,7 +6,7 @@ export const hero: HeroContent = {
   title: "Premium Moving Services Without the Stress",
   description:
     "From local moves to long-distance relocations, our trained crew handles every detail with transparent flat-rate pricing, full protection, and a seamless move-day experience.",
-  primaryCta: { label: "Get Your Free Quote", href: "#hero-quote" },
+  primaryCta: { label: "Get Your Free Quote", href: "/get-a-quote/" },
   secondaryCta: { label: "Call Now", href: "tel:+13055550199" },
   rating: {
     score: "4.9",
