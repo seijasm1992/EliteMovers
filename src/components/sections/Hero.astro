@@ -1,8 +1,7 @@
 ---
 import HeroQuoteExperience from "../react/HeroQuoteExperience.tsx";
 import { quoteForm } from "../../data/quoteForm";
-import { PUBLIC_GEOAPIFY_API_KEY } from "astro:env/client";
 ---
 <section id="top" class="bg-brand-primary px-3 pb-4 pt-[5.7rem] sm:px-5 lg:min-h-screen lg:px-6 lg:pb-6 lg:pt-[6.5rem]">
-  <HeroQuoteExperience client:load content={quoteForm} geoapifyApiKey={PUBLIC_GEOAPIFY_API_KEY} />
+  <HeroQuoteExperience client:load content={quoteForm} />
 </section>

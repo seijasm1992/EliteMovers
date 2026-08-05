@@ -6,7 +6,6 @@ import QuoteForm from "./QuoteForm";
 
 interface Props {
   content: QuoteFormContent;
-  geoapifyApiKey?: string;
 }
 
 const homeSizeLabels: Record<NonNullable<QuoteFormValues["homeSize"]>, string> = {
@@ -25,7 +24,7 @@ const formatMoveDate = (value?: string) => {
     : new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(date);
 };
 
-export default function HeroQuoteExperience({ content, geoapifyApiKey }: Props) {
+export default function HeroQuoteExperience({ content }: Props) {
   const [move, setMove] = useState<Partial<QuoteFormValues>>({});
   const [routeAnimationId, setRouteAnimationId] = useState(0);
   const [videoEnabled, setVideoEnabled] = useState(false);
@@ -120,7 +119,7 @@ export default function HeroQuoteExperience({ content, geoapifyApiKey }: Props) 
         </aside>
       </div>
       <div id="hero-quote" className="scroll-mt-24 lg:flex lg:flex-col lg:justify-start">
-        <QuoteForm content={content} variant="hero" onValuesChange={updateMove} geoapifyApiKey={geoapifyApiKey} />
+        <QuoteForm content={content} variant="hero" onValuesChange={updateMove} />
       </div>
     </div>
   );

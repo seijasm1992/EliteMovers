@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
 import { quoteSchema } from "../../lib/validations/quoteSchema";
-import { quoteMail, resend } from "../../lib/resend";
+import { getQuoteEmailClient, getQuoteMail } from "../../lib/resend";
 
 export const prerender = false;
 
@@ -36,17 +36,24 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const { originCity, destinationCity, moveDate, homeSize, fullName, phone, email } = parsed.data;
+  const resend = getQuoteEmailClient();
+  if (!resend) {
+    return json({ ok: false, message: "Quote email service is not configured." }, 503);
+  }
+
+  const quoteMail = getQuoteMail();
   const submittedAt = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
   const safe = {
-    destinationCity: escapeHtml(destinationCity),
-    email: escapeHtml(email),
-    fullName: escapeHtml(fullName),
-    homeSize: escapeHtml(homeSize),
-    moveDate: escapeHtml(moveDate),
     originCity: escapeHtml(originCity),
+    destinationCity: escapeHtml(destinationCity),
+    moveDate: escapeHtml(moveDate),
+    homeSize: escapeHtml(homeSize),
+    fullName: escapeHtml(fullName),
     phone: escapeHtml(phone),
+    email: escapeHtml(email),
     submittedAt: escapeHtml(submittedAt),
   };
+
   try {
     const { error } = await resend.emails.send({
       from: quoteMail.from,

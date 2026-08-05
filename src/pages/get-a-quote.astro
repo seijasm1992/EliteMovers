@@ -1,5 +1,4 @@
 ---
-import { PUBLIC_GEOAPIFY_API_KEY } from "astro:env/client";
 import Footer from "../components/layout/Footer.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import QuoteForm from "../components/react/QuoteForm";
@@ -64,7 +63,7 @@ const emailHref = `mailto:${site.email}`;
 
           <div class="flex min-w-0 items-center bg-white/40 p-4 sm:p-8 lg:p-12" data-scroll-reveal style="--reveal-delay: 100ms">
             <div class="mx-auto w-full max-w-[40rem]">
-              <QuoteForm client:load variant="page" content={quoteForm} geoapifyApiKey={PUBLIC_GEOAPIFY_API_KEY} />
+              <QuoteForm client:load variant="page" content={quoteForm} />
             </div>
           </div>
         </div>

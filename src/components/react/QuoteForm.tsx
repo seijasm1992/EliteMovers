@@ -9,7 +9,6 @@ interface Props {
   content: QuoteFormContent;
   variant?: "default" | "hero" | "page";
   onValuesChange?: (values: Partial<QuoteFormValues>) => void;
-  geoapifyApiKey?: string;
 }
 
 type TextFieldName = "originCity" | "destinationCity" | "fullName" | "phone" | "email";
@@ -33,8 +32,8 @@ const MOVE_SIZES = [
 const fieldNames: FieldName[] = ["originCity", "destinationCity", "moveDate", "homeSize", "fullName", "phone", "email"];
 const textFields: TextFieldName[] = ["originCity", "destinationCity", "fullName", "phone"];
 
-export default function QuoteForm({ content, variant = "default", onValuesChange, geoapifyApiKey }: Props) {
-  const { control, register, handleSubmit, setValue, formState: { errors, touchedFields, isSubmitting, isSubmitted } } = useForm<QuoteFormValues>({
+export default function QuoteForm({ content, variant = "default", onValuesChange }: Props) {
+  const { control, register, handleSubmit, setError, setValue, formState: { errors, touchedFields, isSubmitting, isSubmitted } } = useForm<QuoteFormValues>({
     resolver: zodResolver(quoteSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -51,7 +50,9 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
   const [activeAddressField, setActiveAddressField] = useState<AddressFieldName | null>(null);
   const [addressSuggestions, setAddressSuggestions] = useState<Record<AddressFieldName, AddressSuggestion[]>>({ originCity: [], destinationCity: [] });
   const [addressLoading, setAddressLoading] = useState<Record<AddressFieldName, boolean>>({ originCity: false, destinationCity: false });
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [addressError, setAddressError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submissionSucceeded, setSubmissionSucceeded] = useState(false);
 
   useEffect(() => {
     onValuesChange?.(values);
@@ -59,8 +60,9 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
 
   useEffect(() => {
     const query = activeAddressField ? (values[activeAddressField] ?? "").trim() : "";
-    if (!geoapifyApiKey || !activeAddressField || query.length < 3) {
+    if (!activeAddressField || query.length < 3) {
       if (activeAddressField) setAddressSuggestions((current) => ({ ...current, [activeAddressField]: [] }));
+      setAddressError(null);
       return;
     }
 
@@ -69,31 +71,48 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
     const timeout = window.setTimeout(async () => {
       setAddressLoading((current) => ({ ...current, [field]: true }));
       try {
-        const params = new URLSearchParams({ text: query, type: "city", filter: "countrycode:us", bias: "proximity:-80.1918,25.7617", limit: "5", format: "json", apiKey: geoapifyApiKey });
-        const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?${params}`, { signal: controller.signal });
+        const response = await fetch(`/api/cities?q=${encodeURIComponent(query)}`, { signal: controller.signal });
         if (!response.ok) throw new Error("Address autocomplete failed");
-        const data = await response.json() as { results?: Record<string, unknown>[] };
-        setAddressSuggestions((current) => ({ ...current, [field]: (data.results ?? []).map(formatAddressSuggestion).filter((suggestion): suggestion is AddressSuggestion => Boolean(suggestion)) }));
+        const data = await response.json() as { suggestions?: AddressSuggestion[] };
+        setAddressSuggestions((current) => ({ ...current, [field]: data.suggestions ?? [] }));
+        setAddressError(null);
       } catch {
-        if (!controller.signal.aborted) setAddressSuggestions((current) => ({ ...current, [field]: [] }));
+        if (!controller.signal.aborted) {
+          setAddressSuggestions((current) => ({ ...current, [field]: [] }));
+          setAddressError("City suggestions are unavailable. You can enter the city manually.");
+        }
       } finally {
         if (!controller.signal.aborted) setAddressLoading((current) => ({ ...current, [field]: false }));
       }
     }, 250);
 
     return () => { window.clearTimeout(timeout); controller.abort(); };
-  }, [activeAddressField, geoapifyApiKey, values.destinationCity, values.originCity]);
+  }, [activeAddressField, values.destinationCity, values.originCity]);
 
   const completedFields = useMemo(() => fieldNames.filter((name) => quoteSchema.shape[name].safeParse(values[name]).success).length, [values]);
   const remainingFields = fieldNames.length - completedFields;
   const submit = async (formValues: QuoteFormValues) => {
-    setSubmitStatus("idle");
+    setSubmitError(null);
     try {
       const response = await fetch("/api/quote", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(formValues) });
-      if (!response.ok) throw new Error("Quote request failed");
-      setSubmitStatus("success");
+      const body = await response.json().catch(() => null) as {
+        errors?: Partial<Record<FieldName, string[]>>;
+      } | null;
+
+      if (!response.ok) {
+        if (response.status === 422 && body?.errors) {
+          Object.entries(body.errors).forEach(([field, messages]) => {
+            const message = messages?.[0];
+            if (message) setError(field as FieldName, { type: "server", message });
+          });
+        }
+        setSubmitError(content.form.errorMessage);
+        return;
+      }
+
+      setSubmissionSucceeded(true);
     } catch {
-      setSubmitStatus("error");
+      setSubmitError(content.form.errorMessage);
     }
   };
   const selectAddressSuggestion = (name: AddressFieldName, suggestion: AddressSuggestion) => {
@@ -110,10 +129,10 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
     onSelect: (suggestion: AddressSuggestion) => selectAddressSuggestion(name, suggestion),
   });
 
-  if (submitStatus === "success") return <div className={successClassName}><h2 className="type-ui-title font-extrabold">{form.success.title}</h2><p className="mt-2 text-sm text-text-subtle">{form.success.message}</p></div>;
+  if (submissionSucceeded) return <div className={successClassName}><h2 className="type-ui-title font-extrabold">{form.success.title}</h2><p className="mt-2 text-sm text-text-subtle">{form.success.message}</p></div>;
 
   return <form id={QUOTE_FORM_ID} onSubmit={handleSubmit(submit)} noValidate className={formClassName}>
-    <p className="flex items-center justify-center gap-2 text-sm text-text-subtle"><span className="text-base leading-none" aria-hidden="true">🔒</span>Secure quote form</p>
+    <p className="flex items-center justify-center gap-2 text-sm text-text-subtle"><span className="text-base leading-none" aria-hidden="true">🔒</span>100% Secure</p>
     <h2 className="type-ui-title mt-1 text-center font-extrabold">{form.title}</h2>
     <div className="mt-5" aria-label="Quote form completion">
       <div className="flex items-center justify-between text-xs font-semibold text-text-subtle"><span>{completedFields} of {fieldNames.length} details complete</span><span>{Math.round((completedFields / fieldNames.length) * 100)}%</span></div>
@@ -121,15 +140,16 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
     </div>
     <div className="mt-6 grid gap-4 sm:grid-cols-2">
       {(["originCity", "destinationCity"] as const).map((name) => <FloatingTextField key={name} name={name} label={form.fields[name].label} error={errors[name]?.message} isTouched={Boolean(touchedFields[name])} value={values[name] ?? ""} register={register} autocomplete={addressAutocomplete(name)} />)}
+      {addressError && activeAddressField && <p role="status" className="-mt-2 text-xs font-medium text-alert sm:col-span-2">{addressError}</p>}
       <FloatingDateField label={form.fields.moveDate.label} error={errors.moveDate?.message} isTouched={Boolean(touchedFields.moveDate)} value={values.moveDate ?? ""} register={register} />
       <FloatingSelectField label={form.fields.homeSize.label} error={errors.homeSize?.message} isTouched={Boolean(touchedFields.homeSize)} value={values.homeSize ?? ""} register={register} />
       {textFields.slice(2).map((name) => <FloatingTextField key={name} name={name} label={form.fields[name].label} error={errors[name]?.message} isTouched={Boolean(touchedFields[name])} value={values[name] ?? ""} register={register} />)}
       <div className="sm:col-span-2"><FloatingTextField name="email" label={form.fields.email.label} error={errors.email?.message} isTouched={Boolean(touchedFields.email)} value={values.email ?? ""} register={register} type="email" /></div>
     </div>
     {isSubmitted && remainingFields > 0 && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{remainingFields} {remainingFields === 1 ? "detail needs" : "details need"} your attention.</p>}
+    {submitError && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{submitError}</p>}
     <button type="submit" disabled={isSubmitting} className="mt-5 flex min-h-14 w-full items-center justify-center rounded-xl bg-brand-yellow px-5 font-accent text-sm font-extrabold text-brand-primary transition-colors hover:bg-[#ffe36f] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? form.buttons.submitting : form.buttons.submit}</button>
-    {submitStatus === "error" && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{form.errorMessage}</p>}
-    <p className="mt-4 text-center text-xs text-text-subtle">We use your details only to prepare the estimate.</p>
+    <p className="mt-4 text-center text-xs text-text-subtle"><span className="mr-2 text-brand-yellow">●</span>No spam. No pressure. Transparent pricing.</p>
     <Contacto />
   </form>;
 }
@@ -139,7 +159,7 @@ function FloatingTextField({ name, label, error, isTouched, value, register, typ
   const sanitize = name === "fullName" ? sanitizeName : name === "phone" ? sanitizePhone : undefined;
   const isValid = isTouched && !error && quoteSchema.shape[name].safeParse(value).success;
   const messageId = `${name}-message`;
-  return <div className="relative"><label className="relative block"><input {...registration} id={name} type={type} role={autocomplete ? "combobox" : undefined} inputMode={name === "phone" ? "tel" : type === "email" ? "email" : "text"} autoComplete={name === "fullName" ? "name" : name === "phone" ? "tel" : name === "email" ? "email" : "address-level2"} placeholder=" " maxLength={name === "email" ? 100 : name === "fullName" ? 15 : undefined} aria-invalid={Boolean(error)} aria-describedby={(error || isValid) ? messageId : undefined} aria-autocomplete={autocomplete ? "list" : undefined} aria-haspopup={autocomplete ? "listbox" : undefined} aria-expanded={autocomplete ? autocomplete.visible && (autocomplete.loading || autocomplete.suggestions.length > 0) : undefined} aria-controls={autocomplete ? `${name}-suggestions` : undefined} onFocus={autocomplete?.onFocus} onBlur={(event) => { registration.onBlur(event); autocomplete?.onBlur(); }} onBeforeInput={sanitize ? (event) => { const text = (event.nativeEvent as InputEvent).data; if (text && sanitize(text) !== text) event.preventDefault(); } : undefined} onChange={(event) => { if (sanitize) event.currentTarget.value = sanitize(event.currentTarget.value); registration.onChange(event); }} className={`peer h-14 w-full rounded-lg border bg-white px-4 pb-1 pt-5 font-sans text-sm text-text-strong outline-none transition-colors placeholder:text-transparent focus:ring-2 ${error ? "border-alert focus:border-alert focus:ring-alert/15" : isValid ? "border-success focus:border-success focus:ring-success/15" : "border-ink/15 focus:border-brand-primary focus:ring-brand-primary/15"}`} /><span className={`pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 bg-white px-1 font-sans text-sm text-text-subtle transition-all peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-brand-primary ${value ? "top-2 translate-y-0 text-xs" : ""}`}>{label}</span>{isValid && <span className="absolute right-4 top-1/2 -translate-y-1/2 text-success" aria-hidden="true">✓</span>}</label><AddressSuggestionList id={`${name}-suggestions`} loading={autocomplete?.loading ?? false} suggestions={autocomplete?.suggestions ?? []} visible={autocomplete?.visible ?? false} onSelect={autocomplete?.onSelect} /><FieldFeedback id={messageId} error={error} isValid={isValid} /></div>;
+  return <div className="relative"><label className="relative block"><input {...registration} id={name} type={type} role={autocomplete ? "combobox" : undefined} inputMode={name === "phone" ? "tel" : type === "email" ? "email" : "text"} autoComplete={name === "fullName" ? "name" : name === "phone" ? "tel" : name === "email" ? "email" : "address-level2"} placeholder=" " maxLength={name === "email" || name === "fullName" ? 100 : undefined} aria-invalid={Boolean(error)} aria-describedby={(error || isValid) ? messageId : undefined} aria-autocomplete={autocomplete ? "list" : undefined} aria-haspopup={autocomplete ? "listbox" : undefined} aria-expanded={autocomplete ? autocomplete.visible && (autocomplete.loading || autocomplete.suggestions.length > 0) : undefined} aria-controls={autocomplete ? `${name}-suggestions` : undefined} onFocus={autocomplete?.onFocus} onBlur={(event) => { registration.onBlur(event); autocomplete?.onBlur(); }} onBeforeInput={sanitize ? (event) => { const text = (event.nativeEvent as InputEvent).data; if (text && sanitize(text) !== text) event.preventDefault(); } : undefined} onChange={(event) => { if (sanitize) event.currentTarget.value = sanitize(event.currentTarget.value); registration.onChange(event); }} className={`peer h-14 w-full rounded-lg border bg-white px-4 pb-1 pt-5 font-sans text-sm text-text-strong outline-none transition-colors placeholder:text-transparent focus:ring-2 ${error ? "border-alert focus:border-alert focus:ring-alert/15" : isValid ? "border-success focus:border-success focus:ring-success/15" : "border-ink/15 focus:border-brand-primary focus:ring-brand-primary/15"}`} /><span className={`pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 bg-white px-1 font-sans text-sm text-text-subtle transition-all peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-brand-primary ${value ? "top-2 translate-y-0 text-xs" : ""}`}>{label}</span>{isValid && <span className="absolute right-4 top-1/2 -translate-y-1/2 text-success" aria-hidden="true">✓</span>}</label><AddressSuggestionList id={`${name}-suggestions`} loading={autocomplete?.loading ?? false} suggestions={autocomplete?.suggestions ?? []} visible={autocomplete?.visible ?? false} onSelect={autocomplete?.onSelect} /><FieldFeedback id={messageId} error={error} isValid={isValid} /></div>;
 }
 
 function FloatingDateField({ label, error, isTouched, value, register }: { label: string; error?: string; isTouched: boolean; value: string; register: UseFormRegister<QuoteFormValues> }) {
@@ -160,19 +180,10 @@ function FieldFeedback({ id, error, isValid }: { id: string; error?: string; isV
   return null;
 }
 
-function formatAddressSuggestion(result: Record<string, unknown>, index: number): AddressSuggestion | null {
-  const city = typeof result.city === "string" ? result.city : typeof result.name === "string" ? result.name : "";
-  if (!city) return null;
-  const stateCode = typeof result.state_code === "string" ? result.state_code : typeof result.state === "string" ? result.state : "";
-  const countryCode = typeof result.country_code === "string" ? result.country_code.toUpperCase() : "";
-  const label = stateCode ? `${city}, ${stateCode}` : city;
-  return { id: `${label}-${index}`, label, sublabel: countryCode };
-}
-
 function AddressSuggestionList({ id, loading, suggestions, visible, onSelect }: { id: string; loading: boolean; suggestions: AddressSuggestion[]; visible: boolean; onSelect?: (suggestion: AddressSuggestion) => void }) {
   if (!visible || (!loading && suggestions.length === 0)) return null;
   return <div id={id} role="listbox" className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-30 overflow-hidden rounded-lg border border-brand-primary/15 bg-white shadow-[0_12px_28px_rgba(2,12,21,0.16)]">
-    {loading && <p className="px-4 py-3 text-sm text-text-subtle">Searching cities</p>}
+    {loading && <p className="px-4 py-3 text-sm text-text-subtle">Searching cities…</p>}
     {!loading && suggestions.map((suggestion) => <button key={suggestion.id} type="button" role="option" aria-selected="false" className="flex w-full items-center justify-between px-4 py-3 text-left text-sm text-text-strong transition-colors hover:bg-brand-surface focus-visible:bg-brand-surface focus-visible:outline-none" onClick={() => onSelect?.(suggestion)}><span className="font-semibold">{suggestion.label}</span>{suggestion.sublabel && <span className="text-xs text-text-subtle">{suggestion.sublabel}</span>}</button>)}
   </div>;
 }
