@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef } from "react";
+import { createPortal } from "react-dom";
 import type { MovingService } from "../../types/content";
 
 interface Props {
@@ -101,10 +102,11 @@ export default function ServiceModal({
   const fallbackImage = service.image.endsWith(".webp")
     ? service.image.replace(/\.webp$/, ".jpg")
     : service.image;
+  const imageBase = service.image.replace(/\.webp$/, "");
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto p-3 sm:items-center sm:p-6 lg:p-10"
+      className="fixed inset-0 z-[300] flex items-end justify-center overflow-y-auto p-3 sm:items-center sm:p-6 lg:p-10"
       onClick={onClose}
     >
       <div
@@ -123,9 +125,15 @@ export default function ServiceModal({
       >
         <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-64 lg:h-72">
           <picture className="block h-full w-full">
-            <source srcSet={service.image} type="image/webp" />
+            <source
+              srcSet={`${imageBase}-480.webp 480w, ${imageBase}-720.webp 720w, ${service.image} 960w`}
+              sizes="(min-width: 640px) 56rem, calc(100vw - 1.5rem)"
+              type="image/webp"
+            />
             <img
               src={fallbackImage}
+              width={960}
+              height={720}
               alt=""
               aria-hidden="true"
               className="h-full w-full object-cover"
@@ -145,7 +153,7 @@ export default function ServiceModal({
         <div className="relative overflow-y-auto p-6 sm:p-8 lg:p-10">
           <div className="h-0.5 w-12 bg-green" aria-hidden="true" />
 
-          <p className="eyebrow mt-6 text-green">Elite Moving Service</p>
+          <p className="eyebrow mt-6 text-green">Service Details</p>
 
           <h2
             id={titleId}
@@ -178,6 +186,7 @@ export default function ServiceModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

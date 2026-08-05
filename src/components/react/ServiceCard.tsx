@@ -27,16 +27,25 @@ export default function ServiceCard({ service, onMoreInfo }: Props) {
   const fallbackImage = service.image.endsWith(".webp")
     ? service.image.replace(/\.webp$/, ".jpg")
     : service.image;
+  const imageBase = service.image.replace(/\.webp$/, "");
+  const responsiveImage = `${imageBase}-480.webp 480w, ${imageBase}-720.webp 720w, ${service.image} 960w`;
 
   return (
     <article
+      id={service.id}
       className="group flex h-full flex-col gap-4 sm:gap-7"
     >
       <div className="aspect-[4/3] w-full shrink-0 overflow-hidden">
         <picture className="block h-full w-full">
-          <source srcSet={service.image} type="image/webp" />
+          <source
+            srcSet={responsiveImage}
+            sizes="(min-width: 768px) 30vw, calc(100vw - 2.5rem)"
+            type="image/webp"
+          />
           <img
             src={fallbackImage}
+            width={960}
+            height={720}
             alt={service.imageAlt}
             loading="lazy"
             decoding="async"
