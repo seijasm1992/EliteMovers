@@ -5,7 +5,7 @@
  */
 interface Props {
   href?: string;
-  variant?: "solid" | "outline" | "gold" | "outline-light";
+  variant?: "solid" | "outline" | "gold" | "outline-light" | "soft";
   size?: "md" | "lg";
   class?: string;
   type?: "button" | "submit";
@@ -37,6 +37,8 @@ const variants: Record<string, string> = {
     "border-2 border-green text-text-strong bg-white/60 hover:border-ink hover:bg-white focus-visible:outline-ink",
   "outline-light":
     "border-2 border-gold text-white hover:bg-white hover:text-ink focus-visible:outline-white",
+  soft:
+    "bg-green/[0.08] text-green ring-1 ring-inset ring-green/15 hover:bg-green/15 hover:ring-green/25 focus-visible:outline-green",
 };
 
 const cls = `${base} ${sizes[size]} ${variants[variant]} ${className}`;

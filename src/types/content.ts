@@ -88,6 +88,13 @@ export interface IncludedContent {
   items: IncludedItem[];
 }
 
+export interface FAQItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+}
+
 export interface SelectOption {
   value: string;
   label: string;
