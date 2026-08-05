@@ -1,24 +1,24 @@
 import type { IncludedContent } from "../types/content";
 
 /**
- * "What's Included in Every Elite Move" accordion.
+ * Included services accordion.
  * Images live in public/images/included and can later be swapped for Sanity
  * image URLs without changing the component.
  */
 export const includedServices: IncludedContent = {
-  eyebrow: "Standard With Every Move",
-  title: "What's Included in Every Elite Move",
+  eyebrow: "Included With Your Move",
+  title: "What Your Moving Rate Includes",
   description:
-    "Every service below comes standard - no add-ons, no upgrades, no surprises. This is how a stress-free move should work.",
+    "These services are included unless your written estimate states otherwise.",
   items: [
     {
       id: "furniture",
-      title: "Furniture Disassembly & Reassembly",
+      title: "Furniture Disassembly and Reassembly",
       description:
-        "We handle the standard disassembly and reassembly of your furniture - no tools or stress on your end.",
+        "The crew takes apart standard furniture when needed and reassembles it at the destination.",
       includes: [
-        "Bed frames & headboards",
-        "Tables & desks",
+        "Bed frames and headboards",
+        "Tables and desks",
         "Standard shelves and bookcases",
         "Couches, sofas, and sectionals",
         "TV takedown when being moved",
@@ -29,7 +29,7 @@ export const includedServices: IncludedContent = {
     },
     {
       id: "protection",
-      title: "Walls, Floor & Door Protection",
+      title: "Wall, Floor, and Door Protection",
       description:
         "We protect high-traffic areas before the move begins, helping prevent scratches, dents, and damage during the process.",
       includes: [
@@ -43,12 +43,12 @@ export const includedServices: IncludedContent = {
     },
     {
       id: "labor",
-      title: "All Travel & Labor",
+      title: "Crew, Truck, and Labor",
       description:
-        "Your flat-rate move includes the crew, travel, loading, unloading, and standard labor needed to complete the job.",
+        "Your confirmed hourly rate covers the assigned crew, truck, loading, unloading, and standard moving labor.",
       includes: [
-        "No hourly surprises",
-        "No fuel surcharge surprises",
+        "Hourly rate confirmed before move day",
+        "Travel terms listed in your estimate",
         "Loading and unloading included",
         "Crew and truck included",
       ],
@@ -59,7 +59,7 @@ export const includedServices: IncludedContent = {
       id: "tracking",
       title: "Live Crew Tracking",
       description:
-        "Stay informed during your move with real-time crew and truck tracking when available.",
+        "Track crew and truck status during your move when the service is available.",
       includes: [
         "Real-time status visibility",
         "Crew arrival updates",
@@ -72,7 +72,7 @@ export const includedServices: IncludedContent = {
       id: "updates",
       title: "Automated Move Updates",
       description:
-        "Receive clear updates before and during your move so you always know what comes next.",
+        "We send booking, reminder, arrival, and completion updates to the contact on file.",
       includes: [
         "Booking confirmation",
         "Pre-move reminders",

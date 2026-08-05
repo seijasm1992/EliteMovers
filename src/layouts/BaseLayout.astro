@@ -9,12 +9,14 @@ interface Props {
 }
 
 const {
-  title = `${site.name} — ${site.description}`,
+  title = `Miami Movers | ${site.name}`,
   description = site.description,
   image = "/1M.jpg",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const socialImage = new URL(image, Astro.site ?? Astro.url).toString();
+const isHomePage = Astro.url.pathname === "/";
 ---
 
 <!doctype html>
@@ -34,19 +36,30 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString(
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.site ?? Astro.url).toString()} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={`${site.name} moving crew`} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
 
-    <!-- Fonts: Barlow Condensed (display) · Manrope (body and UI) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Manrope:wght@400;500;600;700;800&display=swap"
-    />
+    {
+      isHomePage && (
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero/movers-loading-720.webp"
+          imagesrcset="/images/hero/movers-loading-480.webp 480w, /images/hero/movers-loading-720.webp 720w"
+          imagesizes="(min-width: 1024px) 64vw, calc(100vw - 1.5rem)"
+          fetchpriority="high"
+        />
+      )
+    }
+
   </head>
   <body>
     <a

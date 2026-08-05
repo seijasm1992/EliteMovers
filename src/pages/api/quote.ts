@@ -7,7 +7,11 @@ export const prerender = false;
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status,
-  headers: { "Content-Type": "application/json; charset=utf-8" },
+  headers: {
+    "Cache-Control": "no-store",
+    "Content-Type": "application/json; charset=utf-8",
+    "X-Content-Type-Options": "nosniff",
+  },
 });
 
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => ({

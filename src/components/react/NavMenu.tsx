@@ -8,6 +8,8 @@ interface Props {
 }
 
 const MOBILE_DRAWER_ID = "mobile-nav-drawer";
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 const ChevronIcon = ({ open }: { open: boolean }) => (
   <svg
@@ -118,7 +120,29 @@ export default function NavMenu({ navigation, site }: Props) {
 
   useEffect(() => {
     if (!isMobileMenuOpen) return;
+
+    const drawer = document.getElementById(MOBILE_DRAWER_ID);
+    if (!drawer) return;
+
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
     closeButtonRef.current?.focus();
+    drawer.addEventListener("keydown", trapFocus);
+    return () => drawer.removeEventListener("keydown", trapFocus);
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
@@ -163,7 +187,7 @@ export default function NavMenu({ navigation, site }: Props) {
 
   const mobileMenu = (
     <>
-      {/* Overlay — portaled to body so fixed positioning is not broken by header backdrop-filter */}
+      {/* Portaled overlay keeps fixed positioning outside the header backdrop filter. */}
       <div
         className={`fixed inset-0 z-[200] bg-black/50 transition-opacity duration-300 ease-in-out lg:hidden ${
           isMobileMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
@@ -179,6 +203,7 @@ export default function NavMenu({ navigation, site }: Props) {
         aria-modal="true"
         aria-label="Navigation menu"
         aria-hidden={!isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
         className={`fixed inset-y-0 left-0 z-[210] flex w-[min(85vw,24rem)] flex-col bg-white shadow-bubble transition-transform duration-300 ease-in-out lg:hidden ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full pointer-events-none"
         }`}
@@ -230,6 +255,8 @@ export default function NavMenu({ navigation, site }: Props) {
                         id={submenuId}
                         role="region"
                         aria-labelledby={`mobile-accordion-${submenuId}`}
+                        aria-hidden={!isOpen}
+                        inert={!isOpen}
                         className={`overflow-hidden transition-all duration-300 ease-in-out ${
                           isOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
                         }`}
@@ -272,7 +299,7 @@ export default function NavMenu({ navigation, site }: Props) {
           >
             <PhoneIcon />
             <span>
-              Call Now · <span className="font-medium">{site.phone}</span>
+              Call Now: <span className="font-medium">{site.phone}</span>
             </span>
           </a>
         </div>
