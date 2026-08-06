@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("/fonts/barlow-condensed-v13-latin-700.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/manrope-v20-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+}
+
 /*
-  ProElite Movers — Design System
-  Source: public/ProEliteMovers · Design System.pdf
+  ProElite Movers design system
+  Source: design system PDF in public/
   Tokens are centralized here so brand changes happen in one place.
 */
 @theme {
@@ -96,6 +112,11 @@
     outline: 2px solid var(--color-ink);
     outline-offset: 3px;
     border-radius: 4px;
+  }
+
+  section[id],
+  article[id] {
+    scroll-margin-top: 6rem;
   }
 }
 
@@ -234,24 +255,9 @@ html.js [data-scroll-reveal].is-revealed {
 }
 
 /* ---------- Keyframes ---------- */
-@keyframes kenburns {
-  0% { transform: scale(1) translate3d(0, 0, 0); }
-  100% { transform: scale(1.12) translate3d(0, -1.5%, 0); }
-}
-
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes bubbleIn {
-  from { opacity: 0; transform: translateY(10px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes hero-cinematic {
-  from { transform: scale(1) translate3d(0, 0, 0); }
-  to { transform: scale(1.03) translate3d(-0.9%, -0.45%, 0); }
 }
 
 @keyframes hero-image-light {
@@ -271,6 +277,11 @@ html.js [data-scroll-reveal].is-revealed {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes included-image-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .hero-image-light {
   background: radial-gradient(circle at 32% 18%, rgb(255 216 77 / 22%), transparent 38%);
   animation: hero-image-light 7s ease-in-out infinite;
@@ -288,7 +299,10 @@ html.js [data-scroll-reveal].is-revealed {
 
 .faq-filter-enter {
   animation: faq-filter-enter 220ms var(--ease-out-soft) both;
-  will-change: opacity, transform;
+}
+
+.included-image-enter {
+  animation: included-image-enter 220ms var(--ease-out-soft) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -298,7 +312,8 @@ html.js [data-scroll-reveal].is-revealed {
     transition: none;
   }
 
-  .faq-filter-enter {
+  .faq-filter-enter,
+  .included-image-enter {
     animation: none;
     transform: none;
   }

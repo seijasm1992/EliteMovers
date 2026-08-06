@@ -5,28 +5,28 @@ export const guarantee: GuaranteeContent = {
   eyebrow: "Why ProElite",
   title: "The Elite Guarantee",
   subtitle:
-    "The standard we set before your move — and the standard we uphold when it matters most.",
+    "What you can expect from the crew assigned to your move.",
   cards: [
     {
       id: "hourly-rate",
       icon: "tag",
       title: "Honest Hourly Rate",
       description:
-        "You pay only for the time your move actually takes. Our crew works efficiently and never stretches the clock — just honest hourly pricing with no hidden fees.",
+        "Your rate is confirmed before move day, and you pay for the time the job takes. Any additional charge is discussed before work begins.",
     },
     {
       id: "protection",
       icon: "shield",
-      title: "Full Protection Coverage",
+      title: "Furniture and Property Protection",
       description:
-        "Every item is custom-wrapped and covered from door to door. Furniture, artwork, antiques — protected beyond the standard blanket wrap.",
+        "We wrap furniture and protect floors, doors, and high-traffic areas before loading begins.",
     },
     {
       id: "crew",
       icon: "badge",
       title: "Background-Checked Crew",
       description:
-        "Every mover is carefully selected, professionally trained, and arrives in Elite uniform. Your crew is assigned in advance — no random day-laborers.",
+        "Your assigned movers are background checked, trained, and scheduled before move day. They arrive in ProElite uniform.",
     },
   ],
 };

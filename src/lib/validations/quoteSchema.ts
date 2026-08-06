@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const NAME_PATTERN = /^[\p{L}\s'.-]+$/u;
+const NAME_PATTERN = /^[\p{L} '.-]+$/u;
 const PHONE_PATTERN = /^[\d\s()+\-.]+$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -17,7 +17,7 @@ const dateInNewYork = () => {
 
 export const todayMoveDate = () => dateInNewYork();
 
-export const sanitizeName = (value: string) => value.replace(/[^\p{L}\s'.-]/gu, "");
+export const sanitizeName = (value: string) => value.replace(/[^\p{L} '.-]/gu, "");
 export const sanitizePhone = (value: string) => {
   let digits = 0;
   return value.replace(/[^\d\s()+\-.]/g, "").replace(/\d/g, (digit) => {
@@ -39,7 +39,7 @@ export const quoteSchema = z.object({
     .string()
     .trim()
     .min(2, "Enter your full name")
-    .max(15, "Full name must be 15 characters or fewer")
+    .max(100, "Full name must be 100 characters or fewer")
     .regex(NAME_PATTERN, "Use letters only"),
   phone: z
     .string()

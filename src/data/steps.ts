@@ -1,29 +1,29 @@
 import type { StepsContent } from "../types/content";
 
-/** "Your Move in Three Simple Steps" section. */
+/** Move process section. */
 export const steps: StepsContent = {
   eyebrow: "How It Works",
-  title: "Your Move in Three Simple Steps",
+  title: "What Happens on Move Day",
   subtitle:
-    "Our crew arrives prepared, plans the job before touching a single box, and works fast — because with hourly billing, speed is what saves you money.",
+    "Your crew reviews the job before loading, protects the property, and keeps the work moving at the hourly rate confirmed when you book.",
   steps: [
     {
       number: "01",
-      title: "Tell Us About Your Move",
+      title: "Tell Us What You Are Moving",
       description:
-        "Tell us the number of rooms, square footage, stairs, elevator access, packing needs, and your move date.",
+        "Share the room count, stairs, elevator access, packing needs, and preferred date.",
     },
     {
       number: "02",
-      title: "We Arrive Ready & Plan",
+      title: "Crew Walkthrough and Plan",
       description:
-        "We arrive 10–15 minutes early, fully equipped, then scan the space and plan the load before touching anything.",
+        "The crew arrives 10 to 15 minutes early, checks access points, and plans the loading order.",
     },
     {
       number: "03",
-      title: "We Move You Carefully",
+      title: "We Wrap, Load, and Deliver",
       description:
-        "We wrap, load, and transport with ramps and hand trucks, then unload and unpack if requested — so you're settled in, not surrounded by boxes.",
+        "We protect the furniture, load the truck, transport your items, and place them in the rooms you choose.",
     },
   ],
 };

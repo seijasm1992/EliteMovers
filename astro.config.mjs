@@ -18,6 +18,7 @@ export default defineConfig({
       RESEND_API_KEY: envField.string({
         context: 'server',
         access: 'secret',
+        optional: true,
       }),
       QUOTE_TO_EMAIL: envField.string({
         context: 'server',
@@ -32,11 +33,6 @@ export default defineConfig({
       // ── Cloudflare Turnstile ─────────────────────────────────────────────
       // Site key: pública, inlined en el bundle del cliente
       PUBLIC_TURNSTILE_SITE_KEY: envField.string({
-        context: 'client',
-        access: 'public',
-        default: '',
-      }),
-      PUBLIC_GEOAPIFY_API_KEY: envField.string({
         context: 'client',
         access: 'public',
         default: '',
