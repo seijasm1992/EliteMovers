@@ -39,6 +39,12 @@ const getFieldStateClassName = (error?: string, isValid = false) => {
   return "border-ink/15 focus:border-brand-primary focus:ring-brand-primary/15";
 };
 
+const getDateFieldStateClassName = (error?: string, isValid = false) => {
+  if (error) return "border-alert focus-within:border-alert focus-within:ring-alert/15";
+  if (isValid) return "border-success focus-within:border-success focus-within:ring-success/15";
+  return "border-ink/15 focus-within:border-brand-primary focus-within:ring-brand-primary/15";
+};
+
 export default function QuoteForm({ content, variant = "default", onValuesChange }: Props) {
   const { control, register, handleSubmit, setError, setValue, formState: { errors, touchedFields, isSubmitting, isSubmitted } } = useForm<QuoteFormValues>({
     resolver: zodResolver(quoteSchema),
@@ -172,7 +178,7 @@ function FloatingTextField({ name, label, error, isTouched, value, register, typ
 function FloatingDateField({ label, error, isTouched, value, register }: { label: string; error?: string; isTouched: boolean; value: string; register: UseFormRegister<QuoteFormValues> }) {
   const isValid = isTouched && !error && quoteSchema.shape.moveDate.safeParse(value).success;
   const messageId = "moveDate-message";
-  return <div className="min-w-0 max-w-full"><label className="relative block w-full min-w-0 max-w-full"><input id="moveDate" type="date" min={todayMoveDate()} {...register("moveDate")} aria-invalid={Boolean(error)} aria-describedby={(error || isValid) ? messageId : undefined} className={`${fieldControlClassName} ${getFieldStateClassName(error, isValid)}`} /><span className="pointer-events-none absolute left-4 top-2 bg-white px-1 font-sans text-xs text-text-subtle">{label}</span>{isValid && <span className="pointer-events-none absolute right-10 top-1/2 -translate-y-1/2 text-success" aria-hidden="true">✓</span>}</label><FieldFeedback id={messageId} error={error} isValid={isValid} /></div>;
+  return <div className="min-w-0 max-w-full"><label className={`relative grid h-14 w-full min-w-0 max-w-full grid-cols-[minmax(0,1fr)_2.5rem] overflow-hidden rounded-lg border bg-white transition-[border-color,box-shadow] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] focus-within:ring-2 ${getDateFieldStateClassName(error, isValid)}`}><span className="col-start-1 row-start-1 block h-full min-w-0 overflow-hidden"><input id="moveDate" type="date" min={todayMoveDate()} {...register("moveDate")} aria-invalid={Boolean(error)} aria-describedby={(error || isValid) ? messageId : undefined} className="quote-date-input block box-border h-full w-full min-w-0 max-w-full border-0 bg-transparent px-4 pb-1 pt-5 font-sans text-base leading-5 text-text-strong outline-none sm:text-sm" /></span><span className="pointer-events-none absolute left-4 top-2 z-10 bg-white px-1 font-sans text-xs text-text-subtle">{label}</span><span className="pointer-events-none col-start-2 row-start-1 flex h-full w-10 items-center justify-center bg-white text-success" aria-hidden="true">{isValid ? "✓" : ""}</span></label><FieldFeedback id={messageId} error={error} isValid={isValid} /></div>;
 }
 
 function FloatingSelectField({ label, error, isTouched, value, register }: { label: string; error?: string; isTouched: boolean; value: string; register: UseFormRegister<QuoteFormValues> }) {
