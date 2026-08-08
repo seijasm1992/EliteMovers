@@ -4,7 +4,7 @@ export const movingServicesContent: MovingServicesContent = {
   eyebrow: "What We Do",
   title: "Our Services",
   subtitle:
-    "We handle homes, apartments, offices, and long-distance moves throughout Florida.",
+    "We handle homes, apartments, offices, and long-distance moves throughout Florida — with transparent hourly billing.",
   services: [
     {
       id: "long-distance-moving",
@@ -14,7 +14,7 @@ export const movingServicesContent: MovingServicesContent = {
       details:
         "For moves within Florida, our crew plans the route, loading order, and delivery window before move day. Interstate moves are coordinated through a partner in our referral network.",
       detailsExtended:
-        "We confirm the inventory, access details, travel terms, and delivery contact in writing before the truck is loaded.",
+        "We confirm the inventory, access details, travel terms, hourly rate, and delivery contact in writing before the truck is loaded.",
       highlights: [
         "Door-to-door loading, transport, and unloading",
         "One contact for scheduling and delivery updates",
@@ -60,6 +60,7 @@ export const movingServicesContent: MovingServicesContent = {
         "After-hours and weekend scheduling available",
         "IT equipment, desks, and filing systems handled with care",
         "Phased move plans to reduce operational downtime",
+        "Hourly rate confirmed before move day",
         "Dedicated point of contact throughout the project",
       ],
       buttonLabel: "More Info",

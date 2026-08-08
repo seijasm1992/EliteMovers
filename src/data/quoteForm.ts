@@ -4,7 +4,7 @@ export const quoteForm: QuoteFormContent = {
   section: {
     eyebrow: "Moving Quote",
     title: "Tell us about your move",
-    description: "Start with your pickup and destination.",
+    description: "Start with your pickup and destination. We'll follow up with your hourly rate estimate.",
   },
   form: {
     title: "Request a Moving Quote",
@@ -23,7 +23,7 @@ export const quoteForm: QuoteFormContent = {
     buttons: { clear: "", submit: "Request My Quote", submitting: "Sending" },
     success: {
       title: "Quote request received",
-      message: "We'll use these details to prepare your moving estimate.",
+      message: "We'll use these details to prepare your hourly rate estimate.",
       resetLabel: "Start over",
     },
     errorMessage: "Something went wrong. Please try again.",

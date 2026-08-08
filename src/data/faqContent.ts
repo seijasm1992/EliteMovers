@@ -10,7 +10,14 @@ export const faqContent: FAQItem[] = [
     category: "Pricing & Billing",
     question: "How does hourly billing work?",
     answer:
-      "We confirm the hourly rate when you book. Your final labor total is based on the time the job takes and the travel terms listed in your estimate.",
+      "We bill by the hour only — no flat-rate or fixed-price packages. We confirm your hourly rate when you book, and your final labor total is based on the time the job takes and the travel terms listed in your estimate.",
+  },
+  {
+    id: "flat-rate-vs-hourly",
+    category: "Pricing & Billing",
+    question: "Do you offer flat-rate or fixed-price moves?",
+    answer:
+      "No. Every move is billed at an hourly rate. Your rate is confirmed before move day, and you pay for the time the crew works plus the travel terms in your estimate.",
   },
   {
     id: "deposit",
@@ -24,7 +31,7 @@ export const faqContent: FAQItem[] = [
     category: "Pricing & Billing",
     question: "Are there any hidden fees?",
     answer:
-      "Your estimate lists the crew, truck, travel terms, and any optional services. Moving blankets and industrial wrap are included with the job.",
+      "Your hourly rate estimate lists the crew, truck, travel terms, and any optional services. Moving blankets and industrial wrap are included with the job. You pay for the time worked — no flat-rate add-ons.",
   },
   {
     id: "payment-methods",

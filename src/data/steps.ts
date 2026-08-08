@@ -11,7 +11,7 @@ export const steps: StepsContent = {
       number: "01",
       title: "Tell Us What You Are Moving",
       description:
-        "Share the room count, stairs, elevator access, packing needs, and preferred date.",
+        "Share the room count, stairs, elevator access, packing needs, and preferred date so we can prepare your hourly rate estimate.",
     },
     {
       number: "02",

@@ -5,7 +5,7 @@ export const hero: HeroContent = {
   eyebrow: "Local and Long-Distance Moving",
   title: "Miami Movers Who Come Prepared",
   description:
-    "Our crew moves apartments, homes, and offices with hourly pricing and protection for your furniture and property.",
+    "Our crew moves apartments, homes, and offices with transparent hourly billing and protection for your furniture and property.",
   primaryCta: { label: "Request a Quote", href: "/get-a-quote/" },
   secondaryCta: { label: "Call Now", href: "tel:+13055550199" },
   rating: {

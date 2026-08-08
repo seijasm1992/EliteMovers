@@ -7,9 +7,9 @@ import type { IncludedContent } from "../types/content";
  */
 export const includedServices: IncludedContent = {
   eyebrow: "Included With Your Move",
-  title: "What Your Moving Rate Includes",
+  title: "What's Included in Your Hourly Rate",
   description:
-    "These services are included unless your written estimate states otherwise.",
+    "Every service below is included in your hourly rate unless your written estimate states otherwise.",
   items: [
     {
       id: "furniture",
@@ -48,7 +48,7 @@ export const includedServices: IncludedContent = {
         "Your confirmed hourly rate covers the assigned crew, truck, loading, unloading, and standard moving labor.",
       includes: [
         "Hourly rate confirmed before move day",
-        "Travel terms listed in your estimate",
+        "Travel terms and hourly rate listed in your estimate",
         "Loading and unloading included",
         "Crew and truck included",
       ],
