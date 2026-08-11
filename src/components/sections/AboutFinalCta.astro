@@ -1,0 +1,21 @@
+---
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import { aboutUs } from "../../data/aboutUs";
+
+const { finalCta } = aboutUs;
+---
+<section id="get-started" class="relative overflow-hidden bg-brand-primary py-16 sm:py-20">
+  <div class="container-x">
+    <div class="mx-auto flex max-w-2xl flex-col items-center text-center" data-scroll-reveal>
+      <h2 class="type-section-title text-white">{finalCta.title}</h2>
+      <Button href={finalCta.cta.href} variant="gold" size="lg" class="group mt-8">
+        {finalCta.cta.label}
+        <Icon
+          name="arrowRight"
+          class="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+        />
+      </Button>
+    </div>
+  </div>
+</section>

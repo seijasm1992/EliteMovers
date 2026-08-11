@@ -35,7 +35,7 @@ export const navigation: NavItem[] = [
     label: "Company",
     href: "/#guarantee",
     children: [
-      { label: "About", href: "/#guarantee" },
+      { label: "About", href: "/about-us/" },
       { label: "Licenses & Credentials", href: "/#guarantee" },
       { label: "FAQ", href: "/#faq" },
     ],

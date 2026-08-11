@@ -21,7 +21,10 @@ Whenever you execute a request or write code for this repository, adhere strictl
 
 ## 3. Reference Files Index
 
-
+| Agent / Reference | File | When to use |
+| --- | --- | --- |
+| Image Recreator (image → web component) | `.agents/image-recreator.md` | Recreate a reference image/mockup pixel-perfect as Astro/React components using the project's brand identity and a content file (e.g. `.agents/context/about-us.md`) |
+| Typography Auditor | `.agents/typography-auditor.md` | Audit typographic system, hierarchy, and visible copy |
 
 ---
 

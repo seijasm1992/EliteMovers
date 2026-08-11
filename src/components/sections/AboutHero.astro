@@ -1,0 +1,31 @@
+---
+import { aboutUs } from "../../data/aboutUs";
+
+const { hero } = aboutUs;
+---
+<section id="top" class="relative flex items-center overflow-hidden bg-brand-primary px-4 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24">
+  <div class="absolute inset-y-0 left-1/2 w-full max-w-2xl -translate-x-1/2">
+    <img
+      src={hero.image.src720}
+      srcset={`${hero.image.src480} 480w, ${hero.image.src720} 720w`}
+      sizes="(min-width: 672px) 672px, 100vw"
+      width={720}
+      height={960}
+      alt={hero.image.alt}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+      class="h-full w-full object-cover object-[50%_35%] brightness-[0.6] saturate-[0.85]"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-primary via-transparent to-brand-primary" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-primary/80 via-brand-primary/30 to-brand-primary/85" aria-hidden="true"></div>
+  </div>
+
+  <div class="container-x relative">
+    <div class="mx-auto flex max-w-2xl flex-col items-center text-center" data-scroll-reveal>
+      <span class="eyebrow text-gold">{hero.eyebrow}</span>
+      <h1 class="type-page-title mt-5 text-white">{hero.title}</h1>
+      <p class="type-body-lead mt-6 max-w-md text-white/75">{hero.subheadline}</p>
+    </div>
+  </div>
+</section>

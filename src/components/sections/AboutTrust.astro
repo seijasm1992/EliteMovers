@@ -1,0 +1,20 @@
+---
+import Icon from "../ui/Icon.astro";
+import { aboutUs } from "../../data/aboutUs";
+
+const { trust } = aboutUs;
+---
+<section id="trust" class="relative bg-white py-12 sm:py-14">
+  <div class="container-x">
+    <div class="flex flex-wrap items-start justify-center gap-x-10 gap-y-8 sm:gap-x-16" data-scroll-reveal>
+      {
+        trust.items.map((item) => (
+          <div class="flex max-w-[14rem] flex-col items-center gap-3 text-center">
+            <Icon name={item.icon} class="h-7 w-7 text-ink/45" />
+            <span class="type-label text-text-subtle">{item.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

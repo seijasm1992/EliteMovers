@@ -124,6 +124,79 @@ export interface FormFieldCopy {
   placeholder?: string;
 }
 
+export interface AboutHeroContent {
+  eyebrow: string;
+  title: string;
+  subheadline: string;
+  image: { src480: string; src720: string; alt: string };
+}
+
+export interface AboutStoryHighlight {
+  icon: string;
+  label: string;
+  description: string;
+}
+
+export interface AboutStoryCard {
+  id: string;
+  layout: "wide" | "tall" | "default" | "media" | "cta";
+  label: string;
+  body: string;
+  highlights?: AboutStoryHighlight[];
+  image?: { src: string; alt: string };
+  cta?: NavLink;
+}
+
+export interface AboutStorySection {
+  eyebrow: string;
+  title: string;
+  cards: AboutStoryCard[];
+}
+
+export interface AboutTrustItem {
+  icon: string;
+  label: string;
+}
+
+export interface AboutTrustSection {
+  items: AboutTrustItem[];
+}
+
+export interface AboutReviewsSection {
+  eyebrow: string;
+  title: string;
+  ratingScore: string;
+  reviewCountLabel: string;
+}
+
+export interface AboutCityCard {
+  id: string;
+  name: string;
+  href: string;
+}
+
+export interface AboutCitiesSection {
+  eyebrow: string;
+  title: string;
+  cities: AboutCityCard[];
+  longDistance: AboutCityCard;
+}
+
+export interface AboutFinalCtaSection {
+  title: string;
+  cta: NavLink;
+}
+
+export interface AboutPageContent {
+  meta: { title: string; description: string };
+  hero: AboutHeroContent;
+  story: AboutStorySection;
+  trust: AboutTrustSection;
+  reviews: AboutReviewsSection;
+  cities: AboutCitiesSection;
+  finalCta: AboutFinalCtaSection;
+}
+
 export interface QuoteFormContent {
   section: {
     eyebrow: string;

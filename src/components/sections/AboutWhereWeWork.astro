@@ -1,0 +1,51 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import Icon from "../ui/Icon.astro";
+import { aboutUs } from "../../data/aboutUs";
+
+const { cities } = aboutUs;
+---
+<section id="where-we-work" class="relative bg-white section-rhythm">
+  <div class="container-x">
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow={cities.eyebrow} title={cities.title} />
+    </div>
+
+    <div class="mt-12 grid gap-4 sm:grid-cols-3">
+      {
+        cities.cities.map((city, index) => (
+          <a
+            href={city.href}
+            class="group flex items-center gap-3 rounded-xl border border-ink/10 bg-offwhite px-4 py-4 shadow-soft transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-green hover:shadow-card-hover"
+            data-scroll-reveal
+            style={`--reveal-delay: ${index * 40}ms`}
+          >
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-gold">
+              <Icon name="mapPin" class="h-4 w-4" />
+            </span>
+            <span class="font-accent text-sm font-semibold text-text-strong">{city.name}</span>
+            <Icon
+              name="arrowRight"
+              class="ml-auto h-4 w-4 text-text-subtle transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 group-hover:text-green motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+            />
+          </a>
+        ))
+      }
+
+      <a
+        href={cities.longDistance.href}
+        class="group flex items-center gap-3 rounded-xl border-2 border-green/30 bg-green/[0.06] px-4 py-4 shadow-soft transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-green hover:shadow-card-hover sm:col-span-3"
+        data-scroll-reveal
+      >
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green text-white">
+          <Icon name="route" class="h-4 w-4" />
+        </span>
+        <span class="font-accent text-sm font-semibold text-text-strong">{cities.longDistance.name}</span>
+        <Icon
+          name="arrowRight"
+          class="ml-auto h-4 w-4 text-green transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+        />
+      </a>
+    </div>
+  </div>
+</section>

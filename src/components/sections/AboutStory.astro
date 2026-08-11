@@ -1,0 +1,87 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import Card from "../ui/Card.astro";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import { aboutUs } from "../../data/aboutUs";
+
+const { story } = aboutUs;
+
+const spanClass: Record<string, string> = {
+  wide: "md:col-span-2",
+  tall: "md:row-span-2",
+  default: "",
+  media: "md:col-span-2",
+  cta: "",
+};
+---
+<section id="story" class="relative bg-offwhite section-rhythm">
+  <div class="container-x">
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow={story.eyebrow} title={story.title} />
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      {
+        story.cards.map((card, index) => (
+          <div
+            class={`h-full ${spanClass[card.layout]}`}
+            data-scroll-reveal
+            style={`--reveal-delay: ${index * 70}ms`}
+          >
+            {card.layout === "cta" ? (
+              <div class="flex h-full flex-col justify-between rounded-[var(--radius-card)] border-2 border-gold/40 bg-ink p-7 text-white shadow-soft transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:border-gold hover:shadow-card-hover">
+                <div>
+                  <span class="type-label text-gold">{card.label}</span>
+                  <p class="mt-4 text-base leading-relaxed text-white/80">{card.body}</p>
+                </div>
+                {card.cta && (
+                  <Button href={card.cta.href} variant="gold" class="group mt-6 self-start">
+                    {card.cta.label}
+                    <Icon
+                      name="arrowRight"
+                      class="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                    />
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <Card class="flex h-full flex-col">
+                <span class="type-label text-green">{card.label}</span>
+                <p class="mt-4 text-base leading-relaxed text-text-subtle">{card.body}</p>
+
+                {card.highlights && (
+                  <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                    {card.highlights.map((highlight) => (
+                      <div class="flex items-start gap-3">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-gold">
+                          <Icon name={highlight.icon} class="h-4 w-4" />
+                        </span>
+                        <div>
+                          <p class="font-accent text-sm font-bold text-text-strong">{highlight.label}</p>
+                          <p class="mt-1 text-xs leading-relaxed text-text-subtle">{highlight.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {card.image && (
+                  <div class="mt-6 overflow-hidden rounded-xl">
+                    <img
+                      src={card.image.src}
+                      alt={card.image.alt}
+                      loading="lazy"
+                      decoding="async"
+                      class="h-40 w-full object-cover"
+                    />
+                  </div>
+                )}
+              </Card>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
