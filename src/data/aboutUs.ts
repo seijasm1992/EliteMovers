@@ -74,16 +74,10 @@ export const aboutUs: AboutPageContent = {
   },
   trust: {
     items: [
-      { icon: "badge", label: "Registered Florida Mover — IM# {{FDACS_IM_NUMBER}}" },
+      { icon: "badge", label: "Registered Florida Mover — License on file" },
       { icon: "shield", label: "Insured & Bonded" },
       { icon: "mapPin", label: "Locally Owned & Operated — Miami Lakes, FL" },
     ],
-  },
-  reviews: {
-    eyebrow: "Real Reviews",
-    title: "What Our Customers Say",
-    ratingScore: "{{GOOGLE_RATING}}",
-    reviewCountLabel: "{{GOOGLE_REVIEW_COUNT}} reviews",
   },
   cities: {
     eyebrow: "Where We Work",

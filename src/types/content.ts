@@ -162,13 +162,6 @@ export interface AboutTrustSection {
   items: AboutTrustItem[];
 }
 
-export interface AboutReviewsSection {
-  eyebrow: string;
-  title: string;
-  ratingScore: string;
-  reviewCountLabel: string;
-}
-
 export interface AboutCityCard {
   id: string;
   name: string;
@@ -192,7 +185,6 @@ export interface AboutPageContent {
   hero: AboutHeroContent;
   story: AboutStorySection;
   trust: AboutTrustSection;
-  reviews: AboutReviewsSection;
   cities: AboutCitiesSection;
   finalCta: AboutFinalCtaSection;
 }
