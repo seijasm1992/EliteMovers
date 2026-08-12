@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 
 export const prerender = true;
 
-const routes = ["/", "/get-a-quote/"];
+const routes = ["/", "/get-a-quote/", "/about-us/"];
 
 export const GET: APIRoute = ({ site }) => {
   const baseUrl = site ?? new URL("https://proelitemovers.com");
