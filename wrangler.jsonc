@@ -1,6 +1,14 @@
 {
   "name": "elitemovers",
   "compatibility_date": "2025-04-01",
+  // Dominio de producción — desactivamos workers.dev para evitar
+  // que Google indexe el sitio duplicado en esa URL
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "proelitemovers.com", "custom_domain": true },
+    { "pattern": "www.proelitemovers.com", "custom_domain": true }
+  ],
   "secrets": {
     "required": [
       "RESEND_API_KEY",
