@@ -1,9 +1,31 @@
 import type { APIRoute } from "astro";
+import { ENABLE_TURNSTILE, getSecret } from "astro:env/server";
 import { z } from "zod";
 import { quoteSchema } from "../../lib/validations/quoteSchema";
 import { getQuoteEmailClient, getQuoteMail } from "../../lib/resend";
 
 export const prerender = false;
+
+const quoteSubmissionSchema = quoteSchema.extend({
+  turnstileToken: z.string().trim().max(4096).optional(),
+});
+
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
+const verifyTurnstileToken = async (token: string, secretKey: string, remoteIp: string | null) => {
+  const body = new FormData();
+  body.append("secret", secretKey);
+  body.append("response", token);
+  if (remoteIp) body.append("remoteip", remoteIp);
+  try {
+    const response = await fetch(TURNSTILE_VERIFY_URL, { method: "POST", body });
+    if (!response.ok) return false;
+    const outcome = await response.json() as { success?: boolean };
+    return outcome.success === true;
+  } catch {
+    return false;
+  }
+};
 
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -30,9 +52,25 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ ok: false, message: "Invalid request body." }, 400);
   }
 
-  const parsed = quoteSchema.safeParse(rawBody);
+  const parsed = quoteSubmissionSchema.safeParse(rawBody);
   if (!parsed.success) {
     return json({ ok: false, errors: z.flattenError(parsed.error).fieldErrors }, 422);
+  }
+
+  if (ENABLE_TURNSTILE) {
+    const secretKey = getSecret("TURNSTILE_SECRET_KEY")?.trim();
+    if (!secretKey) {
+      return json({ ok: false, message: "Security check is not configured." }, 503);
+    }
+    const token = parsed.data.turnstileToken?.trim();
+    if (!token) {
+      return json({ ok: false, message: "Security check failed. Please try again." }, 403);
+    }
+    const remoteIp = request.headers.get("CF-Connecting-IP");
+    const isHuman = await verifyTurnstileToken(token, secretKey, remoteIp);
+    if (!isHuman) {
+      return json({ ok: false, message: "Security check failed. Please try again." }, 403);
+    }
   }
 
   const { originCity, destinationCity, moveDate, homeSize, fullName, phone, email } = parsed.data;

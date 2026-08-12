@@ -4,7 +4,8 @@
   "secrets": {
     "required": [
       "RESEND_API_KEY",
-      "PUBLIC_GEOAPIFY_API_KEY"
+      "PUBLIC_GEOAPIFY_API_KEY",
+      "TURNSTILE_SECRET_KEY"
     ]
   },
   "vars": {

@@ -1,9 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm, useWatch, type UseFormRegister } from "react-hook-form";
 import { quoteSchema, sanitizeName, sanitizePhone, todayMoveDate, type QuoteFormValues } from "../../lib/validations/quoteSchema";
 import type { QuoteFormContent } from "../../types/content";
 import Contacto, { QUOTE_FORM_ID } from "./Contacto";
+import TurnstileWidget, { type TurnstileHandle } from "./TurnstileWidget";
+
+const turnstileSiteKey = PUBLIC_TURNSTILE_SITE_KEY.trim();
 
 interface Props {
   content: QuoteFormContent;
@@ -66,6 +70,8 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
   const [addressError, setAddressError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submissionSucceeded, setSubmissionSucceeded] = useState(false);
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const turnstileTokenRef = useRef<string | null>(null);
 
   useEffect(() => {
     onValuesChange?.(values);
@@ -106,9 +112,18 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
   const remainingFields = fieldNames.length - completedFields;
   const submit = async (formValues: QuoteFormValues) => {
     setSubmitError(null);
+    if (turnstileSiteKey && !turnstileTokenRef.current) {
+      setSubmitError("Please complete the security check before submitting.");
+      return;
+    }
     try {
-      const response = await fetch("/api/quote", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(formValues) });
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formValues, turnstileToken: turnstileTokenRef.current ?? undefined }),
+      });
       const body = await response.json().catch(() => null) as {
+        message?: string;
         errors?: Partial<Record<FieldName, string[]>>;
       } | null;
 
@@ -119,12 +134,15 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
             if (message) setError(field as FieldName, { type: "server", message });
           });
         }
-        setSubmitError(content.form.errorMessage);
+        // Turnstile tokens are single-use: request a fresh one for the retry.
+        turnstileRef.current?.reset();
+        setSubmitError(response.status === 403 && body?.message ? body.message : content.form.errorMessage);
         return;
       }
 
       setSubmissionSucceeded(true);
     } catch {
+      turnstileRef.current?.reset();
       setSubmitError(content.form.errorMessage);
     }
   };
@@ -161,6 +179,7 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
     </div>
     {isSubmitted && remainingFields > 0 && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{remainingFields} {remainingFields === 1 ? "detail needs" : "details need"} your attention.</p>}
     {submitError && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{submitError}</p>}
+    {turnstileSiteKey && <div className="mt-5 w-full min-w-0 max-w-full"><TurnstileWidget ref={turnstileRef} siteKey={turnstileSiteKey} onToken={(token) => { turnstileTokenRef.current = token; }} /></div>}
     <button type="submit" disabled={isSubmitting} className="mt-5 flex min-h-14 w-full items-center justify-center rounded-xl bg-brand-yellow px-5 font-accent text-sm font-extrabold text-brand-primary transition-colors hover:bg-[#ffe36f] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? form.buttons.submitting : form.buttons.submit}</button>
     <p className="mt-4 text-center text-xs text-text-subtle"><span className="mr-2 text-brand-yellow">●</span>No spam. No pressure. You confirm your hourly rate before move day.</p>
     <Contacto />
