@@ -61,16 +61,16 @@ export const includedServices: IncludedContent = {
       description:
         "Track crew and truck status during your move when the service is available.",
       includes: [
-        "Real-time status visibility",
+        "Real-time crew and truck status",
         "Crew arrival updates",
-        "Move-day location awareness",
+        "Location updates on move day",
       ],
       image: "/images/included/boxes-loading-ramp.jpeg",
       imageAlt: "Mover loading boxes into a truck using a ramp",
     },
     {
       id: "updates",
-      title: "Automated Move Updates",
+      title: "Move Updates from Booking to Completion",
       description:
         "We send booking, reminder, arrival, and completion updates to the contact on file.",
       includes: [

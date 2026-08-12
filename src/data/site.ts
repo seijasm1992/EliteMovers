@@ -4,9 +4,12 @@ import type { SiteConfig } from "../types/content";
 export const site: SiteConfig = {
   name: "ProElite Movers",
   wordmark: { primary: "ProElite", secondary: "Movers" },
-  phone: "(305) 555-0199",
-  phoneHref: "tel:+13055550199",
-  email: "hello@proelitemovers.com",
+  phone: "+1 (407) 984-9218",
+  phoneHref: "tel:+14079849218",
+  email: "info@proelitemovers.com",
+  address: "1050 SW 70th Ave, Miami, FL 33144",
+  addressHref:
+    "https://www.google.com/maps/search/?api=1&query=1050+SW+70th+Ave,+Miami,+FL+33144",
   description:
-    "Premium local and long-distance moving with hourly billing only — transparent rates, full protection, and a background-checked crew.",
+    "Local and long-distance moving in Miami with hourly billing only: clear rates, full protection, and a background-checked crew.",
 };

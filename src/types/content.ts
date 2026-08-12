@@ -24,6 +24,8 @@ export interface SiteConfig {
   phone: string;
   phoneHref: string;
   email: string;
+  address: string;
+  addressHref: string;
   description: string;
 }
 

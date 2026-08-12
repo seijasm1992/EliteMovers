@@ -5,14 +5,14 @@ export const guarantee: GuaranteeContent = {
   eyebrow: "Why ProElite",
   title: "The Elite Guarantee",
   subtitle:
-    "What you can expect from the crew assigned to your move — including transparent hourly billing.",
+    "What you can expect from the crew assigned to your move, starting with an hourly rate confirmed before move day.",
   cards: [
     {
       id: "hourly-rate",
       icon: "tag",
       title: "Honest Hourly Rate",
       description:
-        "We bill by the hour only — no flat-rate packages. Your rate is confirmed before move day, and you pay for the time the job takes. Any additional charge is discussed before work begins.",
+        "We bill by the hour only, with no flat-rate packages. Your rate is confirmed before move day, and you pay for the time the job takes. If anything extra comes up, we discuss it before work begins.",
     },
     {
       id: "protection",

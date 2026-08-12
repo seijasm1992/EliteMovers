@@ -7,7 +7,7 @@ export const hero: HeroContent = {
   description:
     "Our crew moves apartments, homes, and offices with transparent hourly billing and protection for your furniture and property.",
   primaryCta: { label: "Request a Quote", href: "/get-a-quote/" },
-  secondaryCta: { label: "Call Now", href: "tel:+13055550199" },
+  secondaryCta: { label: "Call Now", href: "tel:+14079849218" },
   rating: {
     score: "4.9",
     reviewsLabel: "Based on 500+ reviews",

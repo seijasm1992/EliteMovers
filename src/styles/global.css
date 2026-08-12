@@ -49,9 +49,9 @@
   --color-rating: #d6ac00;
 
   /* Typography */
-  --font-display: "Barlow Condensed", sans-serif;
-  --font-accent: "Manrope", sans-serif;
-  --font-sans: "Manrope", sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-accent: "Manrope", system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-sans: "Manrope", system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
 
   /* Semantic type scale */
   --text-page-title: clamp(3rem, 5vw, 4.5rem);

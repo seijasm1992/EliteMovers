@@ -10,7 +10,7 @@ export const faqContent: FAQItem[] = [
     category: "Pricing & Billing",
     question: "How does hourly billing work?",
     answer:
-      "We bill by the hour only — no flat-rate or fixed-price packages. We confirm your hourly rate when you book, and your final labor total is based on the time the job takes and the travel terms listed in your estimate.",
+      "We bill by the hour only. No flat-rate or fixed-price packages. We confirm your hourly rate when you book, and your final labor total is based on the time the job takes and the travel terms listed in your estimate.",
   },
   {
     id: "flat-rate-vs-hourly",
@@ -31,7 +31,7 @@ export const faqContent: FAQItem[] = [
     category: "Pricing & Billing",
     question: "Are there any hidden fees?",
     answer:
-      "Your hourly rate estimate lists the crew, truck, travel terms, and any optional services. Moving blankets and industrial wrap are included with the job. You pay for the time worked — no flat-rate add-ons.",
+      "Your hourly rate estimate lists the crew, truck, travel terms, and any optional services. Moving blankets and industrial wrap are included with the job. You pay for the time worked, with no flat-rate add-ons.",
   },
   {
     id: "payment-methods",

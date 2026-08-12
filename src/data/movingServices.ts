@@ -4,7 +4,7 @@ export const movingServicesContent: MovingServicesContent = {
   eyebrow: "What We Do",
   title: "Our Services",
   subtitle:
-    "We handle homes, apartments, offices, and long-distance moves throughout Florida — with transparent hourly billing.",
+    "We handle homes, apartments, offices, and long-distance moves throughout Florida, all billed by the hour.",
   services: [
     {
       id: "long-distance-moving",

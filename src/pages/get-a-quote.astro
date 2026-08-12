@@ -58,6 +58,19 @@ const emailHref = `mailto:${site.email}`;
                   </div>
                 </div>
               </div>
+              <div class="flex items-center gap-4">
+                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink text-gold shadow-soft">
+                  <Icon name="mapPin" class="h-5 w-5" />
+                </div>
+                <div class="min-w-0">
+                  <p class="type-label text-text-subtle">Address</p>
+                  <div class="mt-1">
+                    <a href={site.addressHref} target="_blank" rel="noopener noreferrer" class="font-accent text-sm font-bold text-text-strong transition-colors hover:text-green">
+                      {site.address}
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
