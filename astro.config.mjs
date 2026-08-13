@@ -1,13 +1,37 @@
 // @ts-check
 import { defineConfig, envField } from 'astro/config';
+import { loadEnv } from 'vite';
 import react from '@astrojs/react';
 import cloudflare from '@astrojs/cloudflare';
 import tailwindcss from '@tailwindcss/vite';
 
+// Las variables `client` de astro:env se incrustan en el bundle en build time.
+// Compilar sin site key deja el formulario sin captcha y, con
+// ENABLE_TURNSTILE=true en producción, /api/quote rechaza todos los envíos.
+// El guard vive en `astro:build:start` para correr únicamente durante el build.
+const turnstileSiteKeyGuard = () => ({
+  name: 'turnstile-site-key-guard',
+  hooks: {
+    'astro:build:start': () => {
+      const fileEnv = loadEnv('production', process.cwd(), '');
+      const siteKey = process.env.PUBLIC_TURNSTILE_SITE_KEY ?? fileEnv.PUBLIC_TURNSTILE_SITE_KEY;
+      const enabled = (process.env.ENABLE_TURNSTILE ?? fileEnv.ENABLE_TURNSTILE ?? 'true') !== 'false';
+      if (enabled && !siteKey?.trim()) {
+        throw new Error(
+          'PUBLIC_TURNSTILE_SITE_KEY is required for production builds. ' +
+          'Client env vars are inlined at build time, so the Turnstile widget ' +
+          'cannot render without it. Add it to .env (or the build environment) ' +
+          'before `astro build`, or set ENABLE_TURNSTILE=false to opt out.',
+        );
+      }
+    },
+  },
+});
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://proelitemovers.com',
-  integrations: [react()],
+  integrations: [react(), turnstileSiteKeyGuard()],
   adapter: cloudflare(),
   devToolbar: {
     enabled: false,
