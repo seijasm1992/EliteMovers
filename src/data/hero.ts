@@ -13,9 +13,6 @@ export const hero: HeroContent = {
     reviewsLabel: "Based on 500+ reviews",
   },
   slides: [
-    { src: "/1M.jpg", alt: "ProElite crew loading a moving truck" },
     { src: "/2M.jpg", alt: "Moving crew wrapping furniture for transport" },
-    { src: "/3M.jpg", alt: "Moving truck ready for a long-distance relocation" },
-    { src: "/4M.jpg", alt: "Uniformed mover carrying protected boxes" },
   ],
 };
