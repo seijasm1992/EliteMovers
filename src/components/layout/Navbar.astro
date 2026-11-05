@@ -2,5 +2,7 @@
 import NavMenu from "../react/NavMenu.tsx";
 import { navigation } from "../../data/navigation";
 import { site } from "../../data/site";
+
+const { name, phone, phoneHref } = site;
 ---
-<NavMenu client:load navigation={navigation} site={site} />
+<NavMenu client:load navigation={navigation} site={{ name, phone, phoneHref }} />

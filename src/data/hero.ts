@@ -1,4 +1,5 @@
 import type { HeroContent } from "../types/content";
+import { site } from "./site";
 
 /** Hero content + background slider. Replace with Sanity `hero` document later. */
 export const hero: HeroContent = {
@@ -7,7 +8,7 @@ export const hero: HeroContent = {
   description:
     "Our crew moves apartments, homes, and offices with transparent hourly billing and protection for your furniture and property.",
   primaryCta: { label: "Request a Quote", href: "/get-a-quote/" },
-  secondaryCta: { label: "Call Now", href: "tel:+14079849218" },
+  secondaryCta: { label: "Call Now", href: site.phoneHref },
   rating: {
     score: "4.9",
     reviewsLabel: "Based on 500+ reviews",

@@ -33,14 +33,16 @@ const year = new Date().getFullYear();
           {site.phone}
         </a>
         <a
-          href={site.addressHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-3 inline-flex items-center gap-2 font-accent text-sm font-semibold text-white transition-colors hover:text-gold"
+          href={`mailto:${site.email}`}
+          class="mt-3 flex w-fit items-center gap-2 break-all font-accent text-sm font-semibold text-white transition-colors hover:text-gold"
         >
-          <Icon name="mapPin" class="h-4 w-4 shrink-0 text-gold" />
-          {site.address}
+          <Icon name="email" class="h-4 w-4 shrink-0 text-gold" />
+          {site.email}
         </a>
+        <p class="mt-3 flex items-center gap-2 font-accent text-sm font-semibold text-white">
+          <Icon name="mapPin" class="h-4 w-4 shrink-0 text-gold" />
+          {site.location}
+        </p>
       </div>
 
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -69,7 +71,10 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
-      <p>&copy; {year} {site.name}. All rights reserved.</p>
+      <div class="grid gap-1">
+        <p>&copy; {year} {site.name}. All rights reserved.</p>
+        <p>{site.name} is operated by {site.legalName}.</p>
+      </div>
       <p class="text-white/50">Licensed and insured in Florida.</p>
     </div>
   </div>

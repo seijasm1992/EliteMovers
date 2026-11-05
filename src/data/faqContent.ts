@@ -1,4 +1,5 @@
 import type { FAQItem } from "../types/content";
+import { site } from "./site";
 
 /**
  * Homepage FAQ content grouped by topic. The component derives its category
@@ -80,7 +81,7 @@ export const faqContent: FAQItem[] = [
     category: "Services & Coverage",
     question: "What areas do you serve?",
     answer:
-      "We're based in Miami Lakes and regularly serve Hialeah, Doral, Miramar, Pembroke Pines, Wynwood, Miami Springs, Hialeah Gardens, and Opa-locka. We also handle long-distance moves anywhere within Florida directly.",
+      `We're based in ${site.location} and regularly serve Miami Lakes, Hialeah, Doral, Miramar, Pembroke Pines, Wynwood, Miami Springs, Hialeah Gardens, and Opa-locka. We also handle long-distance moves anywhere within Florida directly.`,
   },
   {
     id: "long-distance",
