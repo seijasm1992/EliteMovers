@@ -35,3 +35,9 @@ astro-dev.*.log
 
 # jetbrains setting folder
 .idea/
+
+# additional env files and OS/log noise
+.env.*
+!.env.example
+*.log
+Thumbs.db

@@ -26,6 +26,6 @@ export const quoteForm: QuoteFormContent = {
       message: "We'll use these details to prepare your hourly rate estimate.",
       resetLabel: "Start over",
     },
-    errorMessage: "Something went wrong. Please try again.",
+    errorMessage: "We couldn't send your request. Please call or text us.",
   },
 };

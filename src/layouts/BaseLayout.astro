@@ -108,5 +108,15 @@ const isHomePage = Astro.url.pathname === "/";
         revealedElements.forEach((element) => observer.observe(element));
       }
     </script>
+    <script>
+      import { trackContact } from "../lib/analytics";
+
+      document.addEventListener("click", (event) => {
+        if (!(event.target instanceof Element)) return;
+        const link = event.target.closest<HTMLAnchorElement>('a[href^="tel:"], a[href^="sms:"]');
+        if (!link) return;
+        trackContact(link.getAttribute("href")?.startsWith("tel:") ? "contact_call" : "contact_text");
+      });
+    </script>
   </body>
 </html>
