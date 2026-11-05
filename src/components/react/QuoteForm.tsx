@@ -3,6 +3,7 @@ import { PUBLIC_TURNSTILE_SITE_KEY } from "astro:env/client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm, useWatch, type UseFormRegister } from "react-hook-form";
 import { quoteSchema, sanitizeName, sanitizePhone, todayMoveDate, type QuoteFormValues } from "../../lib/validations/quoteSchema";
+import { trackContact } from "../../lib/analytics";
 import type { QuoteFormContent } from "../../types/content";
 import Contacto, { QUOTE_FORM_ID } from "./Contacto";
 import TurnstileWidget, { type TurnstileHandle } from "./TurnstileWidget";
@@ -72,6 +73,7 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
   const [submissionSucceeded, setSubmissionSucceeded] = useState(false);
   const turnstileRef = useRef<TurnstileHandle>(null);
   const turnstileTokenRef = useRef<string | null>(null);
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     onValuesChange?.(values);
@@ -120,9 +122,10 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
       const response = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formValues, turnstileToken: turnstileTokenRef.current ?? undefined }),
+        body: JSON.stringify({ ...formValues, turnstileToken: turnstileTokenRef.current ?? undefined, website: honeypotRef.current?.value ?? "" }),
       });
       const body = await response.json().catch(() => null) as {
+        ok?: boolean;
         message?: string;
         errors?: Partial<Record<FieldName, string[]>>;
       } | null;
@@ -140,6 +143,7 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
         return;
       }
 
+      if (body?.ok === true) trackContact("contact_form");
       setSubmissionSucceeded(true);
     } catch {
       turnstileRef.current?.reset();
@@ -179,6 +183,7 @@ export default function QuoteForm({ content, variant = "default", onValuesChange
     </div>
     {isSubmitted && remainingFields > 0 && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{remainingFields} {remainingFields === 1 ? "detail needs" : "details need"} your attention.</p>}
     {submitError && <p role="alert" className="mt-4 text-center text-sm font-medium text-alert">{submitError}</p>}
+    <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"><label htmlFor="quote-website">Leave this field empty</label><input ref={honeypotRef} id="quote-website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" /></div>
     {turnstileSiteKey && <div className="mt-5 w-full min-w-0 max-w-full"><TurnstileWidget ref={turnstileRef} siteKey={turnstileSiteKey} onToken={(token) => { turnstileTokenRef.current = token; }} /></div>}
     <button type="submit" disabled={isSubmitting} className="mt-5 flex min-h-14 w-full items-center justify-center rounded-xl bg-brand-yellow px-5 font-accent text-sm font-extrabold text-brand-primary transition-colors hover:bg-[#ffe36f] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand-primary disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? form.buttons.submitting : form.buttons.submit}</button>
     <p className="mt-4 text-center text-xs text-text-subtle"><span className="mr-2 text-brand-yellow">●</span>No spam. No pressure. You confirm your hourly rate before move day.</p>

@@ -224,3 +224,10 @@ export interface QuoteFormContent {
     errorMessage: string;
   };
 }
+
+export interface PrivacyPolicyContent {
+  meta: { title: string; description: string };
+  title: string;
+  updated: string;
+  sections: { heading: string; paragraphs: string[] }[];
+}

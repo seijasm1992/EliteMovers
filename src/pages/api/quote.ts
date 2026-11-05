@@ -8,6 +8,8 @@ export const prerender = false;
 
 const quoteSubmissionSchema = quoteSchema.extend({
   turnstileToken: z.string().trim().max(4096).optional(),
+  // Honeypot: hidden from people, so any value means an automated submission.
+  website: z.string().max(200).optional(),
 });
 
 const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
@@ -55,6 +57,10 @@ export const POST: APIRoute = async ({ request }) => {
   const parsed = quoteSubmissionSchema.safeParse(rawBody);
   if (!parsed.success) {
     return json({ ok: false, errors: z.flattenError(parsed.error).fieldErrors }, 422);
+  }
+
+  if (parsed.data.website?.trim()) {
+    return json({ ok: false }, 400);
   }
 
   if (ENABLE_TURNSTILE) {
