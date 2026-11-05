@@ -11,7 +11,7 @@ interface Props {
 const {
   title = `Miami Movers | ${site.name}`,
   description = site.description,
-  image = "/1M.jpg",
+  image = "/images/social/green-wrapped-furniture-truck.jpg",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
@@ -42,7 +42,7 @@ const isHomePage = Astro.url.pathname === "/";
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content={`${site.name} moving crew`} />
+    <meta property="og:image:alt" content="Furniture wrapped in green plastic film inside a moving truck, beside stacked cardboard boxes" />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
