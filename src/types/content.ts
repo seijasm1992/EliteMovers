@@ -20,12 +20,12 @@ export interface NavItem {
 
 export interface SiteConfig {
   name: string;
+  legalName: string;
   wordmark: { primary: string; secondary: string };
   phone: string;
   phoneHref: string;
   email: string;
-  address: string;
-  addressHref: string;
+  location: string;
   description: string;
 }
 

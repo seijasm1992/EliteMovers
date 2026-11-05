@@ -24,7 +24,7 @@ export const movingServicesContent: MovingServicesContent = {
       ],
       buttonLabel: "More Info",
       image: "/service-long-distance.webp",
-      imageAlt: "Pro Elite Movers crew loading wrapped furniture for a long-distance move",
+      imageAlt: "ProElite Movers crew loading wrapped furniture for a long-distance move",
     },
     {
       id: "residential-moving",

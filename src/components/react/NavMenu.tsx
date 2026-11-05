@@ -2,9 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { NavItem, SiteConfig } from "../../types/content";
 
+/** Only the fields the menu renders, so the island does not serialize the whole config. */
+type NavSite = Pick<SiteConfig, "name" | "phone" | "phoneHref">;
+
 interface Props {
   navigation: NavItem[];
-  site: SiteConfig;
+  site: NavSite;
 }
 
 const MOBILE_DRAWER_ID = "mobile-nav-drawer";
@@ -47,7 +50,7 @@ function BrandBadge({
   site,
   tone,
 }: {
-  site: SiteConfig;
+  site: NavSite;
   tone: "light" | "dark";
 }) {
   return (

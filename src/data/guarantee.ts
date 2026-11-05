@@ -2,7 +2,7 @@ import type { GuaranteeContent } from "../types/content";
 
 /** "The Elite Guarantee" section. `icon` keys map to inline SVGs in Icon.astro. */
 export const guarantee: GuaranteeContent = {
-  eyebrow: "Why ProElite",
+  eyebrow: "Why ProElite Movers",
   title: "The Elite Guarantee",
   subtitle:
     "What you can expect from the crew assigned to your move, starting with an hourly rate confirmed before move day.",
@@ -26,7 +26,7 @@ export const guarantee: GuaranteeContent = {
       icon: "badge",
       title: "Background-Checked Crew",
       description:
-        "Your assigned movers are background checked, trained, and scheduled before move day. They arrive in ProElite uniform.",
+        "Your assigned movers are background checked, trained, and scheduled before move day. They arrive in ProElite Movers uniforms.",
     },
   ],
 };

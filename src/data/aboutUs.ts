@@ -1,4 +1,5 @@
 import type { AboutPageContent } from "../types/content";
+import { site } from "./site";
 
 /**
  * About Us page content. Source: `.agents/context/about-us.md`.
@@ -8,7 +9,7 @@ export const aboutUs: AboutPageContent = {
   meta: {
     title: "About ProElite Movers | Founded by Luis & Juan",
     description:
-      "Meet the team behind ProElite Movers, a Miami Lakes moving agency built on honest hourly billing and a human approach.",
+      `Meet the team behind ProElite Movers, a ${site.location} moving company built on honest hourly billing and a human approach.`,
   },
   hero: {
     eyebrow: "Our Founders",
@@ -76,7 +77,7 @@ export const aboutUs: AboutPageContent = {
     items: [
       { icon: "badge", label: "Registered Florida Mover · License on file" },
       { icon: "shield", label: "Insured & Bonded" },
-      { icon: "mapPin", label: "Locally Owned & Operated · Miami Lakes, FL" },
+      { icon: "mapPin", label: `Locally Owned & Operated · ${site.location}` },
     ],
   },
   cities: {

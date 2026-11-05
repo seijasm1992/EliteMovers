@@ -1,15 +1,16 @@
 import type { SiteConfig } from "../types/content";
 
+const phone = "+1 (786) 281-7825";
+
 /** Global brand + contact config. Replace with Sanity `siteSettings` document later. */
 export const site: SiteConfig = {
   name: "ProElite Movers",
+  legalName: "PROELITE MOVING LLC",
   wordmark: { primary: "ProElite", secondary: "Movers" },
-  phone: "+1 (407) 984-9218",
-  phoneHref: "tel:+14079849218",
+  phone,
+  phoneHref: `tel:+${phone.replace(/\D/g, "")}`,
   email: "info@proelitemovers.com",
-  address: "1050 SW 70th Ave, Miami, FL 33144",
-  addressHref:
-    "https://www.google.com/maps/search/?api=1&query=1050+SW+70th+Ave,+Miami,+FL+33144",
+  location: "Miami, FL",
   description:
     "Local and long-distance moving in Miami with hourly billing only: clear rates, full protection, and a background-checked crew.",
 };
