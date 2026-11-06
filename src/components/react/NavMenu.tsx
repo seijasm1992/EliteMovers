@@ -128,6 +128,21 @@ export default function NavMenu({ navigation, site }: Props) {
     }, CLOSE_DELAY_MS);
   }, [clearCloseTimer]);
 
+  /**
+   * Whether a point lies over a dropdown's trigger or its panel (the panel wrapper
+   * includes the gap below the trigger). Uses geometry instead of hover events,
+   * because some browsers report a pointer leave while the cursor is still on the menu.
+   */
+  const isInMenuZone = useCallback((label: string, x: number, y: number) => {
+    const item = itemRefs.current.get(label);
+    if (!item) return false;
+    return [item.querySelector(":scope > a"), item.querySelector(":scope > div")].some((el) => {
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    });
+  }, []);
+
   const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
     setActiveAccordion(null);
@@ -147,11 +162,23 @@ export default function NavMenu({ navigation, site }: Props) {
     const onPointerDown = (event: PointerEvent) => {
       const item = itemRefs.current.get(openMenu);
       if (item && event.target instanceof Node && item.contains(event.target)) return;
+      if (isInMenuZone(openMenu, event.clientX, event.clientY)) return;
       closeMenuNow();
     };
+    // While open, the mouse position alone decides: inside the menu cancels a pending
+    // close, outside starts the grace period. Spurious leave events cannot close it.
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      if (isInMenuZone(openMenu, event.clientX, event.clientY)) clearCloseTimer();
+      else if (!closeTimer.current) scheduleClose();
+    };
     document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [openMenu, closeMenuNow]);
+    document.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("pointermove", onPointerMove);
+    };
+  }, [openMenu, closeMenuNow, clearCloseTimer, scheduleClose, isInMenuZone]);
 
   // Crossing the desktop breakpoint closes whichever menu no longer applies.
   useEffect(() => {
@@ -413,7 +440,10 @@ export default function NavMenu({ navigation, site }: Props) {
                   if (hasMenu && e.pointerType === "mouse") openMenuNow(item.label);
                 }}
                 onPointerLeave={(e) => {
-                  if (hasMenu && e.pointerType === "mouse") scheduleClose();
+                  // Covers leaving the window, where no further pointermove arrives.
+                  if (hasMenu && e.pointerType === "mouse" && !isInMenuZone(item.label, e.clientX, e.clientY)) {
+                    scheduleClose();
+                  }
                 }}
                 onBlur={(e) => {
                   // A null relatedTarget (e.g. Safari clicking a link) must not close the menu.
