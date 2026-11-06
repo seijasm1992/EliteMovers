@@ -11,6 +11,11 @@ interface Props {
 }
 
 const MOBILE_DRAWER_ID = "mobile-nav-drawer";
+/** Grace period before a desktop dropdown closes after the mouse leaves it. */
+const CLOSE_DELAY_MS = 300;
+/** Same width as Tailwind's `lg`, where the desktop menu replaces the drawer. */
+const DESKTOP_QUERY = "(min-width: 64rem)";
+const slugify = (label: string) => label.toLowerCase().replace(/\s+/g, "-");
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -83,14 +88,60 @@ const CloseIcon = () => (
 
 export default function NavMenu({ navigation, site }: Props) {
   const [scrolled, setScrolled] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** Pointer type of the last press on a dropdown trigger: decides whether a click opens or navigates. */
+  const lastPointerType = useRef<string | null>(null);
+  const itemRefs = useRef(new Map<string, HTMLLIElement>());
+  const triggerRefs = useRef(new Map<string, HTMLAnchorElement>());
+
+  const clearCloseTimer = useCallback(() => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const openMenuNow = useCallback(
+    (label: string) => {
+      clearCloseTimer();
+      setOpenMenu(label);
+    },
+    [clearCloseTimer],
+  );
+
+  const closeMenuNow = useCallback(() => {
+    clearCloseTimer();
+    setOpenMenu(null);
+  }, [clearCloseTimer]);
+
+  const scheduleClose = useCallback(() => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => {
+      closeTimer.current = null;
+      setOpenMenu(null);
+    }, CLOSE_DELAY_MS);
+  }, [clearCloseTimer]);
+
+  /**
+   * Whether a point lies over a dropdown's trigger or its panel (the panel wrapper
+   * includes the gap below the trigger). Uses geometry instead of hover events,
+   * because some browsers report a pointer leave while the cursor is still on the menu.
+   */
+  const isInMenuZone = useCallback((label: string, x: number, y: number) => {
+    const item = itemRefs.current.get(label);
+    if (!item) return false;
+    return [item.querySelector(":scope > a"), item.querySelector(":scope > div")].some((el) => {
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+    });
+  }, []);
 
   const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
@@ -99,9 +150,50 @@ export default function NavMenu({ navigation, site }: Props) {
   }, []);
 
   const openMobileMenu = useCallback(() => {
-    setOpenDropdown(null);
+    closeMenuNow();
     setIsMobileMenuOpen(true);
-  }, []);
+  }, [closeMenuNow]);
+
+  useEffect(() => clearCloseTimer, [clearCloseTimer]);
+
+  // Any press outside the open dropdown closes it, including the dimmed overlay.
+  useEffect(() => {
+    if (openMenu === null) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const item = itemRefs.current.get(openMenu);
+      if (item && event.target instanceof Node && item.contains(event.target)) return;
+      if (isInMenuZone(openMenu, event.clientX, event.clientY)) return;
+      closeMenuNow();
+    };
+    // While open, the mouse position alone decides: inside the menu cancels a pending
+    // close, outside starts the grace period. Spurious leave events cannot close it.
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      if (isInMenuZone(openMenu, event.clientX, event.clientY)) clearCloseTimer();
+      else if (!closeTimer.current) scheduleClose();
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("pointermove", onPointerMove);
+    };
+  }, [openMenu, closeMenuNow, clearCloseTimer, scheduleClose, isInMenuZone]);
+
+  // Crossing the desktop breakpoint closes whichever menu no longer applies.
+  useEffect(() => {
+    const query = window.matchMedia(DESKTOP_QUERY);
+    const onChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setIsMobileMenuOpen(false);
+        setActiveAccordion(null);
+      } else {
+        closeMenuNow();
+      }
+    };
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, [closeMenuNow]);
 
   useEffect(() => {
     setMounted(true);
@@ -150,32 +242,19 @@ export default function NavMenu({ navigation, site }: Props) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (isMobileMenuOpen) {
-          closeMobileMenu();
-        } else {
-          setOpenDropdown(null);
-        }
+      if (e.key !== "Escape") return;
+      if (isMobileMenuOpen) {
+        closeMobileMenu();
+      } else if (openMenu !== null) {
+        const focusInside = itemRefs.current.get(openMenu)?.contains(document.activeElement);
+        const trigger = triggerRefs.current.get(openMenu);
+        closeMenuNow();
+        if (focusInside) trigger?.focus();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isMobileMenuOpen, closeMobileMenu]);
-
-  const handleBlur = (e: React.FocusEvent) => {
-    if (!navRef.current?.contains(e.relatedTarget as Node)) {
-      setOpenDropdown(null);
-    }
-  };
-
-  const openMenu = (label: string) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setOpenDropdown(label);
-  };
-  const scheduleClose = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenDropdown(null), 140);
-  };
+  }, [isMobileMenuOpen, closeMobileMenu, openMenu, closeMenuNow]);
 
   const toggleMobileMenu = () => {
     if (isMobileMenuOpen) {
@@ -186,7 +265,7 @@ export default function NavMenu({ navigation, site }: Props) {
   };
 
   const textColor = "text-white";
-  const overlayVisible = openDropdown !== null;
+  const overlayVisible = openMenu !== null;
 
   const mobileMenu = (
     <>
@@ -312,8 +391,6 @@ export default function NavMenu({ navigation, site }: Props) {
 
   return (
     <header
-      ref={navRef}
-      onBlur={handleBlur}
       className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-brand-primary transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         scrolled
           ? "shadow-[0_1px_0_0_rgba(255,255,255,0.08)]"
@@ -328,13 +405,13 @@ export default function NavMenu({ navigation, site }: Props) {
           overlayVisible ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         aria-hidden="true"
-        onMouseEnter={scheduleClose}
+        onClick={closeMenuNow}
       />
 
       <nav className="container-x relative z-10 flex h-[var(--nav-h,4.75rem)] items-center justify-between gap-4">
         <a
           href="/"
-          className="transition-transform hover:-translate-y-0.5"
+          className="transition-transform hover:-translate-y-0.5 focus-visible:outline-brand-yellow"
           aria-label={`${site.name} home`}
         >
           <BrandBadge site={site} tone={scrolled ? "light" : "dark"} />
@@ -342,22 +419,75 @@ export default function NavMenu({ navigation, site }: Props) {
 
         <ul className="hidden items-center gap-1 lg:flex">
           {navigation.map((item) => {
-            const isOpen = openDropdown === item.label;
+            const hasMenu = Boolean(item.children);
+            const isOpen = openMenu === item.label;
+            const panelId = `desktop-submenu-${slugify(item.label)}`;
+            // Fade out only when the last menu closes; when switching menus the old one hides at once.
+            const panelState = isOpen
+              ? "visible translate-y-0 opacity-100 transition-all duration-200"
+              : openMenu !== null
+                ? "invisible -translate-y-1 opacity-0 transition-none"
+                : "invisible -translate-y-1 opacity-0 transition-all duration-200";
             return (
               <li
                 key={item.label}
+                ref={(el) => {
+                  if (el) itemRefs.current.set(item.label, el);
+                  else itemRefs.current.delete(item.label);
+                }}
                 className="relative"
-                onMouseEnter={() => item.children && openMenu(item.label)}
-                onMouseLeave={scheduleClose}
+                onPointerEnter={(e) => {
+                  if (hasMenu && e.pointerType === "mouse") openMenuNow(item.label);
+                }}
+                onPointerLeave={(e) => {
+                  // Covers leaving the window, where no further pointermove arrives.
+                  if (hasMenu && e.pointerType === "mouse" && !isInMenuZone(item.label, e.clientX, e.clientY)) {
+                    scheduleClose();
+                  }
+                }}
+                onBlur={(e) => {
+                  // A null relatedTarget (e.g. Safari clicking a link) must not close the menu.
+                  const next = e.relatedTarget;
+                  if (isOpen && next instanceof Node && !e.currentTarget.contains(next)) {
+                    closeMenuNow();
+                  }
+                }}
               >
                 <a
+                  ref={(el) => {
+                    if (el) triggerRefs.current.set(item.label, el);
+                    else triggerRefs.current.delete(item.label);
+                  }}
                   href={item.href}
-                  className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-accent text-sm font-medium transition-colors ${textColor} ${
-                    "hover:bg-white/10"
-                  }`}
-                  aria-haspopup={item.children ? "true" : undefined}
-                  aria-expanded={item.children ? isOpen : undefined}
-                  onFocus={() => item.children && openMenu(item.label)}
+                  className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-accent text-sm font-medium transition-colors hover:bg-white/10 focus-visible:outline-brand-yellow ${textColor}`}
+                  aria-expanded={hasMenu ? isOpen : undefined}
+                  aria-controls={hasMenu ? panelId : undefined}
+                  onPointerDown={(e) => {
+                    lastPointerType.current = e.pointerType;
+                  }}
+                  onClick={(e) => {
+                    const pointer = lastPointerType.current;
+                    lastPointerType.current = null;
+                    if (!hasMenu) return;
+                    // First tap opens the menu; a second tap on the open menu follows the link.
+                    if ((pointer === "touch" || pointer === "pen") && !isOpen) {
+                      e.preventDefault();
+                      openMenuNow(item.label);
+                      return;
+                    }
+                    closeMenuNow();
+                  }}
+                  onKeyDown={(e) => {
+                    if (!hasMenu) return;
+                    if (e.key === " ") {
+                      e.preventDefault();
+                      if (isOpen) closeMenuNow();
+                      else openMenuNow(item.label);
+                    } else if (e.key === "Enter" && !isOpen) {
+                      e.preventDefault();
+                      openMenuNow(item.label);
+                    }
+                  }}
                 >
                   {item.label}
                   {item.children && <ChevronIcon open={isOpen} />}
@@ -365,13 +495,8 @@ export default function NavMenu({ navigation, site }: Props) {
 
                 {item.children && (
                   <div
-                    className={`absolute left-1/2 top-full -translate-x-1/2 pt-3 transition-all duration-200 ${
-                      isOpen
-                        ? "visible translate-y-0 opacity-100"
-                        : "invisible -translate-y-1 opacity-0"
-                    }`}
-                    onMouseEnter={() => openMenu(item.label)}
-                    onMouseLeave={scheduleClose}
+                    id={panelId}
+                    className={`absolute left-1/2 top-full -translate-x-1/2 pt-3 motion-reduce:translate-y-0 motion-reduce:transition-none ${panelState}`}
                   >
                     <div className="min-w-[16rem] rounded-[var(--radius-bubble)] border border-ink/8 bg-white p-2.5 shadow-bubble">
                       <ul className="grid gap-0.5">
@@ -380,6 +505,7 @@ export default function NavMenu({ navigation, site }: Props) {
                             <a
                               href={child.href}
                               className="block rounded-xl px-4 py-2.5 font-accent text-sm font-medium text-text-medium transition-colors hover:bg-offwhite hover:text-ink"
+                              onClick={closeMenuNow}
                             >
                               {child.label}
                             </a>
@@ -396,11 +522,7 @@ export default function NavMenu({ navigation, site }: Props) {
 
         <a
           href={site.phoneHref}
-          className={`hidden items-center gap-2 rounded-full px-5 py-2.5 font-accent text-sm font-semibold transition-all lg:inline-flex ${
-            scrolled
-              ? "bg-ink text-white hover:bg-text-strong"
-          : "bg-brand-yellow text-brand-primary hover:bg-[#ffe36f]"
-          }`}
+          className="hidden items-center gap-2 rounded-full bg-brand-yellow px-5 py-2.5 font-accent text-sm font-semibold text-brand-primary transition-colors hover:bg-[#ffe36f] focus-visible:outline-white lg:inline-flex"
         >
           <PhoneIcon />
           <span className="flex flex-col leading-none">
@@ -415,9 +537,7 @@ export default function NavMenu({ navigation, site }: Props) {
           <button
             ref={hamburgerRef}
             type="button"
-            className={`relative z-[220] flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden ${textColor} ${
-              "hover:bg-white/10"
-            }`}
+            className={`relative z-[220] flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-white/10 focus-visible:outline-brand-yellow lg:hidden ${textColor}`}
             aria-label="Open menu"
             aria-expanded={isMobileMenuOpen}
             aria-controls={MOBILE_DRAWER_ID}
