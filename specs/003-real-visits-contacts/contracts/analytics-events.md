@@ -27,6 +27,7 @@ Prohibido en cualquier evento: nombre, teléfono, correo, ciudades, fecha de mud
 ## Configuración en el panel (no en el repo)
 
 - Zaraz → herramienta Google Analytics 4 con el ID de medición del dueño.
-  - Disparador Pageview (para visitas y atribución de origen).
-  - Un disparador por evento: regla "Event Name" igual a `contact_call`, `contact_text` y `contact_form`, con acción "Event" del mismo nombre que reenvía `page_path`.
+  - Acciones automáticas **Pageviews** (visitas y atribución de origen) y **Events** (reenvía cada `zaraz.track` con sus propiedades, incluido `page_path`).
+  - Sin disparadores ni acciones personalizadas para estos eventos, para no duplicarlos. Solo si falta la acción automática **Events**: un disparador por evento con `{{ client.__zarazTrack }}` igual al nombre del evento y una acción "Event" del mismo nombre que reenvía `page_path`.
+- GA4 → dimensión personalizada de evento `page_path`, para ver la página en los informes.
 - GA4 → marcar los tres eventos como *key events*.

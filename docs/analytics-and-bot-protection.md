@@ -27,20 +27,21 @@ Cada evento lleva `page_path`, la página donde ocurrió (por ejemplo, `/get-a-q
 ### 2.1 Crear la propiedad de GA4
 
 1. En [analytics.google.com](https://analytics.google.com), crea una propiedad para `proelitemovers.com` y un flujo de datos web.
-2. Copia el **ID de medición** (empieza por `G-`). Solo lo vas a pegar en Zaraz; no lo envíes para que se guarde en el código.
+2. Copia el **ID de medición** (empieza por `G-`, **no** por `GTM-`). Solo lo vas a pegar en Zaraz; no lo envíes para que se guarde en el código.
+3. Si GA4 o Google Tag Manager te muestran un código para "instalar manualmente" en el `<head>`, ciérralo. No hace falta: Zaraz hace esa parte. No uses Google Tag Manager.
 
 ### 2.2 Activar Zaraz
 
-1. En el panel de Cloudflare, abre **Zaraz** para `proelitemovers.com`.
+1. Abre Zaraz para `proelitemovers.com`. En el menú nuevo de Cloudflare no aparece como opción propia: usa el buscador del panel (**Ctrl + K** → "Zaraz") o el enlace directo `https://dash.cloudflare.com/?to=/:account/:zone/zaraz` y elige el dominio.
 2. En **Settings**, deja activada la inyección automática (**Auto-inject script**).
-3. En **Tools**, añade **Google Analytics 4** y pega el ID de medición.
-4. En los disparadores de la herramienta, deja **Pageview**. Sirve para que GA4 sepa de dónde llegó cada visita.
-5. Crea tres disparadores (**Triggers**), cada uno con la regla **Match rule → Event Name** igual a:
-   - `contact_call`
-   - `contact_text`
-   - `contact_form`
-6. En la herramienta GA4, añade una acción (**Action**) de tipo evento por cada disparador. Usa el mismo nombre (`contact_call`, `contact_text`, `contact_form`) y añade el campo `page_path` con el valor `{{ client.page_path }}`.
-7. Pulsa **Publish**.
+3. En **Tools Configuration → Third-party tools → Add new tool**, añade **Google Analytics 4** y pega el ID de medición.
+4. En **Automated actions** de la herramienta, deja activadas:
+   - **Pageviews**: cuenta las visitas y le dice a GA4 de dónde llegó cada una.
+   - **Events**: envía a GA4 todos los eventos del sitio (`contact_call`, `contact_text`, `contact_form`) con su `page_path`.
+   - **E-commerce** puede quedar desactivado.
+5. **No crees disparadores ni acciones personalizadas** para estos eventos: con **Events** activado, cada contacto llegaría dos veces a GA4.
+6. Pulsa **Publish** (o **Save**) si el panel lo pide.
+7. Solo si tu panel no tiene la acción automática **Events**: crea en **Triggers** un disparador por evento (**Match rule**, variable `{{ client.__zarazTrack }}`, **Equals**, valor `contact_call`; igual para `contact_text` y `contact_form`). Después, en la herramienta GA4, crea en **Custom actions** una acción de tipo **Event** por disparador, con el mismo nombre y el campo `page_path` = `{{ client.page_path }}`.
 8. Comprobación: en el código fuente de cualquier página busca `/cdn-cgi/zaraz/`. Si no aparece, Zaraz no se está inyectando en las páginas del sitio. En ese caso pide a quien mantenga el sitio que añada la carga manual descrita en [research.md, R2](../specs/003-real-visits-contacts/research.md), y desactiva la inyección automática.
 
 ### 2.3 Ver la página de cada contacto en GA4
