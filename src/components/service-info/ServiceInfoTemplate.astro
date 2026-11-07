@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Navbar from "../layout/Navbar.astro";
+import Footer from "../layout/Footer.astro";
+import ServiceInfoHero from "./ServiceInfoHero.astro";
+import ServiceInfoSteps from "./ServiceInfoSteps.astro";
+import ServiceInfoClosing from "./ServiceInfoClosing.astro";
+import { site } from "../../data/site";
+import { SERVICE_HERO_IMAGE_SIZES } from "../../data/movingServicePages";
+import type { ServiceInfoPage } from "../../types/content";
+
+interface Props {
+  page: ServiceInfoPage;
+}
+
+const { page } = Astro.props;
+const { image } = page.hero;
+const baseUrl = "https://proelitemovers.com";
+
+// Structured data must match what the page shows: no address, prices, or ratings.
+const schemas = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MovingCompany",
+    name: site.name,
+    url: `${baseUrl}/`,
+    telephone: site.phone,
+    email: site.email,
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Miami-Dade County, FL" },
+      { "@type": "AdministrativeArea", name: "Broward County, FL" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${baseUrl}/` },
+      { "@type": "ListItem", position: 2, name: page.label, item: `${baseUrl}${page.href}` },
+    ],
+  },
+].map((schema) => JSON.stringify(schema).replace(/</g, "\\u003c"));
+---
+
+<BaseLayout
+  title={page.meta.title}
+  description={page.meta.description}
+  image={image.src960}
+  ogImageAlt={image.alt}
+  preloadImage={{
+    href: image.src720,
+    srcset: `${image.src480} 480w, ${image.src720} 720w, ${image.src960} 960w`,
+    sizes: SERVICE_HERO_IMAGE_SIZES,
+  }}
+>
+  {schemas.map((json) => <script type="application/ld+json" is:inline set:html={json} />)}
+  <Navbar />
+  <main id="main-content">
+    <ServiceInfoHero page={page} />
+    <ServiceInfoSteps page={page} />
+    <ServiceInfoClosing page={page} />
+  </main>
+  <Footer />
+</BaseLayout>

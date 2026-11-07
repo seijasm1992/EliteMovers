@@ -1,0 +1,8 @@
+---
+import ServiceInfoTemplate from "../components/service-info/ServiceInfoTemplate.astro";
+import { getServiceInfoPage } from "../data/serviceInfoPages";
+
+const page = getServiceInfoPage("high-value-items");
+---
+
+<ServiceInfoTemplate page={page} />

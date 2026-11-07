@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { movingServicePages } from "../data/movingServicePages";
+import { serviceInfoPages } from "../data/serviceInfoPages";
 import { miamiPage } from "../data/locationPages";
 import { faqPage, licensesPage } from "../data/companyPages";
 
@@ -12,6 +13,7 @@ const routes = [
     "/about-us/",
     "/privacy-policy/",
     ...movingServicePages.map((page) => page.href),
+    ...serviceInfoPages.map((page) => page.href),
     miamiPage.href,
     licensesPage.href,
     faqPage.href,

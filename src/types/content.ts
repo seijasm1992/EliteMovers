@@ -269,3 +269,35 @@ export interface CompanyPage {
   href: string;
   meta: { title: string; description: string };
 }
+
+/* ── Service info pages (spec 010) ───────────────────────────────────── */
+
+export type ServiceInfoSlug =
+  | "packing-services"
+  | "installation"
+  | "high-value-items"
+  | "furniture-protection"
+  | "move-coordination";
+
+export interface ServiceInfoStep {
+  title: string;
+  description: string;
+}
+
+/** A Services menu page: header, 3 steps and a one-line link to the quote page. */
+export interface ServiceInfoPage {
+  slug: ServiceInfoSlug;
+  /** Menu label and H1 text. */
+  label: string;
+  href: string;
+  meta: { title: string; description: string };
+  hero: {
+    /** 2 or 3 sentences, specific to this service. */
+    description: string;
+    image: { src480: string; src720: string; src960: string; alt: string; width: number; height: number };
+  };
+  /** Exactly 3 steps. */
+  steps: { title: string; items: [ServiceInfoStep, ServiceInfoStep, ServiceInfoStep] };
+  /** One line ending in →. Always links to /get-a-quote/. */
+  closing: { text: string };
+}
