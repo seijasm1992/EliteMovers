@@ -1,0 +1,37 @@
+---
+import { SERVICE_HERO_IMAGE_SIZES } from "../../data/movingServicePages";
+import type { ServiceInfoPage } from "../../types/content";
+
+interface Props {
+  page: ServiceInfoPage;
+}
+
+const { page } = Astro.props;
+const { image } = page.hero;
+---
+<!-- Informational header: no buttons by design (spec 010). -->
+<section id="top" class="relative overflow-hidden bg-brand-primary pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24">
+  <div class="container-x">
+    <div class="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16">
+      <div>
+        <h1 class="type-page-title text-white">{page.label}</h1>
+        <p class="type-body-lead mt-6 max-w-xl text-white/75">{page.hero.description}</p>
+      </div>
+
+      <div class="overflow-hidden rounded-3xl ring-1 ring-white/10">
+        <img
+          src={image.src720}
+          srcset={`${image.src480} 480w, ${image.src720} 720w, ${image.src960} 960w`}
+          sizes={SERVICE_HERO_IMAGE_SIZES}
+          width={image.width}
+          height={image.height}
+          alt={image.alt}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="aspect-[4/3] h-auto w-full object-cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>

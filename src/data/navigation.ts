@@ -1,5 +1,6 @@
 import type { NavItem } from "../types/content";
 import { movingServicePages } from "./movingServicePages";
+import { serviceInfoPages } from "./serviceInfoPages";
 import { miamiPage } from "./locationPages";
 import { faqPage, licensesPage } from "./companyPages";
 
@@ -20,14 +21,8 @@ export const navigation: NavItem[] = [
   {
     label: "Services",
     href: "/#included",
-    children: [
-      { label: "Packing Services", href: "/#included" },
-      { label: "Installation", href: "/#included" },
-      { label: "High-Value Items", href: "/#included" },
-      { label: "Furniture Protection", href: "/#included" },
-      { label: "Storage Solutions", href: "/#included" },
-      { label: "Move Coordination", href: "/#included" },
-    ],
+    // Each Services link opens its own page; Storage Solutions was removed (spec 010).
+    children: serviceInfoPages.map(({ label, href }) => ({ label, href })),
   },
   {
     label: "Company",

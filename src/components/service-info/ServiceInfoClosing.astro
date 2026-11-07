@@ -1,0 +1,26 @@
+---
+import type { ServiceInfoPage } from "../../types/content";
+
+interface Props {
+  page: ServiceInfoPage;
+}
+
+// The arrow is rendered separately so screen readers skip it.
+const text = Astro.props.page.closing.text.replace(/\s*→\s*$/, "");
+---
+<!-- A single text link, not a button (spec 010). -->
+<section class="border-t border-neutral-soft bg-white py-12 sm:py-16">
+  <div class="container-x">
+    <p class="text-center">
+      <a
+        href="/get-a-quote/"
+        class="group rounded-sm font-accent text-lg font-semibold text-green underline decoration-green/30 underline-offset-4 transition-colors hover:decoration-green focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-green"
+      >
+        {text}&nbsp;<span
+          class="inline-block transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+          aria-hidden="true">→</span
+        >
+      </a>
+    </p>
+  </div>
+</section>
