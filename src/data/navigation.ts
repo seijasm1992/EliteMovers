@@ -1,18 +1,13 @@
 import type { NavItem } from "../types/content";
+import { movingServicePages } from "./movingServicePages";
 
 /** Primary navigation. Replace with Sanity `navigation` array later. */
 export const navigation: NavItem[] = [
   {
     label: "Moving",
     href: "/#services",
-    children: [
-      { label: "Local Moving", href: "/#residential-moving" },
-      { label: "Long Distance Moving", href: "/#long-distance-moving" },
-      { label: "Office Moving", href: "/#business-moving" },
-      { label: "Commercial Moving", href: "/#business-moving" },
-      { label: "Small Moves", href: "/#residential-moving" },
-      { label: "Large Moves", href: "/#residential-moving" },
-    ],
+    // Each Moving link opens its own service page (spec 007).
+    children: movingServicePages.map(({ label, href }) => ({ label, href })),
   },
   {
     label: "Locations",

@@ -1,0 +1,34 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import Icon from "../ui/Icon.astro";
+import type { MovingServicePage } from "../../types/content";
+
+interface Props {
+  page: MovingServicePage;
+}
+
+const { included } = Astro.props.page;
+---
+<section id="included" class="bg-white section-rhythm">
+  <div class="container-x">
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow="What's Included" title={included.title} align="left" />
+    </div>
+
+    <ul class="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        included.items.map((item, index) => (
+          <li class="flex gap-4" data-scroll-reveal style={`--reveal-delay: ${index * 60}ms`}>
+            <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-green" aria-hidden="true">
+              <Icon name="check" class="h-4 w-4" />
+            </span>
+            <div>
+              <h3 class="type-card-title text-text-strong">{item.title}</h3>
+              <p class="mt-2 text-base leading-relaxed text-text-subtle">{item.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

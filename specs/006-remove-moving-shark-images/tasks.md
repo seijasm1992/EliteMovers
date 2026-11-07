@@ -147,7 +147,7 @@ description: "Lista de tareas: revisión de imágenes y reemplazo de las que ten
 - [X] T043 Repetir la revisión visual de T010 sobre los archivos nuevos o reemplazados de `public/`: todos `cumple` (SC-001a, SC-004)
 - [X] T044 Ejecutar las búsquedas del paso 9a de [quickstart.md](quickstart.md): 0 archivos JPG/JPEG/PNG/GIF/HEIC en el repositorio y en `dist/`, y 0 rutas a esos formatos en `src/` y `dist/` (FR-014, SC-009)
 - [X] T045 Completar `specs/006-remove-moving-shark-images/verification.md` con el resultado de los pasos 1–9a de [quickstart.md](quickstart.md) (el paso 10 se completa en T047)
-- [ ] T046 Entregar al dueño el resumen de cambios para su revisión visual. Tras su visto bueno, hacer el commit en la rama `006-remove-moving-shark-images` añadiendo solo las rutas de la feature (`public/`, `src/`, `specs/006-remove-moving-shark-images/`), nunca con `git add -A`, y sin nada de `$TOOLS`; el dueño publica por su cuenta y avisa
+- [X] T046 Entregar al dueño el resumen de cambios para su revisión visual. Tras su visto bueno, hacer el commit en la rama `006-remove-moving-shark-images` añadiendo solo las rutas de la feature (`public/`, `src/`, `specs/006-remove-moving-shark-images/`), nunca con `git add -A`, y sin nada de `$TOOLS`; el dueño publica por su cuenta y avisa
 - [ ] T047 Cuando el dueño avise de que publicó, solicitar cada URL eliminada (lista de T037) en `https://proelitemovers.com` y `https://www.proelitemovers.com`, y confirmar que ninguna devuelve el archivo. Si alguna responde desde la caché, anotarlo, pedir al dueño que purgue la caché de Cloudflare y repetir. Anotar el resultado en `specs/006-remove-moving-shark-images/verification.md` (FR-013, SC-008)
 
 ---

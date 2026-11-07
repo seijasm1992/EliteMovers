@@ -35,10 +35,6 @@ export interface HeroContent {
   description: string;
   primaryCta: NavLink;
   secondaryCta: NavLink;
-  rating: {
-    score: string;
-    reviewsLabel: string;
-  };
 }
 
 export interface GuaranteeCard {
@@ -225,4 +221,31 @@ export interface PrivacyPolicyContent {
   title: string;
   updated: string;
   sections: { heading: string; paragraphs: string[] }[];
+}
+
+/* ── Moving service pages (spec 007) ─────────────────────────────────── */
+
+export type MovingServiceSlug =
+  | "local-moving"
+  | "long-distance-moving"
+  | "office-moving"
+  | "commercial-moving"
+  | "small-moves"
+  | "large-moves";
+
+/** A Moving menu page: a header and a "What's included" list (spec 007, 2 sections). */
+export interface MovingServicePage {
+  slug: MovingServiceSlug;
+  label: string;
+  href: string;
+  meta: { title: string; description: string };
+  hero: {
+    eyebrow: string;
+    title: string;
+    /** 2 to 3 sentences, specific to this service. */
+    description: string;
+    image: { src480: string; src720: string; src960: string; alt: string; width: number; height: number };
+  };
+  /** 3 to 5 items, specific to this service. */
+  included: { title: string; items: { title: string; description: string }[] };
 }
