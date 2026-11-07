@@ -24,9 +24,6 @@ const ChevronIcon = () => (
 );
 
 export default function ServiceCard({ service, onMoreInfo }: Props) {
-  const fallbackImage = service.image.endsWith(".webp")
-    ? service.image.replace(/\.webp$/, ".jpg")
-    : service.image;
   const imageBase = service.image.replace(/\.webp$/, "");
   const responsiveImage = `${imageBase}-480.webp 480w, ${imageBase}-720.webp 720w, ${service.image} 960w`;
 
@@ -43,7 +40,7 @@ export default function ServiceCard({ service, onMoreInfo }: Props) {
             type="image/webp"
           />
           <img
-            src={fallbackImage}
+            src={service.image}
             width={960}
             height={720}
             alt={service.imageAlt}

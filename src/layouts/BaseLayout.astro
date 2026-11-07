@@ -11,7 +11,7 @@ interface Props {
 const {
   title = `Miami Movers | ${site.name}`,
   description = site.description,
-  image = "/images/social/green-wrapped-furniture-truck.jpg",
+  image = "/images/social/green-wrapped-furniture-truck.webp",
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
@@ -53,8 +53,8 @@ const isHomePage = Astro.url.pathname === "/";
         <link
           rel="preload"
           as="image"
-          href="/images/hero/movers-loading-720.webp"
-          imagesrcset="/images/hero/movers-loading-480.webp 480w, /images/hero/movers-loading-720.webp 720w"
+          href="/images/hero/mover-walking-boxes-truck-720.webp"
+          imagesrcset="/images/hero/mover-walking-boxes-truck-480.webp 480w, /images/hero/mover-walking-boxes-truck-720.webp 720w"
           imagesizes="(min-width: 1024px) 64vw, calc(100vw - 1.5rem)"
           fetchpriority="high"
         />
