@@ -249,3 +249,12 @@ export interface MovingServicePage {
   /** 3 to 5 items, specific to this service. */
   included: { title: string; items: { title: string; description: string }[] };
 }
+
+/* ── Location pages (spec 008) ───────────────────────────────────────── */
+
+/** A Locations menu page. Its visible content is the home "Service Area" section. */
+export interface LocationPage {
+  label: string;
+  href: string;
+  meta: { title: string; description: string };
+}

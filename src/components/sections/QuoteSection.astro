@@ -2,6 +2,14 @@
 import Icon from "../ui/Icon.astro";
 import { site } from "../../data/site";
 
+interface Props {
+  /** The Miami page (spec 008) uses "h1"; the home keeps "h2". */
+  headingLevel?: "h1" | "h2";
+}
+
+const { headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+
 const mapSrc =
   "https://www.google.com/maps?q=Miami%2C%20FL&z=10&output=embed";
 ---
@@ -10,9 +18,9 @@ const mapSrc =
     <div class="grid items-stretch gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
       <div class="flex flex-col justify-center">
         <span class="eyebrow text-green">Service Area</span>
-        <h2 class="type-section-title mt-4 text-text-strong">
+        <Heading class="type-section-title mt-4 text-text-strong">
           Miami and South Florida
-        </h2>
+        </Heading>
         <p class="mt-5 max-w-xl text-base leading-relaxed text-text-subtle">
           We handle moves in Miami-Dade, Broward, and throughout Florida. Include both locations when you request your hourly rate estimate.
         </p>
