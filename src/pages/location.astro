@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import QuoteSection from "../components/sections/QuoteSection.astro";
+import { miamiPage } from "../data/locationPages";
+import { site } from "../data/site";
+
+const baseUrl = "https://proelitemovers.com";
+
+// Structured data must match what the page shows: no address, prices, or ratings.
+const schemas = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MovingCompany",
+    name: site.name,
+    url: `${baseUrl}/`,
+    telephone: site.phone,
+    email: site.email,
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Miami-Dade County, FL" },
+      { "@type": "AdministrativeArea", name: "Broward County, FL" },
+      { "@type": "State", name: "Florida" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${baseUrl}/` },
+      { "@type": "ListItem", position: 2, name: miamiPage.label, item: `${baseUrl}${miamiPage.href}` },
+    ],
+  },
+].map((schema) => JSON.stringify(schema).replace(/</g, "\\u003c"));
+---
+
+<BaseLayout title={miamiPage.meta.title} description={miamiPage.meta.description}>
+  {schemas.map((json) => <script type="application/ld+json" is:inline set:html={json} />)}
+  <Navbar />
+  <!-- pt-20 clears the fixed navbar; on the home this section is not the first one. -->
+  <main id="main-content" class="bg-offwhite pt-20">
+    <QuoteSection headingLevel="h1" />
+  </main>
+  <Footer />
+</BaseLayout>

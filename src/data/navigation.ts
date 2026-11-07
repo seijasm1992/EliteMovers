@@ -1,5 +1,6 @@
 import type { NavItem } from "../types/content";
 import { movingServicePages } from "./movingServicePages";
+import { miamiPage } from "./locationPages";
 
 /** Primary navigation. Replace with Sanity `navigation` array later. */
 export const navigation: NavItem[] = [
@@ -12,7 +13,8 @@ export const navigation: NavItem[] = [
   {
     label: "Locations",
     href: "/#quote",
-    children: [{ label: "Miami", href: "/#quote" }],
+    // Opens the Miami page (spec 008).
+    children: [{ label: miamiPage.label, href: miamiPage.href }],
   },
   {
     label: "Services",
