@@ -13,4 +13,5 @@ export const site: SiteConfig = {
   location: "Miami, FL",
   description:
     "Local and long-distance moving in Miami with hourly billing only: clear rates, full protection, and a background-checked crew.",
+  licenseNote: "Licensed and insured in Florida.",
 };

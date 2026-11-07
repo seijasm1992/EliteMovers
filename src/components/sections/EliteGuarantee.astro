@@ -3,6 +3,15 @@ import SectionHeader from "../ui/SectionHeader.astro";
 import Card from "../ui/Card.astro";
 import Icon from "../ui/Icon.astro";
 import { guarantee } from "../../data/guarantee";
+import { site } from "../../data/site";
+
+interface Props {
+  headingLevel?: "h1" | "h2";
+  /** Show the footer's license note below the subtitle (Licenses & Credentials page, spec 009). */
+  showLicenseNote?: boolean;
+}
+
+const { headingLevel = "h2", showLicenseNote = false } = Astro.props;
 ---
 <section id="guarantee" class="relative bg-offwhite section-rhythm">
   <div class="container-x">
@@ -11,7 +20,15 @@ import { guarantee } from "../../data/guarantee";
         eyebrow={guarantee.eyebrow}
         title={guarantee.title}
         subtitle={guarantee.subtitle}
+        headingLevel={headingLevel}
       />
+      {
+        showLicenseNote && (
+          <p class="mt-6 text-center font-accent text-sm font-semibold text-text-strong">
+            {site.licenseNote}
+          </p>
+        )
+      }
     </div>
 
     <div class="mt-14 grid gap-6 md:grid-cols-3">

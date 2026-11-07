@@ -27,6 +27,8 @@ export interface SiteConfig {
   email: string;
   location: string;
   description: string;
+  /** License and insurance note shown in the footer and on the Licenses & Credentials page. */
+  licenseNote: string;
 }
 
 export interface HeroContent {
@@ -254,6 +256,15 @@ export interface MovingServicePage {
 
 /** A Locations menu page. Its visible content is the home "Service Area" section. */
 export interface LocationPage {
+  label: string;
+  href: string;
+  meta: { title: string; description: string };
+}
+
+/* ── Company pages (spec 009) ────────────────────────────────────────── */
+
+/** A Company menu page. Its visible content is a home section, unchanged. */
+export interface CompanyPage {
   label: string;
   href: string;
   meta: { title: string; description: string };
