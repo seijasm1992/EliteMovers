@@ -99,9 +99,6 @@ export default function ServiceModal({
 
   if (!isOpen || !service) return null;
 
-  const fallbackImage = service.image.endsWith(".webp")
-    ? service.image.replace(/\.webp$/, ".jpg")
-    : service.image;
   const imageBase = service.image.replace(/\.webp$/, "");
 
   return createPortal(
@@ -131,7 +128,7 @@ export default function ServiceModal({
               type="image/webp"
             />
             <img
-              src={fallbackImage}
+              src={service.image}
               width={960}
               height={720}
               alt=""

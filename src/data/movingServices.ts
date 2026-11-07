@@ -23,8 +23,8 @@ export const movingServicesContent: MovingServicesContent = {
         "Flexible scheduling for interstate and cross-country moves",
       ],
       buttonLabel: "More Info",
-      image: "/service-long-distance.webp",
-      imageAlt: "ProElite Movers crew loading wrapped furniture for a long-distance move",
+      image: "/service-long-distance-trailer.webp",
+      imageAlt: "Boxes and wrapped items loaded at the end of a long trailer, with a yellow pallet jack in the foreground",
     },
     {
       id: "residential-moving",

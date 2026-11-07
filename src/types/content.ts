@@ -29,11 +29,6 @@ export interface SiteConfig {
   description: string;
 }
 
-export interface HeroSlide {
-  src: string;
-  alt: string;
-}
-
 export interface HeroContent {
   eyebrow: string;
   title: string;
@@ -44,7 +39,6 @@ export interface HeroContent {
     score: string;
     reviewsLabel: string;
   };
-  slides: HeroSlide[];
 }
 
 export interface GuaranteeCard {
@@ -79,6 +73,7 @@ export interface IncludedItem {
   title: string;
   description: string;
   includes: string[];
+  /** Base path without extension; the accordion requests the -480/-720/-960 WebP variants. */
   image: string;
   imageAlt: string;
 }

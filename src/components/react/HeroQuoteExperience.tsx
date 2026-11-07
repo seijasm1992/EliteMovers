@@ -79,8 +79,8 @@ export default function HeroQuoteExperience({ content }: Props) {
     <div className="mx-auto grid max-w-[1600px] gap-4 lg:grid-cols-[minmax(0,1.72fr)_minmax(23rem,0.95fr)] lg:items-stretch">
       <div className="relative min-h-[32rem] overflow-hidden rounded-2xl bg-brand-primary-soft sm:min-h-[39rem] lg:min-h-[calc(100svh-8rem)]">
         <img
-          src="/images/hero/movers-loading-720.webp"
-          srcSet="/images/hero/movers-loading-480.webp 480w, /images/hero/movers-loading-720.webp 720w"
+          src="/images/hero/mover-walking-boxes-truck-720.webp"
+          srcSet="/images/hero/mover-walking-boxes-truck-480.webp 480w, /images/hero/mover-walking-boxes-truck-720.webp 720w"
           sizes="(min-width: 1024px) 64vw, calc(100vw - 1.5rem)"
           width={720}
           height={960}

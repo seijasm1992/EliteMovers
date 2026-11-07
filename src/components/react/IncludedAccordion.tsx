@@ -20,11 +20,8 @@ const CheckIcon = () => (
   </svg>
 );
 
-const responsiveImage = (image: string) => {
-  const base = image.replace(/\.(jpe?g|webp)$/i, "");
-  const widths = image.includes("truck-loading-ramp")
-    ? [480, 720]
-    : [480, 720, 960];
+const responsiveImage = (base: string) => {
+  const widths = [480, 720, 960];
 
   return {
     src: `${base}-720.webp`,
@@ -64,7 +61,7 @@ export default function IncludedAccordion({ content }: Props) {
             src={activeImage.src}
             srcSet={activeImage.srcSet}
             sizes="(min-width: 1280px) 31rem, (min-width: 1024px) 42vw, calc(100vw - 2.5rem)"
-            width={activeItem.image.includes("truck-loading-ramp") ? 720 : 960}
+            width={960}
             height={1280}
             alt={activeItem.imageAlt}
             loading="lazy"

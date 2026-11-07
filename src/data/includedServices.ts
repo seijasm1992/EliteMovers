@@ -24,7 +24,7 @@ export const includedServices: IncludedContent = {
         "TV takedown when being moved",
         "Wall-mounting available as an installation add-on",
       ],
-      image: "/images/included/wrapped-furniture-truck.jpeg",
+      image: "/images/included/wrapped-furniture-truck",
       imageAlt: "Wrapped furniture secured inside a moving truck",
     },
     {
@@ -38,8 +38,8 @@ export const includedServices: IncludedContent = {
         "Corner protection",
         "Elevator and hallway protection when required",
       ],
-      image: "/images/included/crew-loading-wrapped-items.jpeg",
-      imageAlt: "Mover securing wrapped furniture inside a truck",
+      image: "/images/included/padded-wrapped-furniture-truck",
+      imageAlt: "Furniture protected with padded covers, bubble wrap and moving blankets inside a moving truck",
     },
     {
       id: "labor",
@@ -52,8 +52,8 @@ export const includedServices: IncludedContent = {
         "Loading and unloading included",
         "Crew and truck included",
       ],
-      image: "/images/included/truck-loading-ramp.jpeg",
-      imageAlt: "Loaded moving truck with boxes and furniture on the ramp",
+      image: "/images/included/stacked-boxes-hand-truck",
+      imageAlt: "Rows of stacked moving boxes inside a truck, with a red hand truck ready to load",
     },
     {
       id: "tracking",
@@ -65,7 +65,7 @@ export const includedServices: IncludedContent = {
         "Crew arrival updates",
         "Location updates on move day",
       ],
-      image: "/images/included/boxes-loading-ramp.jpeg",
+      image: "/images/included/boxes-loading-ramp",
       imageAlt: "Mover loading boxes into a truck using a ramp",
     },
     {
@@ -79,7 +79,7 @@ export const includedServices: IncludedContent = {
         "Move-day notifications",
         "Completion updates",
       ],
-      image: "/images/included/storage-unit-loaded.jpeg",
+      image: "/images/included/storage-unit-loaded",
       imageAlt: "Packed storage unit with bins and wrapped furniture",
     },
   ],

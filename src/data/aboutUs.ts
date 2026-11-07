@@ -16,9 +16,9 @@ export const aboutUs: AboutPageContent = {
     title: "A Moving Agency, Not Just a Truck",
     subheadline: "Luis and Juan started ProElite Movers to do moving differently.",
     image: {
-      src480: "/images/hero/movers-loading-480.webp",
-      src720: "/images/hero/movers-loading-720.webp",
-      alt: "ProElite Movers crew carefully loading wrapped furniture into a truck",
+      src480: "/images/hero/mover-walking-boxes-truck-480.webp",
+      src720: "/images/hero/mover-walking-boxes-truck-720.webp",
+      alt: "A ProElite Movers crew member walking through a moving truck toward stacked moving boxes",
     },
   },
   story: {
@@ -60,8 +60,8 @@ export const aboutUs: AboutPageContent = {
           { icon: "badge", label: "Discretion", description: "We work quietly, no production." },
         ],
         image: {
-          src: "/images/included/crew-loading-wrapped-items.jpeg",
-          alt: "ProElite Movers crew carefully securing wrapped furniture inside a truck",
+          src: "/images/included/wrapped-dresser-storage-bins-truck-wide.webp",
+          alt: "Furniture wrapped in plastic film below storage baskets and beside a gray bin inside a moving truck",
         },
       },
       {
