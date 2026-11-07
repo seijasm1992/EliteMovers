@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import FAQSection from "../components/sections/FAQSection.astro";
+import { faqPage } from "../data/companyPages";
+import { site } from "../data/site";
+
+const baseUrl = "https://proelitemovers.com";
+
+// Structured data must match what the page shows: no address, prices, ratings, or license number.
+// The FAQPage schema stays on the home only (spec 009).
+const schemas = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MovingCompany",
+    name: site.name,
+    url: `${baseUrl}/`,
+    telephone: site.phone,
+    email: site.email,
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Miami-Dade County, FL" },
+      { "@type": "AdministrativeArea", name: "Broward County, FL" },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${baseUrl}/` },
+      { "@type": "ListItem", position: 2, name: faqPage.label, item: `${baseUrl}${faqPage.href}` },
+    ],
+  },
+].map((schema) => JSON.stringify(schema).replace(/</g, "\\u003c"));
+---
+
+<BaseLayout title={faqPage.meta.title} description={faqPage.meta.description}>
+  {schemas.map((json) => <script type="application/ld+json" is:inline set:html={json} />)}
+  <Navbar />
+  <!-- pt-20 clears the fixed navbar; on the home this section is not the first one. -->
+  <main id="main-content" class="bg-white pt-20">
+    <FAQSection headingLevel="h1" includeSchema={false} renderAllCategories />
+  </main>
+  <Footer />
+</BaseLayout>

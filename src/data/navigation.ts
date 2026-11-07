@@ -1,6 +1,7 @@
 import type { NavItem } from "../types/content";
 import { movingServicePages } from "./movingServicePages";
 import { miamiPage } from "./locationPages";
+import { faqPage, licensesPage } from "./companyPages";
 
 /** Primary navigation. Replace with Sanity `navigation` array later. */
 export const navigation: NavItem[] = [
@@ -30,11 +31,12 @@ export const navigation: NavItem[] = [
   },
   {
     label: "Company",
-    href: "/#guarantee",
+    href: "/about-us/",
+    // Licenses & Credentials and FAQ open their own pages (spec 009).
     children: [
       { label: "About", href: "/about-us/" },
-      { label: "Licenses & Credentials", href: "/#guarantee" },
-      { label: "FAQ", href: "/#faq" },
+      { label: licensesPage.label, href: licensesPage.href },
+      { label: faqPage.label, href: faqPage.href },
     ],
   },
 ];

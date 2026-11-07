@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { movingServicePages } from "../data/movingServicePages";
 import { miamiPage } from "../data/locationPages";
+import { faqPage, licensesPage } from "../data/companyPages";
 
 export const prerender = true;
 
@@ -12,6 +13,8 @@ const routes = [
     "/privacy-policy/",
     ...movingServicePages.map((page) => page.href),
     miamiPage.href,
+    licensesPage.href,
+    faqPage.href,
   ]),
 ];
 

@@ -5,6 +5,15 @@ import Button from "../ui/Button.astro";
 import Icon from "../ui/Icon.astro";
 import { faqContent } from "../../data/faqContent";
 
+interface Props {
+  headingLevel?: "h1" | "h2";
+  /** The FAQPage schema stays on the home only, so the repeated content is marked once (spec 009). */
+  includeSchema?: boolean;
+  renderAllCategories?: boolean;
+}
+
+const { headingLevel = "h2", includeSchema = true, renderAllCategories = false } = Astro.props;
+
 const faqPageSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -22,16 +31,16 @@ const faqPageSchema = {
 const faqPageSchemaJson = JSON.stringify(faqPageSchema).replace(/</g, "\\u003c");
 ---
 
-<script type="application/ld+json" is:inline set:html={faqPageSchemaJson}></script>
+{includeSchema && <script type="application/ld+json" is:inline set:html={faqPageSchemaJson}></script>}
 
 <section id="faq" class="relative min-h-[100svh] bg-white py-20 sm:py-28">
   <div class="container-x">
     <div data-scroll-reveal>
-      <SectionHeader eyebrow="FAQs" title="Questions & Answers" />
+      <SectionHeader eyebrow="FAQs" title="Questions & Answers" headingLevel={headingLevel} />
     </div>
 
     <div class="mx-auto mt-9 max-w-6xl sm:mt-11">
-      <FAQSection client:visible items={faqContent} />
+      <FAQSection client:visible items={faqContent} renderAllCategories={renderAllCategories} />
     </div>
 
     <div class="mx-auto mt-10 max-w-6xl border-t border-ink/10 pt-7 sm:mt-12 sm:pt-8">
