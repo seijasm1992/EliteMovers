@@ -1,0 +1,8 @@
+---
+import ServicePageTemplate from "../components/service-page/ServicePageTemplate.astro";
+import { getMovingServicePage } from "../data/movingServicePages";
+
+const page = getMovingServicePage("small-moves");
+---
+
+<ServicePageTemplate page={page} />

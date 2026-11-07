@@ -1,0 +1,53 @@
+---
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import { site } from "../../data/site";
+import { SERVICE_HERO_IMAGE_SIZES } from "../../data/movingServicePages";
+import type { MovingServicePage } from "../../types/content";
+
+interface Props {
+  page: MovingServicePage;
+}
+
+const { page } = Astro.props;
+const { hero } = page;
+---
+<section id="top" class="relative overflow-hidden bg-brand-primary pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24">
+  <div class="container-x">
+    <div class="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16">
+      <div class="flex flex-col items-start">
+        <span class="eyebrow text-gold">{hero.eyebrow}</span>
+        <h1 class="type-page-title mt-5 text-white">{hero.title}</h1>
+        <p class="type-body-lead mt-6 max-w-xl text-white/75">{hero.description}</p>
+        <div class="mt-8 flex w-full flex-col gap-3 min-[420px]:w-auto min-[420px]:flex-row">
+          <Button href="/get-a-quote/" variant="gold" size="lg" class="group">
+            Get a Quote
+            <Icon
+              name="arrowRight"
+              class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+            />
+          </Button>
+          <Button href={site.phoneHref} variant="outline-light" size="lg" ariaLabel={`Call ${site.name} at ${site.phone}`}>
+            <Icon name="phone" class="h-4 w-4" />
+            Call Now
+          </Button>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-3xl ring-1 ring-white/10">
+        <img
+          src={hero.image.src720}
+          srcset={`${hero.image.src480} 480w, ${hero.image.src720} 720w, ${hero.image.src960} 960w`}
+          sizes={SERVICE_HERO_IMAGE_SIZES}
+          width={hero.image.width}
+          height={hero.image.height}
+          alt={hero.image.alt}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="aspect-[4/3] h-auto w-full object-cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>

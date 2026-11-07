@@ -1,8 +1,17 @@
 import type { APIRoute } from "astro";
+import { movingServicePages } from "../data/movingServicePages";
 
 export const prerender = true;
 
-const routes = ["/", "/get-a-quote/", "/about-us/", "/privacy-policy/"];
+const routes = [
+  ...new Set([
+    "/",
+    "/get-a-quote/",
+    "/about-us/",
+    "/privacy-policy/",
+    ...movingServicePages.map((page) => page.href),
+  ]),
+];
 
 export const GET: APIRoute = ({ site }) => {
   const baseUrl = site ?? new URL("https://proelitemovers.com");

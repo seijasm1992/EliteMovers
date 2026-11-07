@@ -6,12 +6,17 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  ogImageAlt?: string;
+  /** LCP image to preload. The home page keeps its own hero preload when this is omitted. */
+  preloadImage?: { href: string; srcset: string; sizes: string };
 }
 
 const {
   title = `Miami Movers | ${site.name}`,
   description = site.description,
   image = "/images/social/green-wrapped-furniture-truck.webp",
+  ogImageAlt = "Furniture wrapped in green plastic film inside a moving truck, beside stacked cardboard boxes",
+  preloadImage,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
@@ -41,7 +46,7 @@ const isHomePage = Astro.url.pathname === "/";
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content="Furniture wrapped in green plastic film inside a moving truck, beside stacked cardboard boxes" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -49,7 +54,20 @@ const isHomePage = Astro.url.pathname === "/";
     <meta name="twitter:image" content={socialImage} />
 
     {
-      isHomePage && (
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage.href}
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          fetchpriority="high"
+        />
+      )
+    }
+
+    {
+      !preloadImage && isHomePage && (
         <link
           rel="preload"
           as="image"
