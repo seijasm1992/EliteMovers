@@ -10,6 +10,7 @@ import QuoteSection from "../components/sections/QuoteSection.astro";
 import FAQSection from "../components/sections/FAQSection.astro";
 import Footer from "../components/layout/Footer.astro";
 import { websiteSchema } from "../lib/schema";
+import { miamiPage } from "../data/locationPages";
 ---
 <BaseLayout schemas={[websiteSchema()]}>
   <Navbar />
@@ -19,7 +20,7 @@ import { websiteSchema } from "../lib/schema";
     <MoveSteps />
     <MovingServicesSection />
     <IncludedMoveSection />
-    <QuoteSection />
+    <QuoteSection cta={{ label: "See Our Miami Service Area", href: miamiPage.href }} />
     <FAQSection />
   </main>
   <Footer />

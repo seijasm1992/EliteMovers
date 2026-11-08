@@ -3,8 +3,8 @@ import type { FAQItem, MovingServicePage, ServiceInfoPage } from "../types/conte
 
 /**
  * Single source of the site's JSON-LD.
- * Structured data must match what the site shows: no address, prices, ratings,
- * or license number until the owner confirms and publishes them.
+ * Structured data must match what the site shows: no street address, prices,
+ * ratings, or license number until the owner confirms and publishes them.
  */
 export type JsonLdNode = Record<string, unknown>;
 
@@ -17,6 +17,10 @@ const absoluteUrl = (path: string): string => new URL(path, BASE_URL).toString()
 const MIAMI_DADE = { "@type": "AdministrativeArea", name: "Miami-Dade County, FL" };
 const BROWARD = { "@type": "AdministrativeArea", name: "Broward County, FL" };
 const FLORIDA = { "@type": "State", name: "Florida" };
+
+/** City and state only: there is no office open to the public (spec 002). */
+const [addressLocality, addressRegion] = site.location.split(", ");
+const ADDRESS = { "@type": "PostalAddress", addressLocality, addressRegion, addressCountry: "US" };
 
 /** Published in the "Do you work weekends and holidays?" answer of the FAQ. */
 const OPENING_HOURS = {
@@ -37,6 +41,7 @@ export const businessSchema = ({ includeHours = false } = {}): JsonLdNode => ({
   logo: absoluteUrl("/images/brand/proelite-movers-logo.webp"),
   telephone: site.phone,
   email: site.email,
+  address: ADDRESS,
   areaServed: [MIAMI_DADE, BROWARD, FLORIDA],
   ...(includeHours && { openingHoursSpecification: OPENING_HOURS }),
 });

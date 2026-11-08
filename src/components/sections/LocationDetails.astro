@@ -1,0 +1,145 @@
+---
+import SectionHeader from "../ui/SectionHeader.astro";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import { aboutUs } from "../../data/aboutUs";
+import { faqContent } from "../../data/faqContent";
+import { movingServicePages } from "../../data/movingServicePages";
+import { serviceInfoPages } from "../../data/serviceInfoPages";
+import { site } from "../../data/site";
+import type { LocationPage } from "../../types/content";
+
+interface Props {
+  page: LocationPage;
+}
+
+const { included, buildings } = Astro.props.page;
+const { cities } = aboutUs.cities;
+const services = [...movingServicePages, ...serviceInfoPages];
+
+const planningIds = ["booking-window", "weekends-holidays", "long-distance"];
+const planning = planningIds.flatMap((id) => faqContent.filter((item) => item.id === id));
+---
+<section class="bg-white section-rhythm">
+  <div class="container-x">
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow="What's Included" title={included.title} subtitle={included.subtitle} align="left" />
+    </div>
+
+    <ul class="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        included.items.map((item, index) => (
+          <li class="flex gap-4" data-scroll-reveal style={`--reveal-delay: ${index * 60}ms`}>
+            <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-green" aria-hidden="true">
+              <Icon name="check" class="h-4 w-4" />
+            </span>
+            <div>
+              <h3 class="type-card-title text-text-strong">{item.title}</h3>
+              <p class="mt-2 text-base leading-relaxed text-text-subtle">{item.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="bg-offwhite section-rhythm">
+  <div class="container-x grid gap-14 lg:grid-cols-2 lg:gap-16">
+    <div data-scroll-reveal>
+      <SectionHeader
+        eyebrow="Where We Work"
+        title="Cities We Regularly Serve"
+        subtitle="Our crews are based in Miami and work across Miami-Dade and Broward."
+        align="left"
+      />
+      <ul class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {
+          cities.map((city) => (
+            <li class="flex items-center gap-2 font-accent text-sm font-semibold text-text-strong">
+              <Icon name="mapPin" class="h-4 w-4 shrink-0 text-green" />
+              {city.name}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-8 text-base leading-relaxed text-text-subtle">
+        Leaving South Florida? See our
+        <a href="/long-distance-moving/" class="font-semibold text-green underline underline-offset-4 hover:text-ink">long-distance moving</a>
+        within Florida.
+      </p>
+    </div>
+
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow="Local Know-How" title={buildings.title} subtitle={buildings.description} align="left" />
+      <ul class="mt-8 grid gap-4">
+        {
+          buildings.items.map((item) => (
+            <li class="flex items-start gap-3 text-base leading-relaxed text-text-subtle">
+              <Icon name="check" class="mt-1 h-4 w-4 shrink-0 text-green" />
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white section-rhythm">
+  <div class="container-x">
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow="Our Services" title="Moving Services in Miami" align="left" />
+    </div>
+
+    <ul class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((service) => (
+          <li>
+            <a
+              href={service.href}
+              class="group flex items-center gap-3 rounded-xl border border-ink/10 bg-offwhite px-4 py-4 font-accent text-sm font-semibold text-text-strong shadow-soft transition-colors hover:border-green"
+            >
+              {service.label}
+              <Icon name="arrowRight" class="ml-auto h-4 w-4 text-text-subtle group-hover:text-green" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="bg-offwhite section-rhythm">
+  <div class="container-x">
+    <div data-scroll-reveal>
+      <SectionHeader eyebrow="Planning Your Move" title="Good to Know Before You Book" align="left" />
+    </div>
+
+    <div class="mt-10 grid gap-8 md:grid-cols-3">
+      {
+        planning.map((item) => (
+          <div data-scroll-reveal>
+            <h3 class="type-card-title text-text-strong">{item.question}</h3>
+            <p class="mt-2 text-base leading-relaxed text-text-subtle">{item.answer}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-base leading-relaxed text-text-subtle">
+      More questions? Read our
+      <a href="/faq/" class="font-semibold text-green underline underline-offset-4 hover:text-ink">moving FAQ</a>.
+    </p>
+  </div>
+</section>
+
+<section class="bg-ink py-16 sm:py-20">
+  <div class="container-x flex flex-col items-center gap-6 text-center">
+    <h2 class="type-section-title text-white">Ready to Plan Your Miami Move?</h2>
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <Button href="/get-a-quote/" variant="gold" size="lg">Request a Quote</Button>
+      <Button href={site.phoneHref} variant="outline-light" size="lg" ariaLabel={`Call ${site.name} at ${site.phone}`}>Call Now</Button>
+    </div>
+  </div>
+</section>

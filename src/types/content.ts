@@ -254,11 +254,14 @@ export interface MovingServicePage {
 
 /* ── Location pages (spec 008) ───────────────────────────────────────── */
 
-/** A Locations menu page. Its visible content is the home "Service Area" section. */
+/** A Locations menu page: the "Service Area" section with its own text, plus local details. */
 export interface LocationPage {
   label: string;
   href: string;
   meta: { title: string; description: string };
+  hero: { eyebrow: string; title: string; description: string };
+  included: { title: string; subtitle: string; items: { title: string; description: string }[] };
+  buildings: { title: string; description: string; items: string[] };
 }
 
 /* ── Company pages (spec 009) ────────────────────────────────────────── */

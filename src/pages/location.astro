@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import QuoteSection from "../components/sections/QuoteSection.astro";
+import LocationDetails from "../components/sections/LocationDetails.astro";
 import { miamiPage } from "../data/locationPages";
 import { breadcrumbSchema } from "../lib/schema";
 ---
@@ -10,12 +11,20 @@ import { breadcrumbSchema } from "../lib/schema";
 <BaseLayout
   title={miamiPage.meta.title}
   description={miamiPage.meta.description}
+  includeBusinessHours
   schemas={[breadcrumbSchema(miamiPage.label, miamiPage.href)]}
 >
   <Navbar />
   <!-- pt-20 clears the fixed navbar; on the home this section is not the first one. -->
   <main id="main-content" class="bg-offwhite pt-20">
-    <QuoteSection headingLevel="h1" />
+    <QuoteSection
+      headingLevel="h1"
+      eyebrow={miamiPage.hero.eyebrow}
+      title={miamiPage.hero.title}
+      description={miamiPage.hero.description}
+      cta={{ label: "Request a Quote", href: "/get-a-quote/" }}
+    />
+    <LocationDetails page={miamiPage} />
   </main>
   <Footer />
 </BaseLayout>

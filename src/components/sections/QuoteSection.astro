@@ -1,13 +1,24 @@
 ---
+import Button from "../ui/Button.astro";
 import Icon from "../ui/Icon.astro";
 import { site } from "../../data/site";
 
 interface Props {
   /** The Miami page (spec 008) uses "h1"; the home keeps "h2". */
   headingLevel?: "h1" | "h2";
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  cta?: { label: string; href: string };
 }
 
-const { headingLevel = "h2" } = Astro.props;
+const {
+  headingLevel = "h2",
+  eyebrow = "Service Area",
+  title = "Miami and South Florida",
+  description = "We handle moves in Miami-Dade, Broward, and throughout Florida. Our hourly rates are based on Miami-Dade and Broward, so contact us directly for other locations or anything extra. Include both locations when you request your hourly rate estimate.",
+  cta,
+} = Astro.props;
 const Heading = headingLevel;
 
 const mapSrc =
@@ -17,12 +28,12 @@ const mapSrc =
   <div class="container-x">
     <div class="grid items-stretch gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
       <div class="flex flex-col justify-center">
-        <span class="eyebrow text-green">Service Area</span>
+        <span class="eyebrow text-green">{eyebrow}</span>
         <Heading class="type-section-title mt-4 text-text-strong">
-          Miami and South Florida
+          {title}
         </Heading>
         <p class="mt-5 max-w-xl text-base leading-relaxed text-text-subtle">
-          We handle moves in Miami-Dade, Broward, and throughout Florida. Include both locations when you request your hourly rate estimate.
+          {description}
         </p>
 
         <div class="mt-8 grid gap-3">
@@ -41,6 +52,8 @@ const mapSrc =
             </a>
           </div>
         </div>
+
+        {cta && <Button href={cta.href} variant="solid" class="mt-6 w-fit">{cta.label}</Button>}
       </div>
 
       <div class="overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white shadow-bubble">
