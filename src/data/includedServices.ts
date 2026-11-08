@@ -12,6 +12,23 @@ export const includedServices: IncludedContent = {
     "Every service below is included in your hourly rate unless your written estimate states otherwise.",
   items: [
     {
+      id: "labor",
+      title: "Crew, Truck, and Labor",
+      description:
+        "Your confirmed hourly rate covers a truck, two movers, loading, unloading, moving pads, plastic wrap, and the tools for the move.",
+      includes: [
+        "Truck and two movers",
+        "Moving pads and plastic wrap during the move",
+        "Tools needed for the move",
+        "Loading and unloading included",
+        "Hourly rate confirmed before move day",
+        "Travel terms and hourly rate listed in your estimate",
+        "Extra movers available when you book",
+      ],
+      image: "/images/included/stacked-boxes-hand-truck",
+      imageAlt: "Rows of stacked moving boxes inside a truck, with a red hand truck ready to load",
+    },
+    {
       id: "furniture",
       title: "Furniture Disassembly and Reassembly",
       description:
@@ -40,20 +57,6 @@ export const includedServices: IncludedContent = {
       ],
       image: "/images/included/padded-wrapped-furniture-truck",
       imageAlt: "Furniture protected with padded covers, bubble wrap and moving blankets inside a moving truck",
-    },
-    {
-      id: "labor",
-      title: "Crew, Truck, and Labor",
-      description:
-        "Your confirmed hourly rate covers the assigned crew, truck, loading, unloading, and standard moving labor.",
-      includes: [
-        "Hourly rate confirmed before move day",
-        "Travel terms and hourly rate listed in your estimate",
-        "Loading and unloading included",
-        "Crew and truck included",
-      ],
-      image: "/images/included/stacked-boxes-hand-truck",
-      imageAlt: "Rows of stacked moving boxes inside a truck, with a red hand truck ready to load",
     },
     {
       id: "tracking",
