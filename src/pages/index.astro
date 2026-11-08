@@ -9,8 +9,9 @@ import IncludedMoveSection from "../components/sections/IncludedMoveSection.astr
 import QuoteSection from "../components/sections/QuoteSection.astro";
 import FAQSection from "../components/sections/FAQSection.astro";
 import Footer from "../components/layout/Footer.astro";
+import { websiteSchema } from "../lib/schema";
 ---
-<BaseLayout>
+<BaseLayout schemas={[websiteSchema()]}>
   <Navbar />
   <main id="main-content">
     <Hero />

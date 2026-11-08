@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { site } from "../data/site";
+import { businessSchema, serializeJsonLd, type JsonLdNode } from "../lib/schema";
 
 interface Props {
   title?: string;
@@ -9,6 +10,10 @@ interface Props {
   ogImageAlt?: string;
   /** LCP image to preload. The home page keeps its own hero preload when this is omitted. */
   preloadImage?: { href: string; srcset: string; sizes: string };
+  /** JSON-LD for this page. The MovingCompany node is always added. */
+  schemas?: JsonLdNode[];
+  /** Only for pages that show the business hours. */
+  includeBusinessHours?: boolean;
 }
 
 const {
@@ -17,7 +22,11 @@ const {
   image = "/images/social/green-wrapped-furniture-truck.webp",
   ogImageAlt = "Furniture wrapped in green plastic film inside a moving truck, beside stacked cardboard boxes",
   preloadImage,
+  schemas = [],
+  includeBusinessHours = false,
 } = Astro.props;
+
+const jsonLd = [businessSchema({ includeHours: includeBusinessHours }), ...schemas].map(serializeJsonLd);
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
 const socialImage = new URL(image, Astro.site ?? Astro.url).toString();
@@ -52,6 +61,8 @@ const isHomePage = Astro.url.pathname === "/";
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+
+    {jsonLd.map((json) => <script type="application/ld+json" is:inline set:html={json} />)}
 
     {
       preloadImage && (

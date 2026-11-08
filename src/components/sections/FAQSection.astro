@@ -7,31 +7,11 @@ import { faqContent } from "../../data/faqContent";
 
 interface Props {
   headingLevel?: "h1" | "h2";
-  /** The FAQPage schema stays on the home only, so the repeated content is marked once (spec 009). */
-  includeSchema?: boolean;
   renderAllCategories?: boolean;
 }
 
-const { headingLevel = "h2", includeSchema = true, renderAllCategories = false } = Astro.props;
-
-const faqPageSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqContent.map(({ question, answer }) => ({
-    "@type": "Question",
-    name: question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: answer,
-    },
-  })),
-};
-
-// Escape opening angle brackets before using set:html in JSON-LD.
-const faqPageSchemaJson = JSON.stringify(faqPageSchema).replace(/</g, "\\u003c");
+const { headingLevel = "h2", renderAllCategories = false } = Astro.props;
 ---
-
-{includeSchema && <script type="application/ld+json" is:inline set:html={faqPageSchemaJson}></script>}
 
 <section id="faq" class="relative min-h-[100svh] bg-white py-20 sm:py-28">
   <div class="container-x">
