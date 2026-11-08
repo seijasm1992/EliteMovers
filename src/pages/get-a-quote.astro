@@ -6,6 +6,7 @@ import Icon from "../components/ui/Icon.astro";
 import { quoteForm } from "../data/quoteForm";
 import { site } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { breadcrumbSchema } from "../lib/schema";
 
 const emailHref = `mailto:${site.email}`;
 ---
@@ -13,6 +14,7 @@ const emailHref = `mailto:${site.email}`;
 <BaseLayout
   title={`Request a Moving Quote | ${site.name}`}
   description="Tell us about your move and receive a clear hourly rate estimate from ProElite Movers."
+  schemas={[breadcrumbSchema("Get a Quote", "/get-a-quote/")]}
 >
   <Navbar />
   <main id="main-content">

@@ -8,21 +8,14 @@ import AboutTrust from "../components/sections/AboutTrust.astro";
 import AboutWhereWeWork from "../components/sections/AboutWhereWeWork.astro";
 import AboutFinalCta from "../components/sections/AboutFinalCta.astro";
 import { aboutUs } from "../data/aboutUs";
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://proelitemovers.com/" },
-    { "@type": "ListItem", position: 2, name: "About Us", item: "https://proelitemovers.com/about-us/" },
-  ],
-};
-
-const breadcrumbSchemaJson = JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c");
+import { breadcrumbSchema } from "../lib/schema";
 ---
 
-<BaseLayout title={aboutUs.meta.title} description={aboutUs.meta.description}>
-  <script type="application/ld+json" is:inline set:html={breadcrumbSchemaJson} />
+<BaseLayout
+  title={aboutUs.meta.title}
+  description={aboutUs.meta.description}
+  schemas={[breadcrumbSchema("About Us", "/about-us/")]}
+>
   <Navbar />
   <main id="main-content">
     <AboutHero />
